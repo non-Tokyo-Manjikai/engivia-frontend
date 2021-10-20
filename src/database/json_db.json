@@ -1,10 +1,36 @@
 {
-	"posts": [
-		{ "id": 1, "title": "json-server", "author": "typicode" },
-		{ "id": 2, "title": "json-server", "author": "typicode" },
-		{ "id": 3, "title": "json-server", "author": "typicode" },
-		{ "id": 4, "title": "json-server", "author": "typicode" }
-	],
-	"comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
-	"profile": { "name": "typicode" }
+  "posts": [
+    { "id": 1, "title": "json-server", "author": "typicode" },
+    { "id": 2, "title": "json-server", "author": "typicode" },
+    { "id": 3, "title": "json-server", "author": "typicode" },
+    { "id": 4, "title": "json-server", "author": "typicode" }
+  ],
+  "comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
+  "profile": { "name": "typicode" },
+  "broadcastList": [
+    {
+			"id": 1,
+			"title": "第1回エンジビアの泉",
+			"scheduledStartTime": "2021-10-10T12:00:00Z",
+			"liveType": "ended",
+			"archiveUrl": null,
+			"triviaCount": 12
+		},
+		{
+      "id": 2,
+      "title": "第2回エンジビアの泉",
+      "scheduledStartTime": "2021-10-20T14:00:00Z",
+      "liveType": "live",
+      "archiveUrl": null,
+      "triviaCount": 8
+    },
+		{
+      "id": 3,
+      "title": "第3回エンジビアの泉",
+      "scheduledStartTime": "2021-10-30T15:00:00Z",
+      "liveType": "upcoming",
+      "archiveUrl": null,
+      "triviaCount": 10
+    }
+  ]
 }
