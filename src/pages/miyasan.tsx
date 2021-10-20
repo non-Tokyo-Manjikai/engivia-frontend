@@ -1,5 +1,5 @@
 const MiyasanPage = () => {
-	return <div>miyasan</div>;
+	return <div>miyasanです</div>;
 };
 
 // eslint-disable-next-line import/no-default-export
