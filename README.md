@@ -17,3 +17,7 @@ yarn install
 ```yarn
 yarn dev
 ```
+4. json-server 起動
+```
+yarn api
+```
