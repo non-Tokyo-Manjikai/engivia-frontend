@@ -4,7 +4,7 @@ import { Dispatch, memo, SetStateAction, useCallback } from "react";
 type Props = {
   children: string;
   value: string;
-  setInputValue: Dispatch<SetStateAction<string>>;
+  setValue: Dispatch<SetStateAction<string>>;
 };
 export const Input = styled("input", {
   border: "solid 1px gainsboro",
@@ -18,7 +18,7 @@ export const Input = styled("input", {
 export const InputComponent = memo((props: Props) => {
   const handleChange = useCallback(
     (e: any) => {
-      props.setInputValue(() => e.target.value);
+      props.setValue(() => e.target.value);
     },
     [props]
   );
