@@ -1,6 +1,6 @@
 import { styled } from "src/utils";
 
-export const SampleIcon = styled("img", {
+export const Icon = styled("img", {
 	variants: {
 		size: {
 			base: { square: 25 },

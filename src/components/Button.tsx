@@ -1,6 +1,6 @@
 import { styled } from "src/utils";
 
-export const SampleButton = styled("button", {
+export const Button = styled("button", {
 	all: "unset",
 	display: "inline-flex",
 	alignItems: "center",
