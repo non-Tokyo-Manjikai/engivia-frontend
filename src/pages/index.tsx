@@ -21,6 +21,7 @@ import {
 	Text,
 } from "src/components/shared";
 import { ColorChanger, ThemeChanger } from "src/components/theme";
+import Result from "src/components/shared/Result";
 
 const HomePage: NextPage = () => {
 	const handleClick = () => {
@@ -29,11 +30,11 @@ const HomePage: NextPage = () => {
 
 	return (
 		<Layout>
+			<Result />
 			<div className="flex justify-center items-center py-20">
 				<div className="grid gap-3">
 					<Text>ダークモード変更</Text>
 					<ThemeChanger />
-
 					<Text>テーマ変更</Text>
 					<ColorChanger />
 
