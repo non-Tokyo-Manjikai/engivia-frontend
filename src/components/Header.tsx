@@ -1,18 +1,35 @@
-import Link from "next/link";
+import { styled } from "src/utils";
 import type { FC } from "react";
 
 export const Header: FC = () => {
-	return (
-		<div className="p-5 w-full bg-gray-200">
-			<Link href="/">
-				<a className="py-3 px-4 bg-green-300">/ - CSR</a>
-			</Link>
-			<Link href="/posts">
-				<a className="py-3 px-4 mx-3 bg-green-300">/posts - SSR</a>
-			</Link>
-			<Link href="/posts/1">
-				<a className="py-3 px-4 bg-green-300">/posts/1 - SSG</a>
-			</Link>
-		</div>
-	);
+  return (
+    <Container>
+      <H1>エンビジアの泉</H1>
+      <Icon />
+    </Container>
+  );
 };
+
+const Container = styled("header", {
+  display: "flex",
+  justifyContent: "space-between",
+  width: "100%",
+  padding: "16px 30px 16px 30px",
+  background: "$slate1",
+  dropShadow: "0px 0px 5px gray",
+});
+
+const H1 = styled("h1", {
+  color: "$sky11",
+  fontSize: "large",
+  fontWeight: "700",
+  WebkitTextStrokeWidth: "1px",
+  WebkitTextStrokeColor: "rgb(251,191,39)",
+  display: "-webkit-box",
+});
+
+const Icon = styled("div", {
+  square: "30px",
+  borderRadius: "9999px",
+  background: "$blue11",
+});
