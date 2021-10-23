@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
 import type { VFC } from "react";
 import { useEffect, useState } from "react";
-import { RadioGroup } from "src/components/shared";
+import { RadioGroup } from "src/components/sample";
 
 export const ColorChanger: VFC = () => {
 	const { setTheme, resolvedTheme } = useTheme();

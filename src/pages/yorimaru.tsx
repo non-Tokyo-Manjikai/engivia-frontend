@@ -1,1 +1,0 @@
-<div>yorimaru です</div>;
