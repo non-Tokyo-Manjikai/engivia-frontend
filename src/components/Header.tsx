@@ -21,6 +21,7 @@ const Container = styled("header", {
   padding: "16px 32px 16px 32px",
   background: "$slate1",
   borderBottom: "solid 1px $slate4",
+  alignItems: "center",
 });
 
 const Div = styled("div", {
