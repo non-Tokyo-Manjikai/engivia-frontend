@@ -1,7 +1,7 @@
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import type { NextPage } from "next";
-import { HoverUserCard } from "src/components/HoverUserCard";
 import { Layout } from "src/components/Layout";
+import { Result } from "src/components/Result";
 import {
 	AllowLeftIcon,
 	AllowRightIcon,
@@ -19,9 +19,9 @@ import {
 	ShareIcon,
 	Switch,
 	Text,
-} from "src/components/shared";
+} from "src/components/sample";
+import { HoverUserCard } from "src/components/sample/HoverUserCard";
 import { ColorChanger, ThemeChanger } from "src/components/theme";
-import Result from "src/components/shared/Result";
 
 const HomePage: NextPage = () => {
 	const handleClick = () => {

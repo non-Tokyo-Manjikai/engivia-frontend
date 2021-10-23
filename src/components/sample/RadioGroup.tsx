@@ -1,6 +1,6 @@
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import type { MouseEvent, VFC } from "react";
-import { Flex, Label } from "src/components/shared";
+import { Flex, Label } from "src/components/sample";
 import { styled } from "src/utils";
 
 const RadioGroupRadio = styled(RadioGroupPrimitive.Item, {
