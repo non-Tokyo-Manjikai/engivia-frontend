@@ -1,6 +1,5 @@
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import type { NextPage } from "next";
-import { Header } from "src/components/Header";
 import { Layout } from "src/components/Layout";
 import { Result } from "src/components/Result";
 import {
@@ -31,7 +30,6 @@ const HomePage: NextPage = () => {
 
   return (
     <Layout>
-      <Header />
       <Result />
       <div className="flex justify-center items-center py-20">
         <div className="grid gap-3">
