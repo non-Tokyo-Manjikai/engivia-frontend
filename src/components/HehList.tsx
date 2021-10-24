@@ -1,11 +1,8 @@
 import { styled } from "@stitches/react";
 import Image from "next/image";
-import { StitchesButton } from "src/components/sample";
+import { Label } from "src/components/Label";
 
 export const HehList = () => {
-  const handleClick = () => {
-    console.info("click!!");
-  };
   return (
     <HehListsContainer>
       <HehListContainer>
@@ -13,39 +10,36 @@ export const HehList = () => {
           <Image className="rounded-full" src="/wow.jpg" width="40px" height="40px" alt="ユーザーネーム" />
           <UserName>ファンキー加藤</UserName>
         </HehUser>
-        <StitchesButton isOutline="slate" isGhost="slate" onClick={handleClick}>
+        <Label isOutline="slate" isGhost="slate">
           18へぇ
-        </StitchesButton>
+        </Label>
       </HehListContainer>
-
       <HehListContainer>
         <HehUser>
           <Image className="rounded-full" src="/wow.jpg" width="40px" height="40px" alt="ユーザーネーム" />
           <UserName>ファンキー加藤</UserName>
         </HehUser>
-        <StitchesButton isOutline="slate" isGhost="slate" onClick={handleClick}>
+        <Label isOutline="slate" isGhost="slate">
           18へぇ
-        </StitchesButton>
+        </Label>
       </HehListContainer>
-
       <HehListContainer>
         <HehUser>
           <Image className="rounded-full" src="/wow.jpg" width="40px" height="40px" alt="ユーザーネーム" />
           <UserName>ファンキー加藤</UserName>
         </HehUser>
-        <StitchesButton isOutline="slate" isGhost="slate" onClick={handleClick}>
+        <Label isOutline="slate" isGhost="slate">
           18へぇ
-        </StitchesButton>
+        </Label>
       </HehListContainer>
-
       <HehListContainer>
         <HehUser>
           <Image className="rounded-full" src="/wow.jpg" width="40px" height="40px" alt="ユーザーネーム" />
           <UserName>ファンキー加藤</UserName>
         </HehUser>
-        <StitchesButton isOutline="slate" isGhost="slate" onClick={handleClick}>
+        <Label isOutline="slate" isGhost="slate">
           18へぇ
-        </StitchesButton>
+        </Label>
       </HehListContainer>
     </HehListsContainer>
   );
@@ -82,5 +76,3 @@ const UserName = styled("p", {
   fontSize: "14px",
   fontWeight: "500",
 });
-
-export default HehList;
