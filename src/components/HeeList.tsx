@@ -2,54 +2,54 @@ import { styled } from "@stitches/react";
 import Image from "next/image";
 import { Label } from "src/components/Label";
 
-export const HehList = () => {
+export const HeeList = () => {
   return (
-    <HehListsContainer>
-      <HehListContainer>
-        <HehUser>
+    <HeeListsContainer>
+      <HeeListContainer>
+        <HeeUser>
           <Image className="rounded-full" src="/wow.jpg" width="40px" height="40px" alt="ユーザーネーム" />
           <UserName>ファンキー加藤</UserName>
-        </HehUser>
+        </HeeUser>
         <Label isOutline="slate" isGhost="slate">
           18へぇ
         </Label>
-      </HehListContainer>
-      <HehListContainer>
-        <HehUser>
+      </HeeListContainer>
+      <HeeListContainer>
+        <HeeUser>
           <Image className="rounded-full" src="/wow.jpg" width="40px" height="40px" alt="ユーザーネーム" />
           <UserName>ファンキー加藤</UserName>
-        </HehUser>
+        </HeeUser>
         <Label isOutline="slate" isGhost="slate">
           18へぇ
         </Label>
-      </HehListContainer>
-      <HehListContainer>
-        <HehUser>
+      </HeeListContainer>
+      <HeeListContainer>
+        <HeeUser>
           <Image className="rounded-full" src="/wow.jpg" width="40px" height="40px" alt="ユーザーネーム" />
           <UserName>ファンキー加藤</UserName>
-        </HehUser>
+        </HeeUser>
         <Label isOutline="slate" isGhost="slate">
           18へぇ
         </Label>
-      </HehListContainer>
-      <HehListContainer>
-        <HehUser>
+      </HeeListContainer>
+      <HeeListContainer>
+        <HeeUser>
           <Image className="rounded-full" src="/wow.jpg" width="40px" height="40px" alt="ユーザーネーム" />
           <UserName>ファンキー加藤</UserName>
-        </HehUser>
+        </HeeUser>
         <Label isOutline="slate" isGhost="slate">
           18へぇ
         </Label>
-      </HehListContainer>
-    </HehListsContainer>
+      </HeeListContainer>
+    </HeeListsContainer>
   );
 };
 
-const HehListsContainer = styled("div", {
+const HeeListsContainer = styled("div", {
   width: "350px",
 });
 
-const HehListContainer = styled("div", {
+const HeeListContainer = styled("div", {
   display: "flex",
   alignItems: "center",
   justifyContent: "space-between",
@@ -64,7 +64,7 @@ const HehListContainer = styled("div", {
   },
 });
 
-const HehUser = styled("div", {
+const HeeUser = styled("div", {
   display: "flex",
   alignItems: "center",
   justifyContent: "flex-start",
