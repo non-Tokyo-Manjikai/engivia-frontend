@@ -5,7 +5,7 @@ export const Textarea = styled("textarea", {
   type: "text",
   padding: "0.5rem 1rem",
   borderRadius: "6px",
-  width: "100%",
+  width: "704px",
   height: "100%",
   fontSize: "24px",
   fontWeight: "bold",
