@@ -1,7 +1,7 @@
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import type { NextPage } from "next";
-import { Dropbox } from "src/components/Dropbox";
 import { Layout } from "src/components/Layout";
+import { Multicontainers } from "src/components/Multicontainers";
 import { Result } from "src/components/Result";
 import {
   AllowLeftIcon,
@@ -22,7 +22,6 @@ import {
   Text,
 } from "src/components/sample";
 import { HoverUserCard } from "src/components/sample/HoverUserCard";
-import { SortDrop } from "src/components/SortDrop";
 import { ColorChanger, ThemeChanger } from "src/components/theme";
 
 const HomePage: NextPage = () => {
@@ -32,8 +31,7 @@ const HomePage: NextPage = () => {
 
   return (
     <Layout>
-      <Dropbox />
-      <SortDrop />
+      <Multicontainers />
       <Result />
       <div className="flex justify-center items-center py-20">
         <div className="grid gap-3">
