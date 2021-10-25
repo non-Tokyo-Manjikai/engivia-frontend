@@ -1,8 +1,8 @@
-import { styled } from "src/utils";
+import { BroadcastTag } from "src/components/BroadcastTag";
 import { Button } from "src/components/Button";
 import { Layout } from "src/components/Layout";
 import { Textarea } from "src/components/Textarea";
-import BroadcastTag from "src/components/BroadcastTag";
+import { styled } from "src/utils";
 
 const Edit = () => {
   return (
@@ -25,6 +25,7 @@ const Edit = () => {
   );
 };
 
+// eslint-disable-next-line import/no-default-export
 export default Edit;
 
 const Div1 = styled("div", {

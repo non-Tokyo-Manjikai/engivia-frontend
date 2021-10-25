@@ -1,6 +1,6 @@
 import { styled } from "src/utils";
 
-export const BroadcastTag = styled("button", {
+export const BroadcastTag = styled("div", {
   all: "unset",
   display: "inline-flex",
   alignItems: "center",
@@ -29,12 +29,4 @@ export const BroadcastTag = styled("button", {
   defaultVariants: {
     color: "orange",
   },
-});
-export default BroadcastTag;
-
-const Div = styled("div", {
-  display: "block",
-  flexDirection: "column",
-  marginX: "auto",
-  justifyContent: "center",
 });

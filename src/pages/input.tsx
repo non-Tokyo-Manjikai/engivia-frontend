@@ -1,8 +1,8 @@
-import { styled } from "src/utils";
+import { BroadcastTag } from "src/components/BroadcastTag";
 import { Button } from "src/components/Button";
 import { Layout } from "src/components/Layout";
 import { Textarea } from "src/components/Textarea";
-import BroadcastTag from "src/components/BroadcastTag";
+import { styled } from "src/utils";
 
 const Input = () => {
   return (
@@ -22,6 +22,7 @@ const Input = () => {
   );
 };
 
+// eslint-disable-next-line import/no-default-export
 export default Input;
 
 const Div1 = styled("div", {
@@ -42,5 +43,4 @@ const Div3 = styled("div", {
 
 const H1 = styled("h1", {
   fontSize: "30px",
-  //   textAlign: "center",
 });
