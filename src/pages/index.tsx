@@ -22,6 +22,7 @@ import {
 } from "src/components/shared";
 import { ColorChanger, ThemeChanger } from "src/components/theme";
 import Result from "src/components/shared/Result";
+import OnAirList from "src/components/shared/OnAirLIst";
 
 const HomePage: NextPage = () => {
 	const handleClick = () => {
@@ -30,6 +31,7 @@ const HomePage: NextPage = () => {
 
 	return (
 		<Layout>
+			<OnAirList />
 			<Result />
 			<div className="flex justify-center items-center py-20">
 				<div className="grid gap-3">
