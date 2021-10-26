@@ -1,7 +1,7 @@
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import type { NextPage } from "next";
-import { HoverUserCard } from "src/components/HoverUserCard";
 import { Layout } from "src/components/Layout";
+import { OnAirList } from "src/components/OnAirLIst";
 import {
 	AllowLeftIcon,
 	AllowRightIcon,
@@ -19,10 +19,9 @@ import {
 	ShareIcon,
 	Switch,
 	Text,
-} from "src/components/shared";
+} from "src/components/sample";
+import { HoverUserCard } from "src/components/sample/HoverUserCard";
 import { ColorChanger, ThemeChanger } from "src/components/theme";
-import Result from "src/components/shared/Result";
-import OnAirList from "src/components/shared/OnAirLIst";
 
 const HomePage: NextPage = () => {
 	const handleClick = () => {
@@ -32,7 +31,6 @@ const HomePage: NextPage = () => {
 	return (
 		<Layout>
 			<OnAirList />
-			<Result />
 			<div className="flex justify-center items-center py-20">
 				<div className="grid gap-3">
 					<Text>ダークモード変更</Text>

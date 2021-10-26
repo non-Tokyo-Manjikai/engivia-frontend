@@ -1,30 +1,13 @@
-import {
-	amberDark,
-	blueDark,
-	crimsonDark,
-	greenDark,
-	orangeDark,
-	redDark,
-	slateDark,
-	slateDarkA,
-	violetDark,
-} from "@radix-ui/colors";
 import { createTheme } from "src/utils";
+
+import { light } from "./light";
 
 /**
  * @package
  */
-export const darkViolet = createTheme("dark_violet", {
+export const lightViolet = createTheme("light_violet", {
 	colors: {
-		...amberDark,
-		...blueDark,
-		...crimsonDark,
-		...greenDark,
-		...orangeDark,
-		...redDark,
-		...slateDark,
-		...slateDarkA,
-		...violetDark,
+		...light,
 		primary1: "$violet1",
 		primary2: "$violet2",
 		primary3: "$violet3",

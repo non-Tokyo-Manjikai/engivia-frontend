@@ -1,7 +1,7 @@
 import * as HoverCardPrimitive from "@radix-ui/react-hover-card";
 import type { VFC } from "react";
-import { Button, CircleImg, Flex, NextLink, Text } from "src/components/shared";
-import { slideDownAndFade, slideLeftAndFade, slideRightAndFade, slideUpAndFade } from "src/components/shared/animation";
+import { Button, CircleImg, Flex, NextLink, Text } from "src/components/sample";
+import { slideDownAndFade, slideLeftAndFade, slideRightAndFade, slideUpAndFade } from "src/components/sample/animation";
 import { styled } from "src/utils";
 
 export const HoverCardContent = styled(HoverCardPrimitive.Content, {
