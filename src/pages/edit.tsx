@@ -52,5 +52,5 @@ const Div4 = styled("div", {
 
 const H1 = styled("h1", {
   fontSize: "30px",
-  //   textAlign: "center",
+  fontWeight: "600",
 });

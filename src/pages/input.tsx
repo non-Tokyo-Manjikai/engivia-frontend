@@ -43,4 +43,5 @@ const Div3 = styled("div", {
 
 const H1 = styled("h1", {
   fontSize: "30px",
+  fontWeight: "600",
 });
