@@ -1,6 +1,6 @@
 import type { FC } from "react";
-import { styled } from "src/utils";
 import { Header } from "src/components/Header";
+import { styled } from "src/utils";
 // import { Header } from "src/components/Header";
 
 export const Layout: FC = (props) => {
