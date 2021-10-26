@@ -1,6 +1,6 @@
-import { styled } from "src/utils";
-import type { FC } from "react";
 import Image from "next/image";
+import type { FC } from "react";
+import { styled } from "src/utils";
 
 export const Header: FC = () => {
   return (
@@ -32,7 +32,9 @@ const H1 = styled("h1", {
   color: "$sky11",
   fontSize: "20px",
   fontWeight: "700",
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   WebkitTextStrokeWidth: "0.6px",
+  // eslint-disable-next-line @typescript-eslint/naming-convention
   WebkitTextStrokeColor: "rgb(251,191,39)",
   marginLeft: "10px",
   display: "flex",
