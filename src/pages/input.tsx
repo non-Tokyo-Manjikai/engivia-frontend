@@ -30,7 +30,7 @@ const Div1 = styled("div", {
 });
 
 const Div2 = styled("div", {
-  marginTop: "72px",
+  paddingTop: "106px",
   marginBottom: "16px",
 });
 
