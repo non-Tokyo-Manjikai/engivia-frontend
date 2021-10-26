@@ -1,3 +1,4 @@
+import { BroadcastTag } from "src/components/BroadcastTag";
 import { styled } from "src/utils";
 
 const Outline = styled("ul", {
@@ -30,24 +31,24 @@ const Title = styled("div", {
   fontSize: "1rem",
 });
 
-const Air = styled("p", {
-  borderRadius: "50px",
-  fontSize: "1.0rem",
-  textAlign: "center",
+// const Air = styled("p", {
+//   borderRadius: "50px",
+//   fontSize: "1.0rem",
+//   textAlign: "center",
 
-  variants: {
-    color: {
-      on: {
-        backgroundColor: "lightgreen",
-        color: "green",
-      },
-      off: {
-        backgroundColor: "#D7DBDF",
-        color: "gray",
-      },
-    },
-  },
-});
+//   variants: {
+//     color: {
+//       on: {
+//         backgroundColor: "lightgreen",
+//         color: "green",
+//       },
+//       off: {
+//         backgroundColor: "#D7DBDF",
+//         color: "gray",
+//       },
+//     },
+//   },
+// });
 
 const Lower = styled("div", {
   display: "flex",
@@ -85,7 +86,7 @@ export const OnAirList = () => {
       <Card>
         <Upper>
           <Title>第１回エンジビアの泉</Title>
-          <Air color="on">放送中</Air>
+          <BroadcastTag color="gray">放送済み</BroadcastTag>
         </Upper>
         <Lower>
           <Div>
@@ -109,7 +110,7 @@ export const OnAirList = () => {
       <Card>
         <Upper>
           <Title>第１回エンジビアの泉</Title>
-          <Air color="off">放送済み</Air>
+          <BroadcastTag color="gray">放送済み</BroadcastTag>
         </Upper>
         <Lower>
           <div className="flex">
@@ -133,7 +134,7 @@ export const OnAirList = () => {
       <Card>
         <Upper>
           <Title>第１回エンジビアの泉</Title>
-          <Air color="off">放送済み</Air>
+          <BroadcastTag color="gray">放送済み</BroadcastTag>
         </Upper>
         <Lower>
           <div className="flex">
@@ -157,7 +158,7 @@ export const OnAirList = () => {
       <Card>
         <Upper>
           <Title>第１回エンジビアの泉</Title>
-          <Air color="off">放送済み</Air>
+          <BroadcastTag color="gray">放送済み</BroadcastTag>
         </Upper>
         <Lower>
           <div className="flex">
