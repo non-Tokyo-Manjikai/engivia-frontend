@@ -17,8 +17,8 @@ const Edit = () => {
           <Textarea placeholder="エンビジアを入力する" />
         </Div3>
         <Div4>
-          <Button color="blue">編集する</Button>
-          <Button color="sky">削除する</Button>
+          <Button color="primary">編集する</Button>
+          <Button color="secondary">削除する</Button>
         </Div4>
       </Div1>
     </Layout>
