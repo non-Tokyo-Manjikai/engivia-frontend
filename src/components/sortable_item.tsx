@@ -21,6 +21,7 @@ export const Item = memo((props: any) => {
   const UserCard = styled("div", {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
   });
 
   const ImageContainer = styled("div", {
