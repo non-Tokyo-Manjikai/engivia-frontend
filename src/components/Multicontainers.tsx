@@ -39,7 +39,6 @@ export const Multicontainers = () => {
     });
   };
 
-
   const handleDragStart = (event: any) => {
     const { active } = event;
     const { id } = active;
@@ -134,7 +133,7 @@ export const Multicontainers = () => {
 
   const Feature = styled("div", {
     paddingY: "2.5rem",
-    marginY: "2rem",
+    marginY: "1.5rem",
     width: "full",
     textAlign: "center",
     color: "$slate8",
