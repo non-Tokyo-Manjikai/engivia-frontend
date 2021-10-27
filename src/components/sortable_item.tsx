@@ -1,32 +1,81 @@
 import { useSortable } from "@dnd-kit/sortable";
-import { CSS } from "@dnd-kit/utilities";
+import Image from "next/image";
+import { memo } from "react";
+import { styled } from "src/utils";
 
-export const Item = (props: any) => {
-  const style = {
-    width: "100%",
-    height: 50,
+export const Item = memo((props: any) => {
+  const Container = styled("div", {
+    display: "flex",
+    justifyContent: "center",
+    padding: "20px",
+    margin: "15px 0",
+    background: "white",
+    borderRadius: "10px",
+    boxShadow: "0px 2px 2px gray",
+    flexDirection: "column",
+    gap: "14px",
+    fontSize: "15px",
+    userSelect: "none",
+  });
+
+  const UserCard = styled("div", {
+    display: "flex",
+    justifyContent: "space-between",
+  });
+
+  const ImageContainer = styled("div", {
+    width: "2rem",
+    height: "2rem",
+    borderRadius: "9999px",
+    display: "flex",
+  });
+
+  const User = styled("div", {
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
-    border: "1px solid black",
-    margin: "10px 0",
-    background: "white",
-  };
+  });
 
-  return <div style={style}>{props.id}</div>;
-};
-
-export const SortableItem = (props: any) => {
-  const { attributes, listeners, setNodeRef, transform, transition } = useSortable({ id: props.id });
-
-  const style = {
-    transform: CSS.Transform.toString(transform),
-    transition,
-  };
+  const Name = styled("div", {
+    paddingX: "1rem",
+    fontSize: "0.75rem",
+    lineHeight: "1rem",
+  });
 
   return (
-    <div ref={setNodeRef} style={style} {...attributes} {...listeners}>
-      <Item id={props.id} />
-    </div>
+    <>
+      <Container>
+        <p>
+          {props.id}
+          HTMLにはポータルという便利な要素があるHTMLにはポータルという便利な要素があるHTMLにはポータルという便利な要素がある
+        </p>
+        <UserCard>
+          <User>
+            <ImageContainer>
+              <Image src="/superhero.svg" width={40} height={40} alt="superhero" />
+            </ImageContainer>
+            <Name>松平 ケン</Name>
+          </User>
+          {props.featured ? <div>８７へえ</div> : null}
+        </UserCard>
+      </Container>
+    </>
   );
-};
+});
+
+export const SortableItem = memo((props: any) => {
+  const { attributes, listeners, setNodeRef, transition } = useSortable({
+    id: props.id,
+    data: { index: props.index },
+  });
+
+  const Itemwrap = styled("div", {
+    transform: " CSS.Transform.toString(transform)",
+    transition,
+  });
+
+  return (
+    <Itemwrap ref={setNodeRef} {...attributes} {...listeners}>
+      <Item id={props.id} featured={props.featured} />
+    </Itemwrap>
+  );
+});
