@@ -35,7 +35,6 @@ const HomePage: NextPage = () => {
 					<ThemeChanger />
 					<Text>テーマ変更</Text>
 					<ColorChanger />
-
 					<Text>アイコン</Text>
 					<div className="flex gap-2">
 						<CountLabelIconButton color="primary" count={10}>
