@@ -1,8 +1,6 @@
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import type { NextPage } from "next";
 import { Layout } from "src/components/Layout";
-import { Multicontainers } from "src/components/Multicontainers";
-import { Result } from "src/components/Result";
 import {
   AllowLeftIcon,
   AllowRightIcon,
@@ -29,16 +27,15 @@ const HomePage: NextPage = () => {
     console.info("click!!");
   };
 
-  return (
-    <Layout>
-      <Result />
-      <div className="flex justify-center items-center py-20">
-        <div className="grid gap-3">
-          <Text>ダークモード変更</Text>
-          <ThemeChanger />
-          <Text>テーマ変更</Text>
-          <ColorChanger />
 
+	return (
+		<Layout>
+			<div className="flex justify-center items-center py-20">
+				<div className="grid gap-3">
+					<Text>ダークモード変更</Text>
+					<ThemeChanger />
+					<Text>テーマ変更</Text>
+					<ColorChanger />
           <Text>アイコン</Text>
           <div className="flex gap-2">
             <CountLabelIconButton color="primary" count={10}>

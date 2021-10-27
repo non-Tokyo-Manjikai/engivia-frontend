@@ -1,10 +1,80 @@
 {
-	"posts": [
-		{ "id": 1, "title": "json-server", "author": "typicode" },
-		{ "id": 2, "title": "json-server", "author": "typicode" },
-		{ "id": 3, "title": "json-server", "author": "typicode" },
-		{ "id": 4, "title": "json-server", "author": "typicode" }
-	],
-	"comments": [{ "id": 1, "body": "some comment", "postId": 1 }],
-	"profile": { "name": "typicode" }
+  "broadcastList": [
+    {
+      "id": 1,
+      "title": "第１回エンジビアの泉",
+      "scheduledStartTime": "2021-10-01T19:00:00.000Z",
+      "status": "ended",
+      "archiveUrl": null,
+      "_count": { "Trivia": 3 }
+    },
+    {
+      "id": 2,
+      "title": "第２回エンジビアの泉",
+      "scheduledStartTime": "2021-10-10T12:00:00.000Z",
+      "status": "live",
+      "archiveUrl": null,
+      "_count": { "Trivia": 1 }
+    },
+    {
+      "id": 3,
+      "title": "第３回エンジビアの泉",
+      "scheduledStartTime": "2021-10-20T20:00:00.000Z",
+      "status": "upcoming",
+      "archiveUrl": null,
+      "_count": { "Trivia": 2 }
+    }
+  ],
+  "broadcast": [
+    {
+      "id": 1,
+      "title": "第１回エンジビアの泉",
+      "scheduledStartTime": "2021-10-01T19:00:00.000Z",
+      "status": "ended",
+      "archiveUrl": "https://www.youtube.com/watch?v=1Q6m_d8PTNQ",
+      "Trivia": [
+        {
+          "id": 5,
+          "content": "ユーザー１が放送１に投稿したトリビアの内容",
+          "hee": 79,
+          "User": {
+            "name": "テストユーザー１",
+            "image": "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-512.png"
+          }
+        },
+        {
+          "id": 8,
+          "content": "ユーザー２が放送１に投稿したトリビアの内容",
+          "hee": 88,
+          "User": {
+            "name": "テストユーザー２",
+            "image": "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-512.png"
+          }
+        },
+        {
+          "id": 9,
+          "content": "ユーザー３が放送１に投稿したトリビアの内容",
+          "hee": 93,
+          "User": {
+            "name": "テストユーザー３",
+            "image": "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=512&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-512.png"
+          }
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "title": "第２回エンジビアの泉",
+      "scheduledStartTime": "2021-10-10T12:00:00.000Z",
+      "status": "live",
+      "archiveUrl": null
+    },
+    {
+      "id": 3,
+      "title": "第３回エンジビアの泉",
+      "scheduledStartTime": "2021-10-20T20:00:00.000Z",
+      "status": "upcoming",
+      "archiveUrl": null
+    }
+  ]
 }
