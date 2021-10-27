@@ -30,7 +30,6 @@ export const Multicontainers = () => {
     })
   );
 
-  // idが入っているコンテイナーの配列を探す
   const findContainer = (id: any) => {
     if (id in items) {
       return id;
@@ -40,7 +39,6 @@ export const Multicontainers = () => {
     });
   };
 
-  // ドラッグし始めた際にactiveIdをせっていする(架空DOM作成)
 
   const handleDragStart = (event: any) => {
     const { active } = event;
@@ -53,7 +51,6 @@ export const Multicontainers = () => {
     const { id } = active;
     const { id: overId } = over;
 
-    // Find the containers
     const activeContainer = findContainer(id);
     const overContainer = findContainer(overId);
 
@@ -73,13 +70,11 @@ export const Multicontainers = () => {
         const activeItems = prev[activeContainer];
         const overItems = prev[overContainer];
 
-        // Find the indexes for the items
         const activeIndex = activeItems.indexOf(id);
         const overIndex = overItems.indexOf(overId);
 
         let newIndex;
         if (overId in prev) {
-          // We're at the root droppable of a container
           newIndex = overItems.length + 1;
         } else {
           const isBelowLastItem =

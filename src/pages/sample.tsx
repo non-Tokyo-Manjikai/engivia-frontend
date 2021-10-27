@@ -31,9 +31,6 @@ const HomePage: NextPage = () => {
 
   return (
     <Layout>
-      <div className="w-4/5">
-        <Multicontainers />
-      </div>
       <Result />
       <div className="flex justify-center items-center py-20">
         <div className="grid gap-3">
