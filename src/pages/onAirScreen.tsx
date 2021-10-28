@@ -15,9 +15,15 @@ const OnAirScreen = () => {
           <Button color="tertiary">放送を終了する</Button>
         </Div3>
         <Div4>
-          <H2>フューチャー前</H2>
-          <H2>フューチャー中</H2>
-          <H2>フューチャー済み</H2>
+          <Div5>
+            <H2>フューチャー前</H2>
+          </Div5>
+          <Div5>
+            <H2>フューチャー中</H2>
+          </Div5>
+          <Div5>
+            <H2>フューチャー済み</H2>
+          </Div5>
         </Div4>
       </Div1>
     </Layout>
@@ -51,6 +57,15 @@ const Div4 = styled("div", {
   // justifyContent: "center",
 });
 
+const Div5 = styled("div", {
+  // display: "flex",
+  width: "80%",
+  columnGap: "32px",
+  margin: "30px auto 0",
+  textAlign: "center",
+  // justifyContent: "center",
+});
+
 const H1 = styled("h1", {
   fontSize: "30px",
   fontWeight: "600",
@@ -62,7 +77,7 @@ const H2 = styled("h2", {
   fontSize: "15px",
   fontWeight: "600",
   backgroundColor: "#B4CDDB",
-  width: "32%",
+  width: "100%",
   height: "40px",
   padding: "10px",
   // paddingX: "1rem",
