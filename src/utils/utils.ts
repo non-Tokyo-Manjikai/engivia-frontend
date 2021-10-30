@@ -28,6 +28,15 @@ export const utils = {
 		width: value,
 		height: value,
 	}),
+
+	borderTopRadius: (value: PropertyValue<"borderRadius">) => ({
+		borderTopLeftRadius: value,
+		borderTopRightRadius: value,
+	}),
+	borderBottomRadius: (value: PropertyValue<"borderRadius">) => ({
+		borderBottomLeftRadius: value,
+		borderBottomRightRadius: value,
+	}),
 };
 
 // declare const phoneNominality: unique symbol;
