@@ -84,5 +84,10 @@ export const { styled, css, globalCss, keyframes, getCssText, createTheme, theme
 globalCss({
 	html: { fontSize: "16px" },
 	// "@md": { html: { fontSize: "16px" } },
-	body: { lineHeight: 1.6, color: "$slate12", backgroundColor: "$slate3" },
+	body: {
+		lineHeight: 1.6,
+		color: "$slate12",
+		backgroundColor: "$slate3",
+		overscrollBehaviorY: "none",
+	},
 })();
