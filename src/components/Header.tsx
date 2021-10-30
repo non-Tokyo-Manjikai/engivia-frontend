@@ -1,50 +1,56 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import Image from "next/image";
-import type { FC } from "react";
+import type { VFC } from "react";
 import { styled } from "src/utils";
 
-export const Header: FC = () => {
-  return (
-    <Container>
-      <Div>
-        <Image src="/fountain-logo.jpg" alt="噴水ロゴ" width={35} height={38} />
-        <H1>エンビジアの泉</H1>
-      </Div>
-      <Icon />
-    </Container>
-  );
+export const Header: VFC = () => {
+	return (
+		<Wrap>
+			<TitleWrap>
+				<Image src="/fountain-logo.jpg" alt="噴水ロゴ" width={30} height={34} />
+				<Title>エンビジアの泉</Title>
+			</TitleWrap>
+
+			<Icon />
+		</Wrap>
+	);
 };
 
-const Container = styled("header", {
-  display: "flex",
-  justifyContent: "space-between",
-  width: "100%",
-  padding: "16px 32px 16px 32px",
-  background: "$slate1",
-  borderBottom: "solid 1px $slate4",
-  alignItems: "center",
+const Wrap = styled("header", {
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "space-between",
+
+	width: "100%",
+	paddingX: "2.5rem",
+	paddingY: "1rem",
+
+	background: "$slate1",
+	borderBottom: "1px solid $slate4",
 });
 
-const Div = styled("div", {
-  display: "flex",
+const TitleWrap = styled("div", {
+	display: "flex",
+	alignItems: "center",
 });
 
-const H1 = styled("h1", {
-  color: "$sky11",
-  fontSize: "20px",
-  fontWeight: "700",
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  WebkitTextStrokeWidth: "0.6px",
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  WebkitTextStrokeColor: "rgb(251,191,39)",
-  marginLeft: "10px",
-  display: "flex",
-  alignItems: "center",
+const Title = styled("h1", {
+	display: "flex",
+
+	marginLeft: "10px",
+
+	color: "$sky11",
+	fontSize: "1.2rem",
+	fontWeight: 700,
+
+	WebkitTextStrokeWidth: "0.6px",
+	WebkitTextStrokeColor: "rgb(251,191,39)",
 });
 
 const Icon = styled("div", {
-  square: "30px",
-  borderRadius: "9999px",
-  background: "$blue11",
+	square: 30,
+	borderRadius: 9999,
+	background: "$primary9",
 });
 
 // const Svg = styled("svg", {

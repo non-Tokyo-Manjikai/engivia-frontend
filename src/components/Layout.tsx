@@ -1,22 +1,43 @@
-import type { FC } from "react";
+import type { ReactNode, VFC } from "react";
 import { Header } from "src/components/Header";
+import { ThemeChanger } from "src/components/theme";
+import { ColorChanger } from "src/components/theme/ColorChanger";
 import { styled } from "src/utils";
-// import { Header } from "src/components/Header";
 
-export const Layout: FC = (props) => {
-  return (
-    <div>
-      <Div>
-        <Header />
-      </Div>
-      {props.children}
-    </div>
-  );
+type Props = {
+	children: ReactNode;
 };
 
-const Div = styled("div", {
-  position: "fixed",
-  width: "100%",
-  minHeight: "100%",
-  zIndex: "2",
+export const Layout: VFC<Props> = (props) => {
+	return (
+		<Wrap>
+			<HeaderWrap>
+				<Header />
+			</HeaderWrap>
+
+			<BodyWrap>{props.children}</BodyWrap>
+
+			<div className="flex fixed right-2 bottom-2 z-10">
+				<ThemeChanger />
+				<ColorChanger />
+			</div>
+		</Wrap>
+	);
+};
+
+const Wrap = styled("div", {
+	display: "flex",
+	flexDirection: "column",
+	width: "100%",
+	maxHeight: "100vh",
+});
+
+const HeaderWrap = styled("div", {
+	flex: "wrap",
+});
+
+const BodyWrap = styled("div", {
+	flex: 1,
+	paddingY: "2rem",
+	overflowY: "scroll",
 });

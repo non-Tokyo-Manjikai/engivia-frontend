@@ -1,20 +1,18 @@
 import type { NextPage } from "next";
 import { BroadcastHeader } from "src/components/BroadcastHeader";
 import { Button } from "src/components/Button";
-import { Textarea } from "src/components/Textarea";
+import { EngiviaCard } from "src/components/EngiviaCard";
 import { styled } from "src/utils";
 
-const EngiviaEditPage: NextPage = () => {
+const MyEngiviaPage: NextPage = () => {
 	return (
 		<Wrap>
 			<BroadcastHeader />
 
-			<TextAreaWrap>
-				<Textarea placeholder="エンビジアを入力する" />
-			</TextAreaWrap>
+			<EngiviaCard />
 
 			<ButtonWrap>
-				<Button color="primary">する</Button>
+				<Button color="primary">編集する</Button>
 				<Button color="secondary">削除する</Button>
 			</ButtonWrap>
 		</Wrap>
@@ -22,19 +20,13 @@ const EngiviaEditPage: NextPage = () => {
 };
 
 // eslint-disable-next-line import/no-default-export
-export default EngiviaEditPage;
+export default MyEngiviaPage;
 
 const Wrap = styled("div", {
 	display: "flex",
 	flexDirection: "column",
 	alignItems: "center",
 	gap: "2rem",
-});
-
-const TextAreaWrap = styled("div", {
-	display: "block",
-	textAlign: "center",
-	marginX: "auto",
 });
 
 const ButtonWrap = styled("div", {
