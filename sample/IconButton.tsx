@@ -1,5 +1,5 @@
 import type { ReactNode, VFC } from "react";
-import { Flex, Text } from "src/components/sample";
+import { Flex, Text } from "sample";
 import { styled } from "src/utils";
 
 export const IconButton = styled("button", {
