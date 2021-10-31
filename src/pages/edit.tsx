@@ -14,7 +14,7 @@ const EngiviaEditPage: NextPage = () => {
 			</TextAreaWrap>
 
 			<ButtonWrap>
-				<Button color="primary">する</Button>
+				<Button color="primary">保存する</Button>
 				<Button color="secondary">削除する</Button>
 			</ButtonWrap>
 		</Wrap>
