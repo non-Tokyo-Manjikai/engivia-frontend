@@ -5,7 +5,7 @@ import { Layout } from "src/components/Layout";
 import { Result } from "src/components/Result";
 import { styled } from "src/utils";
 
-const Archive = () => {
+const ArchiveCaretaker2 = () => {
   const Items = ["1", "2", "3"];
 
   return (
@@ -52,4 +52,4 @@ const Container = styled("div", {
 });
 
 // eslint-disable-next-line import/no-default-export
-export default Archive;
+export default ArchiveCaretaker2;
