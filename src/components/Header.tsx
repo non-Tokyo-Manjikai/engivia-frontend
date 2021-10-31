@@ -5,18 +5,18 @@ import { styled } from "src/utils";
 
 export const Header: VFC = () => {
 	return (
-		<Wrap>
+		<Root>
 			<TitleWrap>
 				<Image src="/fountain-logo.jpg" alt="噴水ロゴ" width={30} height={34} />
 				<Title>エンビジアの泉</Title>
 			</TitleWrap>
 
 			<Icon />
-		</Wrap>
+		</Root>
 	);
 };
 
-const Wrap = styled("header", {
+const Root = styled("header", {
 	display: "flex",
 	alignItems: "center",
 	justifyContent: "space-between",
@@ -37,7 +37,7 @@ const TitleWrap = styled("div", {
 const Title = styled("h1", {
 	display: "flex",
 
-	marginLeft: "10px",
+	marginLeft: "0.5rem",
 
 	color: "$sky11",
 	fontSize: "1.2rem",

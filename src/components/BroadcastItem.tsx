@@ -15,27 +15,24 @@ type Props = {
 export const BroadcastItem: VFC<Props> = (props) => {
 	const result = statusCheck(props.status);
 	return (
-		<Card>
+		<Root>
 			<Upper>
 				<BroadCastTitle>{props.title}</BroadCastTitle>
 				<BroadcastStatus color={result.color}>{result.label}</BroadcastStatus>
 			</Upper>
-
 			<Lower>
 				<ScheduleIcons />
 				<Date>{props.scheduledStartTime}</Date>
-
 				<FlexGrow />
-
 				<AcademicCapIcons />
 				<CountLabel>エンジビア数</CountLabel>
 				<span>{props.count}</span>
 			</Lower>
-		</Card>
+		</Root>
 	);
 };
 
-const Card = styled("li", {
+const Root = styled("li", {
 	width: 700,
 	paddingX: "1.5rem",
 	paddingY: "1rem",

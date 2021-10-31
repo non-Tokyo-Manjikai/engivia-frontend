@@ -4,33 +4,28 @@ import { styled } from "src/utils";
 type Props = {
 	content: string;
 	name: string;
-
 	/* isResult */
 	isResult?: true;
 	engiviaNumber?: number;
 	hee?: number;
-
 	/* isWaiting */
 	isWaiting?: true;
 };
 
 export const EngiviaCard: VFC<Props> = (props) => {
 	return (
-		<Wrap>
+		<Root>
 			{props.isWaiting ? (
 				"次のエンジビアをお待ちください"
 			) : (
 				<>
 					{props.isResult ? <EngiviaNumber>エンジビア{props.engiviaNumber}</EngiviaNumber> : null}
-
-					<EngiviaTitle>{props.content}</EngiviaTitle>
-
+					<EngiviaContent>{props.content}</EngiviaContent>
 					<Content>
 						<UserInfoWrap>
 							<Icon />
 							<UserName>{props.name}</UserName>
 						</UserInfoWrap>
-
 						{props.isResult ? (
 							<HeeWrap>
 								<HeeCount>{props.hee}</HeeCount>へぇ
@@ -39,11 +34,11 @@ export const EngiviaCard: VFC<Props> = (props) => {
 					</Content>
 				</>
 			)}
-		</Wrap>
+		</Root>
 	);
 };
 
-const Wrap = styled("div", {
+const Root = styled("div", {
 	display: "flex",
 	flexDirection: "column",
 	gap: "1rem",
@@ -65,7 +60,7 @@ const EngiviaNumber = styled("p", {
 	color: "$primary9",
 });
 
-const EngiviaTitle = styled("h3", {
+const EngiviaContent = styled("h3", {
 	fontWeight: 500,
 	fontSize: "2rem",
 	lineHeight: "2.5rem",
