@@ -7,7 +7,7 @@ import { styled } from "src/utils";
 const EngiviaEditPage: NextPage = () => {
 	return (
 		<Wrap>
-			<BroadcastHeader />
+			<BroadcastHeader status="live" title="第1回エンジビアの泉" />
 
 			<TextAreaWrap>
 				<Textarea placeholder="エンビジアを入力する" />

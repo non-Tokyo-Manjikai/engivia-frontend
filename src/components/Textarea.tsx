@@ -1,10 +1,10 @@
-import { styled } from "@stitches/react";
+import { styled } from "src/utils";
 
 export const Textarea = styled("textarea", {
 	type: "text",
 
-	border: "2px solid $slate6",
-	padding: "0.5rem 1rem",
+	paddingY: "0.5rem",
+	paddingX: "1rem",
 	borderRadius: 5,
 
 	width: 700,
@@ -13,6 +13,7 @@ export const Textarea = styled("textarea", {
 	fontSize: "1.5rem",
 	fontWeight: 700,
 
+	border: "2px solid $slate6",
 	backgroundColor: "$slate2",
 	outline: "none",
 

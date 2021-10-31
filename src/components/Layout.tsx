@@ -38,6 +38,7 @@ const HeaderWrap = styled("div", {
 
 const BodyWrap = styled("div", {
 	flex: 1,
-	paddingY: "2rem",
+	paddingTop: "2rem",
+	paddingBottom: "150px",
 	overflowY: "scroll",
 });

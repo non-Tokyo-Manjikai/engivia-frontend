@@ -7,9 +7,9 @@ import { styled } from "src/utils";
 const MyEngiviaPage: NextPage = () => {
 	return (
 		<Wrap>
-			<BroadcastHeader />
+			<BroadcastHeader status="ended" title="第1回エンジビアの泉" />
 
-			<EngiviaCard />
+			<EngiviaCard content="ユーザー１が放送１に投稿したトリビアの内容" name="テストユーザー１" />
 
 			<ButtonWrap>
 				<Button color="primary">編集する</Button>
