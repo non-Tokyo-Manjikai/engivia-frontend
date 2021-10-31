@@ -1,15 +1,22 @@
 import type { VFC } from "react";
 import { BroadcastStatus } from "src/components/BroadcastStatus";
+import { statusCheck } from "src/components/functions/statusCheck";
 import { styled } from "src/utils";
 
-export const BroadcastHeader: VFC = () => {
+type Props = {
+	title: string;
+	status: "live" | "upcoming" | "ended";
+};
+
+export const BroadcastHeader: VFC<Props> = (props) => {
+	const result = statusCheck(props.status);
 	return (
 		<Wrap>
 			<BroadCastWrap>
-				<BroadcastStatus color="orange">放送前・エンジビア募集中</BroadcastStatus>
+				<BroadcastStatus color={result.color}>{result.label}</BroadcastStatus>
 			</BroadCastWrap>
 
-			<Title>第4回エンビジアの泉</Title>
+			<Title>{props.title}</Title>
 		</Wrap>
 	);
 };

@@ -1,12 +1,18 @@
-import { styled } from "@stitches/react";
+import { styled } from "src/utils";
 
 export const Input = styled("input", {
-  border: "solid 1px gainsboro",
-  type: "text",
-  padding: "0.5rem 1rem",
-  borderRadius: "6px",
-  width: "100%",
-  fontSize: "14px",
-  outline: "none",
-  "&:Focus": { border: "solid 1px skyblue" },
+	type: "text",
+
+	paddingY: "0.5rem",
+	paddingX: "1rem",
+	borderRadius: 5,
+
+	width: 700,
+
+	border: "2px solid $slate6",
+	backgroundColor: "$slate2",
+	outline: "none",
+
+	"&::placeholder": { color: "$slate7" },
+	"&:focus": { border: "solid 2px $primary6" },
 });

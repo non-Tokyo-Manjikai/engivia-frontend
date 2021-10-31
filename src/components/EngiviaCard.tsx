@@ -1,15 +1,44 @@
 import type { VFC } from "react";
 import { styled } from "src/utils";
 
-export const EngiviaCard: VFC = () => {
+type Props = {
+	content: string;
+	name: string;
+
+	/* isResult */
+	isResult?: true;
+	engiviaNumber?: number;
+	hee?: number;
+
+	/* isWaiting */
+	isWaiting?: true;
+};
+
+export const EngiviaCard: VFC<Props> = (props) => {
 	return (
 		<Wrap>
-			<EngiviaTitle>HTMLにはポータルという便利な要素がある</EngiviaTitle>
+			{props.isWaiting ? (
+				"次のエンジビアをお待ちください"
+			) : (
+				<>
+					{props.isResult ? <EngiviaNumber>エンジビア{props.engiviaNumber}</EngiviaNumber> : null}
 
-			<UserInfo>
-				<Icon />
-				<UserName>松平 ケン</UserName>
-			</UserInfo>
+					<EngiviaTitle>{props.content}</EngiviaTitle>
+
+					<Content>
+						<UserInfoWrap>
+							<Icon />
+							<UserName>{props.name}</UserName>
+						</UserInfoWrap>
+
+						{props.isResult ? (
+							<HeeWrap>
+								<HeeCount>{props.hee}</HeeCount>へぇ
+							</HeeWrap>
+						) : null}
+					</Content>
+				</>
+			)}
 		</Wrap>
 	);
 };
@@ -17,10 +46,10 @@ export const EngiviaCard: VFC = () => {
 const Wrap = styled("div", {
 	display: "flex",
 	flexDirection: "column",
-	alignItems: "flex-start",
 	gap: "1rem",
 
-	padding: "2rem",
+	paddingY: "1.5rem",
+	paddingX: "2rem",
 	width: 700,
 
 	borderRadius: 10,
@@ -28,18 +57,26 @@ const Wrap = styled("div", {
 	boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06)",
 });
 
+const EngiviaNumber = styled("p", {
+	textAlign: "center",
+	fontWeight: "bold",
+	fontSize: "1.5rem",
+
+	color: "$primary9",
+});
+
 const EngiviaTitle = styled("h3", {
 	fontWeight: 500,
-	fontSize: "2.25rem",
+	fontSize: "2rem",
 	lineHeight: "2.5rem",
 
 	color: "$slate12",
 });
 
-const UserInfo = styled("div", {
+const Content = styled("div", {
 	display: "flex",
-	justifyContent: "flex-start",
-	alignItems: "center",
+	justifyContent: "space-between",
+	alignItems: "end",
 	gap: "0.5rem",
 });
 
@@ -50,7 +87,30 @@ const Icon = styled("div", {
 });
 
 const UserName = styled("span", {
-	fontSize: "0.9rem",
 	fontWeight: 500,
+	fontSize: "0.9rem",
 	color: "$slate11",
+});
+
+const UserInfoWrap = styled("div", {
+	display: "flex",
+	alignItems: "center",
+	gap: "0.75rem",
+});
+
+const HeeWrap = styled("span", {
+	paddingY: "0.75rem",
+	paddingX: "2rem",
+
+	textAlign: "center",
+	fontWeight: "bold",
+	fontSize: "1.5rem",
+
+	borderRadius: 10,
+	color: "$primary9",
+	backgroundColor: "$slate5",
+});
+
+const HeeCount = styled("span", {
+	fontSize: "2rem",
 });
