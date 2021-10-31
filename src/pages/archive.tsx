@@ -3,6 +3,7 @@ import { BroadcastHeader } from "src/components/BroadcastHeader";
 import { Button } from "src/components/Button";
 import { EngiviaCard } from "src/components/EngiviaCard";
 import { Input } from "src/components/Input";
+import { PageRoot } from "src/components/PageRoot";
 import { styled } from "src/utils";
 
 const isArchive = true;
@@ -10,7 +11,7 @@ const isAdmnin = true;
 
 const ArchivePage: NextPage = () => {
 	return (
-		<Wrap>
+		<PageRoot>
 			<BroadcastHeader status="live" title="第1回エンジビアの泉" />
 
 			{isArchive ? (
@@ -24,7 +25,7 @@ const ArchivePage: NextPage = () => {
 
 			{isAdmnin ? (
 				<>
-					<Input placeholder="URLを入力" />
+					<Input type="text" placeholder="URLを入力" />
 					<Button color="primary">保存する</Button>
 				</>
 			) : null}
@@ -39,20 +40,11 @@ const ArchivePage: NextPage = () => {
 					engiviaNumber={index + 1}
 				/>
 			))}
-		</Wrap>
+		</PageRoot>
 	);
 };
 
-const Wrap = styled("div", {
-	display: "flex",
-	flexDirection: "column",
-	alignItems: "center",
-	justifyContent: "center",
-	gap: "1rem",
-});
-
 const Iframe = styled("iframe", {
-	margin: "1rem",
 	width: 700,
 	height: 450,
 });

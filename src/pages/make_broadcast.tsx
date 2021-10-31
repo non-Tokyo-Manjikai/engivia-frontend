@@ -1,39 +1,29 @@
 import type { NextPage } from "next";
 import { Button } from "src/components/Button";
 import { Input } from "src/components/Input";
+import { PageRoot } from "src/components/PageRoot";
+import { Title } from "src/components/Title";
 import { styled } from "src/utils";
 
 const MakeBroadcast: NextPage = () => {
-  return (
-    <Wrap>
-      <H1>放送を作成</H1>
-      <Input placeholder="タイトルを入力する" />
-      <Input placeholder="2021/09/03" />
-      <ButtonWrap>
-        <Button color="primary">保存する</Button>
-        <Button color="primary">キャンセル</Button>
-      </ButtonWrap>
-    </Wrap>
-  );
+	return (
+		<PageRoot>
+			<Title>放送を作成</Title>
+			<Input type="text" placeholder="タイトルを入力する" />
+			<Input type="date" placeholder="2021/09/03" />
+			<ButtonWrap>
+				<Button color="primary">保存する</Button>
+				<Button color="secondary">キャンセル</Button>
+			</ButtonWrap>
+		</PageRoot>
+	);
 };
 
 // eslint-disable-next-line import/no-default-export
 export default MakeBroadcast;
 
-const Wrap = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  gap: "2rem",
-});
-
-const H1 = styled("h1", {
-  fontSize: "30px",
-  fontWeight: "600",
-});
-
 const ButtonWrap = styled("div", {
-  display: "flex",
-  justifyContent: "center",
-  gap: "2rem",
+	display: "flex",
+	justifyContent: "center",
+	gap: "2rem",
 });

@@ -1,7 +1,8 @@
 import type { NextPage } from "next";
+import { PageRoot } from "src/components/PageRoot";
 
 const NotFoundPage: NextPage = () => {
-	return <div></div>;
+	return <PageRoot>ページが見つかりませんでした</PageRoot>;
 };
 
 // eslint-disable-next-line import/no-default-export

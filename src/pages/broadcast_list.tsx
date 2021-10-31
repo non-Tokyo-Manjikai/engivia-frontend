@@ -1,38 +1,24 @@
 import type { NextPage } from "next";
 import { BroadcastItem } from "src/components/BroadcastItem";
+import { PageRoot } from "src/components/PageRoot";
+import { Title } from "src/components/Title";
 import { styled } from "src/utils";
 
 const BroadcastListPage: NextPage = () => {
 	return (
-		<Wrap>
+		<PageRoot>
 			<Title>放送一覧</Title>
-
 			<BroadcastItemWrap>
 				{BROADCAST_DATA.map((item) => (
 					<BroadcastItem key={item.id} {...item} />
 				))}
 			</BroadcastItemWrap>
-		</Wrap>
+		</PageRoot>
 	);
 };
 
 // eslint-disable-next-line import/no-default-export
 export default BroadcastListPage;
-
-const Wrap = styled("div", {
-	display: "flex",
-	flexDirection: "column",
-	alignItems: "center",
-	gap: "2rem",
-});
-
-const Title = styled("h1", {
-	width: 700,
-	paddingLeft: "0.25rem",
-
-	fontSize: "1.75rem",
-	fontWeight: 700,
-});
 
 const BroadcastItemWrap = styled("ul", {
 	display: "flex",
