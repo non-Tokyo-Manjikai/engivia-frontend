@@ -16,7 +16,7 @@ const Input = () => {
         <Div3>
           <Textarea placeholder="エンビジアを入力する" />
         </Div3>
-        <Button color="blue">保存する</Button>
+        <Button color="primary">保存する</Button>
       </Div1>
     </Layout>
   );

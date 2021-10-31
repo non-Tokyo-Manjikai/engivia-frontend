@@ -1,7 +1,6 @@
 import { MixerHorizontalIcon } from "@radix-ui/react-icons";
 import type { NextPage } from "next";
 import { Layout } from "src/components/Layout";
-import { OnAirList } from "src/components/OnAirLIst";
 import {
 	AllowLeftIcon,
 	AllowRightIcon,
@@ -30,14 +29,12 @@ const HomePage: NextPage = () => {
 
 	return (
 		<Layout>
-			<OnAirList />
 			<div className="flex justify-center items-center py-20">
 				<div className="grid gap-3">
 					<Text>ダークモード変更</Text>
 					<ThemeChanger />
 					<Text>テーマ変更</Text>
 					<ColorChanger />
-
 					<Text>アイコン</Text>
 					<div className="flex gap-2">
 						<CountLabelIconButton color="primary" count={10}>
