@@ -10,33 +10,25 @@ type Props = {
 
 export const Layout: VFC<Props> = (props) => {
 	return (
-		<Wrap>
-			<HeaderWrap>
-				<Header />
-			</HeaderWrap>
-
-			<BodyWrap>{props.children}</BodyWrap>
-
+		<Root>
+			<Header />
+			<Page>{props.children}</Page>
 			<div className="flex fixed right-2 bottom-2 z-10">
 				<ThemeChanger />
 				<ColorChanger />
 			</div>
-		</Wrap>
+		</Root>
 	);
 };
 
-const Wrap = styled("div", {
+const Root = styled("div", {
 	display: "flex",
 	flexDirection: "column",
 	width: "100%",
 	maxHeight: "100vh",
 });
 
-const HeaderWrap = styled("div", {
-	flex: "wrap",
-});
-
-const BodyWrap = styled("div", {
+const Page = styled("div", {
 	flex: 1,
 	paddingTop: "2rem",
 	paddingBottom: "150px",
