@@ -12,6 +12,8 @@ module.exports = {
 	typescript: { ignoreDevErrors: true },
 	// ESlintエラーが存在する場合ビルドに失敗する（いらなそう）
 	eslint: { ignoreDuringBuilds: true },
+	// pageの拡張子変更
+	pageExtensions: ["page.tsx"],
 	// よくわからん
 	poweredByHeader: false,
 };
