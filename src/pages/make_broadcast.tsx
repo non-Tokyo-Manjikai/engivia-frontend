@@ -1,28 +1,24 @@
 import type { NextPage } from "next";
-import { BroadcastHeader } from "src/components/BroadcastHeader";
 import { Button } from "src/components/Button";
-import { Textarea } from "src/components/Textarea";
+import { Input } from "src/components/Input";
 import { styled } from "src/utils";
 
-const EngiviaEditPage: NextPage = () => {
+const MakeBroadcast: NextPage = () => {
   return (
     <Wrap>
-      <BroadcastHeader />
-
-      <TextAreaWrap>
-        <Textarea placeholder="エンビジアを入力する" />
-      </TextAreaWrap>
-
+      <H1>放送を作成</H1>
+      <Input placeholder="タイトルを入力する" />
+      <Input placeholder="2021/09/03" />
       <ButtonWrap>
         <Button color="primary">保存する</Button>
-        <Button color="secondary">削除する</Button>
+        <Button color="primary">キャンセル</Button>
       </ButtonWrap>
     </Wrap>
   );
 };
 
 // eslint-disable-next-line import/no-default-export
-export default EngiviaEditPage;
+export default MakeBroadcast;
 
 const Wrap = styled("div", {
   display: "flex",
@@ -31,10 +27,9 @@ const Wrap = styled("div", {
   gap: "2rem",
 });
 
-const TextAreaWrap = styled("div", {
-  display: "block",
-  textAlign: "center",
-  marginX: "auto",
+const H1 = styled("h1", {
+  fontSize: "30px",
+  fontWeight: "600",
 });
 
 const ButtonWrap = styled("div", {
