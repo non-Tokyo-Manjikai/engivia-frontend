@@ -22,7 +22,7 @@ const HeeBottom = styled("div", {
 	top: "50px",
 	left: "45px",
 	transform: "rotateX( -50deg ) ",
-	backgroundColor: "$blue10",
+	backgroundColor: "$primary10",
 	width: "270px",
 	height: "170px",
 	borderRadius: "100%",
@@ -33,7 +33,7 @@ const HeeShadow = styled("div", {
 	position: "absolute",
 	top: "90px",
 	left: "45px",
-	backgroundColor: "$blue10",
+	backgroundColor: "$primary10",
 	width: "270px",
 	height: "45px",
 	zIndex: "3",
@@ -44,7 +44,7 @@ const Hee = styled("button", {
 	top: "5px",
 	left: "45px",
 	transform: "rotateX( -50deg )",
-	backgroundColor: "$blue8",
+	backgroundColor: "$primary8",
 	width: "270px",
 	height: "170px",
 	borderRadius: "100%",
@@ -106,6 +106,6 @@ const FoundationShadow = styled("div", {
 
 const HeeButtonWrap = styled("div", {
 	position: "relative",
-	height: "280px",
+	height: "100px",
 	width: "360px",
 });
