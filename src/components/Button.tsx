@@ -19,7 +19,7 @@ export const Button = styled("button", {
 				paddingY: "0.5rem",
 				paddingX: "0.75rem",
 				backgroundColor: "$white",
-				border: "2px solid $slate8",
+				border: "1px solid $slate8",
 				"&:hover": { backgroundColor: "$slate5" },
 			},
 			primary: {
