@@ -27,6 +27,16 @@ export const Button = styled("button", {
         color: "$primary11",
         "&:hover": { backgroundColor: "$primary5" },
       },
+      tertiary: {
+        backgroundColor: "#BFE4F7",
+        color: "#8AC4E1",
+        "&:hover": { backgroundColor: "sky" },
+      },
+      quaternary: {
+        backgroundColor: "#006ADC",
+        color: "white",
+        "&:hover": { backgroundColor: "sky" },
+      },
     },
   },
 
