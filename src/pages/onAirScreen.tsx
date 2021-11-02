@@ -2,6 +2,7 @@ import { Button } from "src/components/Button";
 import { Layout } from "src/components/Layout";
 import { styled } from "src/utils";
 import { OnAirTag } from "src/components/OnAirTag";
+import { ChannelBox } from "src/components/ChannelBox";
 
 const OnAirScreen = () => {
   return (
@@ -17,21 +18,44 @@ const OnAirScreen = () => {
         <Div4>
           <Div5>
             <H2>フューチャー前</H2>
+            <ChannelBox />
           </Div5>
           <Div5>
             <H2>フューチャー中</H2>
+            <ChannelBox />
+            <Button color="quaternary">タイトルをコールする</Button>
           </Div5>
           <Div5>
             <H2>フューチャー済み</H2>
+            <ChannelBox />
           </Div5>
         </Div4>
       </Div1>
+      <Card>
+        <Content>フィーチャーする</Content>
+      </Card>
     </Layout>
   );
 };
 
-// eslint-disable-next-line import/no-default-export
 export default OnAirScreen;
+
+const Card = styled("div", {
+  all: "unset",
+  display: "inline-flex",
+  alignItems: "center",
+  justifyContent: "center",
+  paddingY: "0.5rem",
+  paddingX: "1rem",
+  borderRadius: 10,
+  borderStyle: "dashed",
+  borderColor: "#DDDDDD",
+});
+
+const Content = styled("div", {
+  color: "#b3bdc9",
+  textAlign: "left",
+});
 
 const Div1 = styled("div", {
   textAlign: "center",
@@ -54,16 +78,13 @@ const Div4 = styled("div", {
   columnGap: "32px",
   margin: "30px auto 0",
   textAlign: "center",
-  // justifyContent: "center",
 });
 
 const Div5 = styled("div", {
-  // display: "flex",
   width: "80%",
   columnGap: "32px",
   margin: "30px auto 0",
   textAlign: "center",
-  // justifyContent: "center",
 });
 
 const H1 = styled("h1", {
@@ -80,7 +101,6 @@ const H2 = styled("h2", {
   width: "100%",
   height: "40px",
   padding: "10px",
-  // paddingX: "1rem",
   alignItems: "center",
   justifyContent: "center",
   borderRadius: "5px",
