@@ -5,7 +5,7 @@ export const Button = styled("button", {
 	display: "inline-flex",
 	alignItems: "center",
 	justifyContent: "center",
-	gap: "0.5rem",
+	gap: "0.75rem",
 
 	paddingY: "0.75rem",
 	paddingX: "1.5rem",
@@ -16,6 +16,8 @@ export const Button = styled("button", {
 	variants: {
 		color: {
 			white: {
+				paddingY: "0.5rem",
+				paddingX: "0.75rem",
 				backgroundColor: "$white",
 				border: "2px solid $slate8",
 				"&:hover": { backgroundColor: "$slate5" },

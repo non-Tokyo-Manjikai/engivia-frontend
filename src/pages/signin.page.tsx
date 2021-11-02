@@ -1,33 +1,34 @@
 /* eslint-disable @typescript-eslint/naming-convention */
+import type { NextPage } from "next";
 import Image from "next/image";
 import { Button } from "src/components/Button";
 import { styled } from "src/utils";
 
-const toppage = () => {
+const SigninPage: NextPage = () => {
 	return (
-		<Container>
-			<LeftWrapper>
+		<SigninPageRoot>
+			<LeftSide>
 				<Image src="/fountain-logo.jpg" alt="噴水のアイコン" width={70} height={80} />
 				<Title>エンジビアの泉</Title>
 				<SubTitle>〜素晴らしきプログラミングマメ知識〜</SubTitle>
 				<Spacer />
 				<Button color="white">
-					<Image src="/slack-logo.svg" alt="slackのアイコン" width={25} height={25} />
+					<Image src="/slack-logo.svg" alt="slackのアイコン" width={22} height={22} />
 					Sign in with Slack
 				</Button>
-			</LeftWrapper>
+			</LeftSide>
 
-			<RightWrapper>
+			<RightSide>
 				<Image src="/trivia.png" alt="トリビアの泉" layout="fill" />
-			</RightWrapper>
-		</Container>
+			</RightSide>
+		</SigninPageRoot>
 	);
 };
 
 // eslint-disable-next-line import/no-default-export
-export default toppage;
+export default SigninPage;
 
-const Container = styled("div", {
+const SigninPageRoot = styled("div", {
 	position: "relative",
 
 	height: "100vh",
@@ -54,7 +55,7 @@ const SubTitle = styled("p", {
 	WebkitTextStrokeColor: "rgb(251,191,39)",
 });
 
-const LeftWrapper = styled("div", {
+const LeftSide = styled("div", {
 	position: "absolute",
 	zIndex: 50,
 
@@ -70,7 +71,7 @@ const LeftWrapper = styled("div", {
 	backgroundColor: "$slate1",
 });
 
-const RightWrapper = styled("div", {
+const RightSide = styled("div", {
 	position: "absolute",
 	zIndex: 10,
 	right: 0,
