@@ -19,7 +19,8 @@ import {
 	Text,
 } from "sample";
 import { HoverUserCard } from "sample/HoverUserCard";
-import { ColorChanger, ThemeChanger } from "src/components/theme";
+
+import { ColorChanger, ThemeChanger } from "./theme";
 
 const SamplePage: NextPage = () => {
 	const handleClick = () => {

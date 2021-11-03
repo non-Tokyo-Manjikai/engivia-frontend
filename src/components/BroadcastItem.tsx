@@ -1,7 +1,7 @@
 import type { VFC } from "react";
 import { BroadcastStatus } from "src/components/BroadcastStatus";
 import { statusCheck } from "src/components/functions/statusCheck";
-import { AcademicCapIcons, ScheduleIcons } from "src/components/Icons";
+import { AcademicCapIcon, ScheduleIcon } from "src/components/Icons";
 import { styled } from "src/utils";
 
 type Props = {
@@ -21,10 +21,10 @@ export const BroadcastItem: VFC<Props> = (props) => {
 				<BroadcastStatus color={result.color}>{result.label}</BroadcastStatus>
 			</Upper>
 			<Lower>
-				<ScheduleIcons />
+				<ScheduleIcon />
 				<Date>{props.scheduledStartTime}</Date>
 				<FlexGrow />
-				<AcademicCapIcons />
+				<AcademicCapIcon />
 				<CountLabel>エンジビア数</CountLabel>
 				<span>{props.count}</span>
 			</Lower>

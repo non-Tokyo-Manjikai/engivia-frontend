@@ -1,11 +1,13 @@
 import * as RadioGroupPrimitive from "@radix-ui/react-radio-group";
 import type { MouseEvent, VFC } from "react";
+import { Flex, Label } from "sample";
 import { styled } from "src/utils";
 
 type OptionsProps = {
 	id: string;
 	label: string;
-	color: "blue" | "amber" | "crimson" | "violet" | "orange" | "green";
+	value: string;
+	color?: "blue" | "amber" | "crimson" | "violet" | "orange" | "green";
 };
 
 type Props = {
@@ -18,16 +20,18 @@ type Props = {
 export const RadioGroup: VFC<Props> = (props) => {
 	return (
 		<RadioGroupPrimitive.Root defaultValue={props.defaultValue} aria-label={props.ariaLabel}>
-			{props?.options.map((item) => {
-				return (
-					<Label key={item.id} htmlFor={item.color}>
-						<RadioGroupRadio id={item.color} value={item.color} color={item.color} onClick={props.onClick}>
-							<RadioGroupIndicator color={item.color} />
-						</RadioGroupRadio>
-						<span>{item.label}</span>
-					</Label>
-				);
-			})}
+			<Flex items="center">
+				{props?.options.map((item) => {
+					return (
+						<Flex key={item.id} items="center">
+							<RadioGroupRadio id={item.value} value={item.value} color={item.color} onClick={props.onClick}>
+								<RadioGroupIndicator color={item.color} />
+							</RadioGroupRadio>
+							<Label htmlFor={item.value}>{item.label}</Label>
+						</Flex>
+					);
+				})}
+			</Flex>
 		</RadioGroupPrimitive.Root>
 	);
 };
@@ -43,6 +47,7 @@ const RadioGroupRadio = styled(RadioGroupPrimitive.Item, {
 	variants: {
 		color: {
 			primary: { "&:hover": { backgroundColor: "$primary5" } },
+
 			blue: { "&:hover": { backgroundColor: "$blue5" } },
 			amber: { "&:hover": { backgroundColor: "$amber5" } },
 			crimson: { "&:hover": { backgroundColor: "$crimson5" } },
@@ -75,6 +80,7 @@ const RadioGroupIndicator = styled(RadioGroupPrimitive.Indicator, {
 	variants: {
 		color: {
 			primary: { "&::after": { backgroundColor: "$primary9" } },
+
 			blue: { "&::after": { backgroundColor: "$blue9" } },
 			amber: { "&::after": { backgroundColor: "$amber9" } },
 			crimson: { "&::after": { backgroundColor: "$crimson9" } },
@@ -87,15 +93,4 @@ const RadioGroupIndicator = styled(RadioGroupPrimitive.Indicator, {
 	defaultVariants: {
 		color: "primary",
 	},
-});
-
-const Label = styled("label", {
-	display: "flex",
-	alignItems: "center",
-	gap: "1rem",
-
-	fontSize: "$base",
-	color: "$slate12",
-	paddingY: "0.25rem",
-	cursor: "pointer",
 });

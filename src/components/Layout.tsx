@@ -1,8 +1,6 @@
 import { useRouter } from "next/router";
 import type { ReactNode, VFC } from "react";
 import { Header } from "src/components/Header";
-import { ThemeChanger } from "src/components/theme";
-import { ColorChanger } from "src/components/theme/ColorChanger";
 import { styled } from "src/utils";
 
 type Props = {
@@ -17,11 +15,6 @@ export const Layout: VFC<Props> = (props) => {
 		<Root>
 			{notSignin && <Header />}
 			<Page notSignin={notSignin}>{props.children}</Page>
-
-			<div className="flex fixed right-2 bottom-2 z-10">
-				<ThemeChanger />
-				<ColorChanger />
-			</div>
 		</Root>
 	);
 };
