@@ -1,78 +1,69 @@
-import { styled } from "@stitches/react";
 import Image from "next/image";
-import { Label } from "src/components/Label";
+import type { VFC } from "react";
+import { Label } from "src/components/styled";
+import { styled } from "src/utils";
 
-export const HeeList = () => {
-  return (
-    <HeeListsContainer>
-      <HeeListContainer>
-        <HeeUser>
-          <Image className="rounded-full" src="/wow.jpg" width="40px" height="40px" alt="ユーザーネーム" />
-          <UserName>ファンキー加藤</UserName>
-        </HeeUser>
-        <Label isOutline="slate" isGhost="slate">
-          18へぇ
-        </Label>
-      </HeeListContainer>
-      <HeeListContainer>
-        <HeeUser>
-          <Image className="rounded-full" src="/wow.jpg" width="40px" height="40px" alt="ユーザーネーム" />
-          <UserName>ファンキー加藤</UserName>
-        </HeeUser>
-        <Label isOutline="slate" isGhost="slate">
-          18へぇ
-        </Label>
-      </HeeListContainer>
-      <HeeListContainer>
-        <HeeUser>
-          <Image className="rounded-full" src="/wow.jpg" width="40px" height="40px" alt="ユーザーネーム" />
-          <UserName>ファンキー加藤</UserName>
-        </HeeUser>
-        <Label isOutline="slate" isGhost="slate">
-          18へぇ
-        </Label>
-      </HeeListContainer>
-      <HeeListContainer>
-        <HeeUser>
-          <Image className="rounded-full" src="/wow.jpg" width="40px" height="40px" alt="ユーザーネーム" />
-          <UserName>ファンキー加藤</UserName>
-        </HeeUser>
-        <Label isOutline="slate" isGhost="slate">
-          18へぇ
-        </Label>
-      </HeeListContainer>
-    </HeeListsContainer>
-  );
+type Props = {
+	data: {
+		id: string;
+		name: string;
+		image: string;
+		count: number;
+	}[];
 };
 
-const HeeListsContainer = styled("div", {
-  width: "350px",
+export const HeeList: VFC<Props> = (props) => {
+	return (
+		<Root>
+			{props.data.map((item) => (
+				<HeeListContainer key={item.id}>
+					<UserInfo>
+						<Image className="rounded-full" src="/wow.jpg" width={35} height={35} alt="ユーザーネーム" />
+						<UserName>{item.name}</UserName>
+					</UserInfo>
+
+					<Label isOutline="slate" isGhost="slate">
+						<span>{item.count}</span>へぇ
+					</Label>
+				</HeeListContainer>
+			))}
+			<Spacer />
+		</Root>
+	);
+};
+
+const Root = styled("div", {
+	width: "250px",
 });
 
 const HeeListContainer = styled("div", {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "space-between",
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "space-between",
 
-  "&:not(:first-child)": {
-    paddingTop: "25px",
-  },
+	"&:not(:first-child)": {
+		paddingTop: "0.75rem",
+	},
 
-  "&:not(:last-child)": {
-    borderBottom: "1px solid #E5E7EB",
-    paddingBottom: "25px",
-  },
+	"&:not(:last-child)": {
+		paddingBottom: "0.75rem",
+		borderBottom: "1px solid $slate6",
+	},
 });
 
-const HeeUser = styled("div", {
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "flex-start",
+const UserInfo = styled("div", {
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "flex-start",
 });
 
 const UserName = styled("p", {
-  color: "#111827",
-  marginLeft: "16px",
-  fontSize: "14px",
-  fontWeight: "500",
+	marginLeft: "1rem",
+	fontSize: "0.8rem",
+	fontWeight: 500,
+	color: "$slate12",
+});
+
+const Spacer = styled("div", {
+	height: "10rem",
 });

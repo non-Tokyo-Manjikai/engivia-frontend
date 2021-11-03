@@ -1,29 +1,28 @@
 import type { VFC } from "react";
-import { BroadcastTag } from "src/components/BroadcastTag";
+import { memo } from "react";
+import { BroadcastStatus } from "src/components";
+import { Title } from "src/components/styled";
+import { statusCheck } from "src/functions/statusCheck";
 import { styled } from "src/utils";
 
-export const BroadcastHeader: VFC = () => {
-  return (
-    <>
-      <Wrap>
-        <BroadCastWrap>
-          <BroadcastTag color="orange">放送前・エンジビア募集中</BroadcastTag>
-
-          <Title>第4回エンビジアの泉</Title>
-        </BroadCastWrap>
-      </Wrap>
-    </>
-  );
+type Props = {
+	title: string;
+	status: "live" | "upcoming" | "ended";
 };
-const BroadCastWrap = styled("div", {
-  paddingTop: "100px",
-  marginBottom: "20px",
-});
-const Wrap = styled("div", {
-  display: "flex",
-  flexDirection: "column",
-  alignItems: "center",
-  gap: "1rem",
+
+export const BroadcastHeader: VFC<Props> = memo((props) => {
+	const result = statusCheck(props.status);
+	return (
+		<Root>
+			<BroadcastStatus color={result.color}>{result.label}</BroadcastStatus>
+			<Title center>{props.title}</Title>
+		</Root>
+	);
 });
 
-const Title = styled("h1", { fontSize: "1.75rem", fontWeight: 700 });
+const Root = styled("div", {
+	display: "flex",
+	flexDirection: "column",
+	alignItems: "center",
+	gap: "1rem",
+});

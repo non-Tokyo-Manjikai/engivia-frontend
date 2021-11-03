@@ -49,6 +49,7 @@ module.exports = {
 		],
 		// アロー関数でコールバックを記述
 		"prefer-arrow-callback": "error",
+
 		// 変数が再割り当てされない場合constを使用する
 		"prefer-const": "error",
 		//  関数の宣言方法について制限
@@ -58,7 +59,8 @@ module.exports = {
 			"expression",
 		],
 		// アロー関数内に{}を矯正する（省略させない）
-		"arrow-body-style": ["error", "always"],
+		// "arrow-body-style": ["error", "always"],
+
 		"no-restricted-imports": ["error", { paths: [{ name: "react", importNames: ["default"] }] }],
 
 		// reactのドキュメント
