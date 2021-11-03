@@ -9,11 +9,9 @@ import {
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { memo, useState } from "react";
-import { Button } from "src/components/styled/Button";
+import { Item, SortableContainer } from "src/components/dnd";
+import { Button } from "src/components/styled";
 import { styled } from "src/utils";
-
-import { Item } from "./sortable_item";
-import { Container } from "./SortableContainer";
 
 export const Multicontainers = memo((props: any) => {
 	const [items, setItems] = useState<{ [key: string]: string[] }>({
@@ -150,10 +148,10 @@ export const Multicontainers = memo((props: any) => {
 					gap: "1rem",
 				}}
 			>
-				<Container id="root" items={items.root} title="フィーチャー前" index="container1" accept="container1" />
+				<SortableContainer id="root" items={items.root} title="フィーチャー前" index="container1" accept="container1" />
 
 				<div>
-					<Container
+					<SortableContainer
 						id="container1"
 						items={items.container1}
 						title="フィーチャー中"
@@ -176,7 +174,7 @@ export const Multicontainers = memo((props: any) => {
 				</div>
 
 				<div>
-					<Container
+					<SortableContainer
 						id="container2"
 						items={items.container2}
 						title="フィーチャー済み"

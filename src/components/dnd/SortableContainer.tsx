@@ -1,9 +1,9 @@
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { SortableItem } from "src/components/dnd/sortable_item";
+import { SortableItem } from "src/components/dnd";
 import { styled } from "src/utils";
 
-export const Container = (props: any) => {
+export const SortableContainer = (props: any) => {
 	const { setNodeRef } = useDroppable({
 		id: props.id,
 		data: { accept: props.accept },
