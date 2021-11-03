@@ -42,32 +42,38 @@ const ListWrapper = styled("aside", {
 const HEE_LIST_DATA = [
 	{
 		id: "1",
-		name: "カタンさん",
+		name: "ぽんさん",
 		image: "https://pbs.twimg.com/profile_images/12010782801/katan_normal.jpg",
 		count: 1,
 	},
 	{
 		id: "2",
-		name: "カタンさん",
+		name: "みやさんさん",
 		image: "https://pbs.twimg.com/profile_images/12010782801/katan_normal.jpg",
 		count: 2,
 	},
 	{
 		id: "3",
-		name: "カタンさん",
+		name: "にんじゃんさん",
 		image: "https://pbs.twimg.com/profile_images/12010782801/katan_normal.jpg",
 		count: 9,
 	},
 	{
 		id: "4",
-		name: "カタンさん",
+		name: "みっっっつあんさん",
 		image: "https://pbs.twimg.com/profile_images/12010782801/katan_normal.jpg",
 		count: 3,
 	},
 	{
 		id: "5",
-		name: "かたんさん",
+		name: "よきまるさん",
 		image: "https://pbs.twimg.com/profile_images/12010782801/katan_normal.jpg",
 		count: 85,
+	},
+	{
+		id: "5",
+		name: "かたん",
+		image: "https://pbs.twimg.com/profile_images/12010782801/katan_normal.jpg",
+		count: 100,
 	},
 ];
