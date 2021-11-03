@@ -6,7 +6,7 @@ import { HeeList } from "src/components/HeeList";
 import { PageRoot } from "src/components/PageRoot";
 import { styled } from "src/utils";
 
-const EngiviaEditPage: NextPage = () => {
+const LiveUserPage: NextPage = () => {
 	return (
 		<PageRoot>
 			<ListWrapper>
@@ -23,7 +23,7 @@ const EngiviaEditPage: NextPage = () => {
 };
 
 // eslint-disable-next-line import/no-default-export
-export default EngiviaEditPage;
+export default LiveUserPage;
 
 const ListWrapper = styled("aside", {
 	position: "fixed",

@@ -77,9 +77,8 @@ const RightSide = styled("div", {
 	right: 0,
 
 	width: "100vh",
-	minHeight: "100vh",
-
 	height: "100vh",
+	minHeight: "100vh",
 });
 
 const Spacer = styled("div", {

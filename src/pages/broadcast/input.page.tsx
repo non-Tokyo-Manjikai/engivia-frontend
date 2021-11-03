@@ -5,7 +5,7 @@ import { PageRoot } from "src/components/PageRoot";
 import { Title } from "src/components/Title";
 import { styled } from "src/utils";
 
-const MakeBroadcast: NextPage = () => {
+const BroadcastInputPage: NextPage = () => {
 	return (
 		<PageRoot>
 			<Title>放送を作成</Title>
@@ -20,7 +20,7 @@ const MakeBroadcast: NextPage = () => {
 };
 
 // eslint-disable-next-line import/no-default-export
-export default MakeBroadcast;
+export default BroadcastInputPage;
 
 const ButtonWrap = styled("div", {
 	display: "flex",

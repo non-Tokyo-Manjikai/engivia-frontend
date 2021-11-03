@@ -4,7 +4,7 @@ import { PageRoot } from "src/components/PageRoot";
 import { Title } from "src/components/Title";
 import { styled } from "src/utils";
 
-const BroadcastListPage: NextPage = () => {
+const BroadcastPage: NextPage = () => {
 	return (
 		<PageRoot>
 			<Title>放送一覧</Title>
@@ -18,7 +18,7 @@ const BroadcastListPage: NextPage = () => {
 };
 
 // eslint-disable-next-line import/no-default-export
-export default BroadcastListPage;
+export default BroadcastPage;
 
 const BroadcastItemWrap = styled("ul", {
 	display: "flex",
