@@ -27,8 +27,8 @@ export const ThemeChanger: VFC = () => {
 
 	return (
 		<Switch
-			labalLeft="is light"
-			labalRight="is dark"
+			labalLeft="light"
+			labalRight="dark"
 			defaultChecked={currentTheme !== "light"}
 			isDark
 			onClick={handleClick}

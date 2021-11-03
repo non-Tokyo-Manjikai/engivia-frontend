@@ -1,17 +1,21 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import Image from "next/image";
 import type { VFC } from "react";
+import { ColorThemeChanger } from "src/components/theme";
 import { styled } from "src/utils";
 
 export const Header: VFC = () => {
 	return (
 		<Root>
-			<TitleWrap>
+			<LeftSide>
 				<Image src="/fountain-logo.jpg" alt="噴水ロゴ" width={30} height={34} />
 				<Title>エンビジアの泉</Title>
-			</TitleWrap>
+			</LeftSide>
 
-			<Icon />
+			<RightSide>
+				<ColorThemeChanger />
+				<Icon />
+			</RightSide>
 		</Root>
 	);
 };
@@ -29,7 +33,7 @@ const Root = styled("header", {
 	borderBottom: "1px solid $slate4",
 });
 
-const TitleWrap = styled("div", {
+const LeftSide = styled("div", {
 	display: "flex",
 	alignItems: "center",
 });
@@ -47,24 +51,15 @@ const Title = styled("h1", {
 	WebkitTextStrokeColor: "rgb(251,191,39)",
 });
 
+const RightSide = styled("div", {
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "flex-end",
+	gap: "1rem",
+});
+
 const Icon = styled("div", {
-	square: 30,
+	square: 40,
 	borderRadius: 9999,
 	background: "$primary9",
 });
-
-// const Svg = styled("svg", {
-//   width: "100%",
-//   height: "32px",
-//   overflow: "visible",
-//   marginLeft: "10px",
-// });
-
-// const Text = styled("text", {
-//   fill: "$blue10",
-//   fontWeight: "700",
-//   fontSize: "18px",
-//   stroke: "$amber9",
-//   strokeWidth: 0.7,
-//   mrgin: "auto",
-// });
