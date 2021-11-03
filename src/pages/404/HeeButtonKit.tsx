@@ -1,6 +1,6 @@
 import type { VFC } from "react";
 import { memo } from "react";
-import { NextLink } from "sample";
+import { NextLink } from "src/components";
 import { styled } from "src/utils";
 
 export const HeeButtonKit: VFC = memo(() => {

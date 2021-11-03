@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { PageRoot } from "src/components/styled";
-import { HeeButtonKit } from "src/pages/HeeButtonKit";
+import { HeeButtonKit } from "src/pages/404/HeeButtonKit";
 import { styled } from "src/utils";
 
 const NotFoundPage: NextPage = () => {
