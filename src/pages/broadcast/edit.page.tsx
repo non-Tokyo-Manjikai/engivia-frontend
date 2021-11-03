@@ -5,7 +5,7 @@ import { styled } from "src/utils";
 const BroadcastEditPage: NextPage = () => {
 	return (
 		<PageRoot>
-			<Title>放送を作成</Title>
+			<Title>放送を編集</Title>
 			<Input type="text" placeholder="タイトルを入力する" />
 			<Input type="date" placeholder="2021/09/03" />
 			<ButtonWrap>
