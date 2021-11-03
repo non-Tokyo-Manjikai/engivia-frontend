@@ -1,8 +1,8 @@
 import type { VFC } from "react";
 import { memo } from "react";
-import { BroadcastStatus } from "src/components/BroadcastStatus";
-import { statusCheck } from "src/components/functions/statusCheck";
-import { Title } from "src/components/Title";
+import { BroadcastStatus } from "src/components";
+import { Title } from "src/components/styled";
+import { statusCheck } from "src/functions/statusCheck";
 import { styled } from "src/utils";
 
 type Props = {

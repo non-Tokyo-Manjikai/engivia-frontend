@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
-import { BroadcastItem } from "src/components/BroadcastItem";
-import { PageRoot } from "src/components/PageRoot";
-import { Title } from "src/components/Title";
+import { BroadcastItem } from "src/components";
+import { PageRoot, Title } from "src/components/styled";
 import { styled } from "src/utils";
 
 const BroadcastPage: NextPage = () => {

@@ -1,7 +1,7 @@
 import * as HoverCardPrimitive from "@radix-ui/react-hover-card";
 import type { VFC } from "react";
-import { slideDownAndFade, slideLeftAndFade, slideRightAndFade, slideUpAndFade } from "sample/animation";
-import { PalletIcon } from "src/components/Icons";
+import { slideDownAndFade, slideLeftAndFade, slideRightAndFade, slideUpAndFade } from "src/components/animation";
+import { PalletIcon } from "src/components/icons";
 import { ColorChanger, ThemeChanger } from "src/components/theme";
 import { styled } from "src/utils";
 

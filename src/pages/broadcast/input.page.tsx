@@ -1,8 +1,5 @@
 import type { NextPage } from "next";
-import { Button } from "src/components/Button";
-import { Input } from "src/components/Input";
-import { PageRoot } from "src/components/PageRoot";
-import { Title } from "src/components/Title";
+import { Button, Input, PageRoot, Title } from "src/components/styled";
 import { styled } from "src/utils";
 
 const BroadcastInputPage: NextPage = () => {

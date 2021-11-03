@@ -1,8 +1,6 @@
 import type { NextPage } from "next";
-import { BroadcastHeader } from "src/components/BroadcastHeader";
-import { Button } from "src/components/Button";
-import { PageRoot } from "src/components/PageRoot";
-import { Textarea } from "src/components/Textarea";
+import { BroadcastHeader } from "src/components";
+import { Button, PageRoot, Textarea } from "src/components/styled";
 
 const EngiviaInputPage: NextPage = () => {
 	return (

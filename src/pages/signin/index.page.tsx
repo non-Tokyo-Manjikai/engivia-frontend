@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { NextPage } from "next";
 import Image from "next/image";
-import { Button } from "src/components/Button";
+import { Button } from "src/components/styled";
 import { styled } from "src/utils";
 
 const SigninPage: NextPage = () => {

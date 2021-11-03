@@ -1,6 +1,6 @@
 import Image from "next/image";
 import type { VFC } from "react";
-import { Label } from "src/components/Label";
+import { Label } from "src/components/styled";
 import { styled } from "src/utils";
 
 type Props = {

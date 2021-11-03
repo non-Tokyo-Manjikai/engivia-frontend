@@ -1,7 +1,7 @@
 import type { NextPage } from "next";
-import { BroadcastHeader } from "src/components/BroadcastHeader";
-import { Button } from "src/components/Button";
-import { Multicontainers } from "src/components/Multicontainers";
+import { BroadcastHeader } from "src/components";
+import { Multicontainers } from "src/components/dnd";
+import { Button } from "src/components/styled";
 import { styled } from "src/utils";
 
 const LiveAutherPage: NextPage = () => {

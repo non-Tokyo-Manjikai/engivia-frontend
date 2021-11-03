@@ -3,7 +3,7 @@ import "src/styles/globals.css";
 import { IdProvider } from "@radix-ui/react-id";
 import type { AppProps } from "next/app";
 import { memo } from "react";
-import { Layout } from "src/components/Layout";
+import { Layout } from "src/components/layout/Layout";
 import { WithTheme } from "src/components/theme";
 
 const MyApp = (props: AppProps) => {

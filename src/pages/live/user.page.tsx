@@ -1,9 +1,6 @@
 import type { NextPage } from "next";
-import { BroadcastHeader } from "src/components/BroadcastHeader";
-import { EngiviaCard } from "src/components/EngiviaCard";
-import { HeeButtonKit } from "src/components/HeeButtonKit";
-import { HeeList } from "src/components/HeeList";
-import { PageRoot } from "src/components/PageRoot";
+import { BroadcastHeader, EngiviaCard, HeeButtonKit, HeeList } from "src/components";
+import { PageRoot } from "src/components/styled";
 import { styled } from "src/utils";
 
 const LiveUserPage: NextPage = () => {

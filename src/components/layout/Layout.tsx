@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import type { ReactNode, VFC } from "react";
-import { Header } from "src/components/Header";
+import { Header } from "src/components/layout";
 import { styled } from "src/utils";
 
 type Props = {

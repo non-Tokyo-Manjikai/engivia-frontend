@@ -1,7 +1,7 @@
 import type { VFC } from "react";
-import { BroadcastStatus } from "src/components/BroadcastStatus";
-import { statusCheck } from "src/components/functions/statusCheck";
-import { AcademicCapIcon, ScheduleIcon } from "src/components/Icons";
+import { BroadcastStatus } from "src/components";
+import { AcademicCapIcon, ScheduleIcon } from "src/components/icons";
+import { statusCheck } from "src/functions/statusCheck";
 import { styled } from "src/utils";
 
 type Props = {
