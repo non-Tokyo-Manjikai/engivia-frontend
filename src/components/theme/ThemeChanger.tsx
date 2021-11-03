@@ -1,7 +1,7 @@
 import { useTheme } from "next-themes";
 import type { VFC } from "react";
 import { useEffect, useState } from "react";
-import { Switch } from "src/components/theme/Switch";
+import { Switch } from "src/components/theme";
 
 export const ThemeChanger: VFC = () => {
 	const { resolvedTheme, setTheme } = useTheme();
