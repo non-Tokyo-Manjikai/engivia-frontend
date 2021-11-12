@@ -26,10 +26,10 @@ const LiveUserPage: NextPage = () => {
 	const [heeCountList, setHeeCountList] = useState<number>(0);
 	const [allUser, setAllUser] = useState<any>();
 
-	/* ------- auther ------- */
+	/* ------- admin ------- */
 	const [selectEngivia, setSelectEngivia] = useState<any>("null");
 
-	/* ------- auther ------- */
+	/* ------- admin ------- */
 	// 1.soket通信を開始する
 	const handleClick = () => {
 		const socket = io("http://localhost:8080", {
@@ -40,8 +40,6 @@ const LiveUserPage: NextPage = () => {
 				image: sampleUserInfo.image,
 			},
 		});
-		// console.info("--- socket情報受信 ---");
-		// console.info(socket);
 		// 通信情報を保持する
 		setSoket(socket);
 
@@ -81,7 +79,7 @@ const LiveUserPage: NextPage = () => {
 
 	// 3.管理者がタイトルコールをして、エンジビア情報を送信する
 	const handleTitleCall = () => {
-		socket.emit("auther_post_title_call", {
+		socket.emit("admin_post_title_call", {
 			query: {
 				id: sampleUserInfo.id,
 				name: sampleUserInfo.name,
@@ -93,7 +91,7 @@ const LiveUserPage: NextPage = () => {
 
 	// 4.管理者が次のエンジビアを準備する
 	const handleWaitTitleCall = () => {
-		socket.emit("post_auther_wait_title_call", {});
+		socket.emit("post_admin_wait_title_call", {});
 		socket.emit("user_post_hee_count", {
 			query: { heeCount: 0 },
 		});
