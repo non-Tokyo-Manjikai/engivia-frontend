@@ -16,5 +16,9 @@ module.exports = {
 	pageExtensions: ["page.tsx"],
 	// よくわからん
 	poweredByHeader: false,
+
+	images: {
+		domains: ["secure.gravatar.com"],
+	},
 };
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
