@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {
 	closestCorners,
 	DndContext,
@@ -8,18 +9,39 @@ import {
 	useSensors,
 } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
-import { memo, useState } from "react";
+import type { VFC } from "react";
+import { memo, useCallback, useEffect, useState } from "react";
 import { Item, SortableContainer } from "src/components/dnd";
 import { Button } from "src/components/styled";
+import type { LiveStatus, TriviaType } from "src/types";
 import { styled } from "src/utils";
 
-export const Multicontainers = memo((props: any) => {
-	const [items, setItems] = useState<{ [key: string]: string[] }>({
-		root: ["1", "2", "3", "4", "5", "6", "7", "8", "9"],
+type Props = {
+	status: LiveStatus;
+	triviaList: TriviaType[];
+	onTitleCall: (trivia: TriviaType) => void;
+};
+
+export const Multicontainers: VFC<Props> = memo((props) => {
+	const [items, setItems] = useState<{ [key: string]: number[] }>({
+		root: [],
 		container1: [],
 		container2: [],
 	});
-	const [activeId, setActiveId] = useState<string | null>();
+
+
+	useEffect(() => {
+		const triviaList = props.triviaList?.map((trivia: TriviaType) => trivia.id);
+		if (triviaList) {
+			setItems({
+				root: [...triviaList],
+				container1: [],
+				container2: [],
+			});
+		}
+	}, [props.triviaList]);
+
+	const [activeId, setActiveId] = useState<number | null>();
 
 	const sensors = useSensors(
 		useSensor(PointerSensor),
@@ -48,6 +70,10 @@ export const Multicontainers = memo((props: any) => {
 		const { id } = active;
 		const { id: overId } = over;
 
+		const activeEngivia = props.triviaList.filter((item) => {
+			return item.id === id;
+		})[0];
+
 		const activeContainer = findContainer(id);
 		const overContainer = findContainer(overId);
 
@@ -55,15 +81,26 @@ export const Multicontainers = memo((props: any) => {
 			return;
 		}
 
-		if (`${overContainer}` === "container1" && items.container1.length === 1) {
+		if (
+			`${overContainer}` === "root" &&
+			((`${activeContainer}` === "container1" && activeEngivia.featured === true) ||
+				`${activeContainer}` === "container2")
+		) {
 			return;
 		}
 
 		if (
-			props.status === "live" &&
-			over &&
-			(over.data.current.index || over.data.current.accept).includes(active.data.current.sortable.containerId)
+			`${overContainer}` === "container1" &&
+			(items.container1.length === 1 || `${activeContainer}` === "container2")
 		) {
+			return;
+		}
+
+		if (`${overContainer}` === "container2" && activeEngivia.featured === false) {
+			return;
+		}
+
+		if (props.status === "live" && over) {
 			setItems((prev: any) => {
 				const activeItems = prev[activeContainer];
 				const overItems = prev[overContainer];
@@ -126,9 +163,24 @@ export const Multicontainers = memo((props: any) => {
 		setActiveId(null);
 	};
 
-	const handleClick = () => {
-		console.log("タイトルコール");
-	};
+	const handleTitleCall = useCallback(() => {
+		const engivia = {
+			 props.triviaList.filter((item) => {
+			return item.id === id;
+		})[0]
+			// id: 1,
+			// content: "あああああ",
+			// featured: false,
+			// hee: null,
+			// userId: "user1",
+			// User: {
+			// 	id: "user1",
+			// 	name: "user1",
+			// 	image: "",
+			// },
+		};
+		props.onTitleCall(engivia);
+	}, []);
 
 	return (
 		<DndContext
@@ -148,15 +200,14 @@ export const Multicontainers = memo((props: any) => {
 					gap: "1rem",
 				}}
 			>
-				<SortableContainer id="root" items={items.root} title="フィーチャー前" index="container1" accept="container1" />
+				<SortableContainer id="root" items={items.root} triviaList={props.triviaList} title="フィーチャー前" />
 
 				<div>
 					<SortableContainer
 						id="container1"
 						items={items.container1}
+						triviaList={props.triviaList}
 						title="フィーチャー中"
-						index="root"
-						accept={["root", "container2"]}
 					/>
 					{props.status === "live" ? (
 						items.container1.length === 0 ? (
@@ -165,7 +216,7 @@ export const Multicontainers = memo((props: any) => {
 							</Feature>
 						) : (
 							<div className=" w-full h-10 text-center ">
-								<Button color="primary" onClick={handleClick}>
+								<Button color="primary" onClick={handleTitleCall}>
 									タイトルコールする
 								</Button>
 							</div>
@@ -177,10 +228,8 @@ export const Multicontainers = memo((props: any) => {
 					<SortableContainer
 						id="container2"
 						items={items.container2}
+						triviaList={props.triviaList}
 						title="フィーチャー済み"
-						index="container1"
-						accept="container1"
-						featured={true}
 					/>
 					{props.status === "live" && items.container1.length === 1 ? (
 						<Feature>
@@ -188,7 +237,7 @@ export const Multicontainers = memo((props: any) => {
 						</Feature>
 					) : null}
 				</div>
-				<DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
+				<DragOverlay>{activeId ? <Item id={activeId} triviaList={props.triviaList} /> : null}</DragOverlay>
 			</div>
 		</DndContext>
 	);
