@@ -13,6 +13,7 @@ import type { VFC } from "react";
 import { memo, useCallback, useEffect, useState } from "react";
 import { Item, SortableContainer } from "src/components/dnd";
 import { Button } from "src/components/styled";
+import { handlePutTrivia } from "src/hooks/handlePutTrivia";
 import type { LiveStatus, TriviaType } from "src/types";
 import { styled } from "src/utils";
 
@@ -28,7 +29,6 @@ export const Multicontainers: VFC<Props> = memo((props) => {
 		container1: [],
 		container2: [],
 	});
-
 
 	useEffect(() => {
 		const triviaList = props.triviaList?.map((trivia: TriviaType) => trivia.id);
@@ -96,9 +96,9 @@ export const Multicontainers: VFC<Props> = memo((props) => {
 			return;
 		}
 
-		if (`${overContainer}` === "container2" && activeEngivia.featured === false) {
-			return;
-		}
+		// if (`${overContainer}` === "container2" && activeEngivia.featured === false) {
+		// 	return;
+		// }
 
 		if (props.status === "live" && over) {
 			setItems((prev: any) => {
@@ -139,7 +139,7 @@ export const Multicontainers: VFC<Props> = memo((props) => {
 		}
 	};
 
-	const handleDragEnd = (event: any) => {
+	const handleDragEnd = async (event: any) => {
 		const { id } = event.active;
 		const { id: overId } = event.over;
 		const activeContainer = findContainer(id);
@@ -147,6 +147,17 @@ export const Multicontainers: VFC<Props> = memo((props) => {
 
 		if (!activeContainer || !overContainer || activeContainer !== overContainer) {
 			return;
+		}
+		const body = {
+			hee: 100,
+			featured: true,
+			token: "token3",
+		};
+
+		if (overContainer === "container2") {
+			console.log("フィーチャー済み");
+			const result = await handlePutTrivia("/trivia/1", body);
+			console.log(result);
 		}
 
 		const activeIndex = items[activeContainer].indexOf(event.active.id);
@@ -163,24 +174,15 @@ export const Multicontainers: VFC<Props> = memo((props) => {
 		setActiveId(null);
 	};
 
-	const handleTitleCall = useCallback(() => {
-		const engivia = {
-			 props.triviaList.filter((item) => {
-			return item.id === id;
-		})[0]
-			// id: 1,
-			// content: "あああああ",
-			// featured: false,
-			// hee: null,
-			// userId: "user1",
-			// User: {
-			// 	id: "user1",
-			// 	name: "user1",
-			// 	image: "",
-			// },
-		};
-		props.onTitleCall(engivia);
-	}, []);
+	const handleTitleCall = useCallback(
+		(currentId) => {
+			const engivia = props.triviaList.filter((item) => {
+				return item.id === currentId;
+			})[0];
+			props.onTitleCall(engivia);
+		},
+		[props.onTitleCall]
+	);
 
 	return (
 		<DndContext
@@ -216,7 +218,7 @@ export const Multicontainers: VFC<Props> = memo((props) => {
 							</Feature>
 						) : (
 							<div className=" w-full h-10 text-center ">
-								<Button color="primary" onClick={handleTitleCall}>
+								<Button color="primary" onClick={() => handleTitleCall(items.container1[0])}>
 									タイトルコールする
 								</Button>
 							</div>
