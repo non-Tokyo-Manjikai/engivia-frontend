@@ -152,12 +152,14 @@ export const Multicontainers: VFC<Props> = memo((props) => {
 			hee: 100,
 			featured: true,
 			token: "token3",
+			content: "aaaa",
 		};
 
+		/* ============= 仮実装 ============= */
 		if (overContainer === "container2") {
-			console.log("フィーチャー済み");
-			const result = await handlePutTrivia("/trivia/1", body);
-			console.log(result);
+			console.info("フィーチャー済み");
+			const result = await handlePutTrivia("/trivia/1", body, body.token);
+			console.info(result);
 		}
 
 		const activeIndex = items[activeContainer].indexOf(event.active.id);
