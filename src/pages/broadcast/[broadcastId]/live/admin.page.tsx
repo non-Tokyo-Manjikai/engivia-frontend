@@ -18,7 +18,7 @@ const sampleUserInfo = {
 };
 
 const LiveAdminPage: NextPage = () => {
-	const { data, error, isLoading, isEmpty } = useGetEngiviaInfo("/broadcast/1", "token3");
+	const { data, isError, isLoading, isEmpty } = useGetEngiviaInfo("/broadcast/1", "token3");
 
 	/* ------- user ------- */
 	// ソケットの通信情報を保持する
@@ -65,7 +65,7 @@ const LiveAdminPage: NextPage = () => {
 	if (isEmpty) {
 		<div>isEmpty</div>;
 	}
-	if (error) {
+	if (isError) {
 		<div>error</div>;
 	}
 

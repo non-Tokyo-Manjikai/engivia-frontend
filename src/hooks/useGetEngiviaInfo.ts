@@ -20,7 +20,7 @@ export const useGetEngiviaInfo = (url: string, token: string) => {
 
 	return {
 		data,
-		error,
+		isError: error,
 		isLoading: !error && !data,
 		isEmpty: data && data === undefined,
 	};
