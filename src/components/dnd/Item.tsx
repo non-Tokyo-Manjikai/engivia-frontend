@@ -1,26 +1,32 @@
 import Image from "next/image";
+import type { VFC } from "react";
 import { memo } from "react";
+import type { TriviaType } from "src/types";
 import { styled } from "src/utils";
 
-export const Item = memo((props: any) => {
+type Props = {
+	id: number;
+	triviaList: TriviaType[];
+};
+
+export const Item: VFC<Props> = memo((props) => {
+	const resultUser = props.triviaList.filter((items) => {
+		return items.id === props.id;
+	})[0];
+
 	return (
-		<>
-			<Container>
-				<p>
-					{props.id}
-					HTMLにはポータルという便利な要素があるHTMLにはポータルという便利な要素があるHTMLにはポータルという便利な要素がある
-				</p>
-				<UserCard>
-					<User>
-						<ImageContainer>
-							<Image src="/superhero.svg" width={40} height={40} alt="superhero" />
-						</ImageContainer>
-						<Name>松平 ケン</Name>
-					</User>
-					{props.featured ? <div>８７へえ</div> : null}
-				</UserCard>
-			</Container>
-		</>
+		<Container>
+			<p>{resultUser.content}</p>
+			<UserCard>
+				<User>
+					<ImageContainer>
+						<Image src={resultUser.User.image} width={40} height={40} alt="superhero" />
+					</ImageContainer>
+					<Name>{resultUser.User.name}</Name>
+				</User>
+				{resultUser.featured ? <div>８７へぇ</div> : null}
+			</UserCard>
+		</Container>
 	);
 });
 

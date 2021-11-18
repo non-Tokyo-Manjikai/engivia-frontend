@@ -6,8 +6,8 @@ import { statusCheck } from "src/functions/statusCheck";
 import { styled } from "src/utils";
 
 type Props = {
-	title: string;
-	status: "live" | "upcoming" | "ended";
+	title?: string;
+	status?: "live" | "upcoming" | "ended";
 };
 
 export const BroadcastHeader: VFC<Props> = memo((props) => {
