@@ -5,7 +5,7 @@ import { useBroadcastList } from "src/hooks/useBroadcastList.swr";
 import { styled } from "src/utils";
 
 const BroadcastPage: NextPage = () => {
-	const { broadcastList, isLoading, isError } = useBroadcastList();
+	const { data, isError, isLoading, isEmpty } = useBroadcastList();
 
 	return (
 		<PageRoot>
@@ -15,11 +15,11 @@ const BroadcastPage: NextPage = () => {
 				"loading"
 			) : isError ? (
 				"error"
-			) : !broadcastList ? (
+			) : isEmpty ? (
 				"no data"
 			) : (
 				<BroadcastItemWrap>
-					{broadcastList?.map((item) => (
+					{data?.map((item) => (
 						<BroadcastItem key={item.id} {...item} />
 					))}
 				</BroadcastItemWrap>

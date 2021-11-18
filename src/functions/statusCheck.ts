@@ -6,7 +6,7 @@ type ReturnType = {
 	label: string;
 };
 
-export const statusCheck = (status: StatusType): ReturnType => {
+export const statusCheck = (status?: StatusType): ReturnType => {
 	switch (status) {
 		case "live":
 			return { color: "green", label: "放送中" };

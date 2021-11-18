@@ -3,11 +3,12 @@ import type { BroadcastListType } from "src/types/BroadcastListType";
 import useSWR from "swr";
 
 export const useBroadcastList = () => {
-  const { data, error } = useSWR<BroadcastListType[]>(`${API_URL}/broadcast`);
+	const { data, error } = useSWR<BroadcastListType[]>(`${API_URL}/broadcast`);
 
-  return {
-    broadcastList: data,
-    isLoading: !error && !data,
-    isError: error,
-  };
+	return {
+		data,
+		isError: error,
+		isLoading: !error && !data,
+		isEmpty: data && data === undefined,
+	};
 };
