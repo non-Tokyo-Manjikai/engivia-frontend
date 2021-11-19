@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { VFC } from "react";
 import { ColorThemeChanger } from "src/components/theme";
 import { styled } from "src/utils";
+import { User } from "src/components/User";
 
 export const Header: VFC = () => {
 	return (
@@ -14,7 +15,7 @@ export const Header: VFC = () => {
 
 			<RightSide>
 				<ColorThemeChanger />
-				<Icon />
+				<User />
 			</RightSide>
 		</Root>
 	);
@@ -56,10 +57,4 @@ const RightSide = styled("div", {
 	alignItems: "center",
 	justifyContent: "flex-end",
 	gap: "1rem",
-});
-
-const Icon = styled("div", {
-	square: 40,
-	borderRadius: 9999,
-	background: "$primary9",
 });
