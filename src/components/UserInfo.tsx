@@ -55,6 +55,7 @@ const Label = styled("label", {
   color: violet.violet11,
   width: 75,
   fontWeight: "bold",
+  textAlign: "left",
 });
 
 const Input = styled("input", {
@@ -63,6 +64,7 @@ const Input = styled("input", {
   display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
+  textAlign: "left",
   flex: "1",
   borderRadius: 4,
   fontSize: 13,

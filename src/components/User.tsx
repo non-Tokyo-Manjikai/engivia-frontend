@@ -16,7 +16,7 @@ export const User = () => (
       <UserInfo />
       <Footer>
         <PopoverClose aria-label="Close">
-          <Back>☜ Back</Back>
+          <Back>Back</Back>
         </PopoverClose>
         <DivSave>
           <Save>Save</Save>
@@ -129,16 +129,24 @@ const Save = styled("button", {
   color: "white",
   width: "80px",
   height: "40px",
-  backgroundColor: "blue",
+  backgroundColor: "#5f95fa",
   borderRadius: "20px",
   cursor: "pointer",
+  borderBottom: "2px solid #1904b8",
+  "&:hover": {
+    backgroundColor: "#3844f2",
+  },
 });
 
 const Back = styled("button", {
   width: "80px",
   height: "40px",
   border: "black, 1px",
-  backgroundColor: "white",
+  backgroundColor: "#ebebeb",
   borderRadius: "20px",
   cursor: "pointer",
+  borderBottom: "2px solid",
+  "&:hover": {
+    backgroundColor: "#e3e3e3",
+  },
 });
