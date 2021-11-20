@@ -1,31 +1,37 @@
-import React from "react";
-import { styled, keyframes } from "src/utils";
-import { violet, blackA } from "@radix-ui/colors";
+import { blackA,violet } from "@radix-ui/colors";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { UserInfo } from "src/components/UserInfo";
 import Image from "next/image";
+import React from "react";
+import { useRecoilState } from "recoil";
+import { userInfoState } from "src/components/atoms";
+import { UserInfo } from "src/components/UserInfo";
+import { keyframes,styled } from "src/utils";
 
-export const User = () => (
-  <Popover>
-    <PopoverTrigger asChild>
-      <IconButton aria-label="Update dimensions">
-        <Image className="rounded-full" src="/superhero.svg" width={80} height={80} alt="superhero" />
-      </IconButton>
-    </PopoverTrigger>
-    <PopoverContent sideOffset={5}>
-      <UserInfo />
-      <Footer>
-        <PopoverClose aria-label="Close">
-          <Back>☜ Back</Back>
-        </PopoverClose>
-        <DivSave>
-          <Save>Save</Save>
-        </DivSave>
-      </Footer>
-    </PopoverContent>
-  </Popover>
-);
+export const User = () => {
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <IconButton aria-label="Update dimensions">
+          <Image className="rounded-full" src={userInfo.image} width={80} height={80} alt="superhero" />
+        </IconButton>
+      </PopoverTrigger>
+      <PopoverContent sideOffset={5}>
+        <UserInfo />
+        <Footer>
+          <PopoverClose aria-label="Close">
+            <Back>☜ Back</Back>
+          </PopoverClose>
+          <DivSave>
+            <Save>Save</Save>
+          </DivSave>
+        </Footer>
+      </PopoverContent>
+    </Popover>
+  );
+};
 
+// eslint-disable-next-line import/no-default-export
 export default User;
 
 const slideUpAndFade = keyframes({
