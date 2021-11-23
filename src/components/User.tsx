@@ -8,6 +8,7 @@ import { keyframes, styled } from "src/utils";
 
 export const User = () => {
 	const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+
 	return (
 		<Popover>
 			<PopoverTrigger asChild>
