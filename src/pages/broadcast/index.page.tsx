@@ -1,16 +1,17 @@
 import type { NextPage } from "next";
+import { useRecoilValue } from "recoil";
 import { BroadcastItem, NextLink } from "src/components";
-import { PageRoot, Title } from "src/components/styled";
+import { userInfoState } from "src/components/atoms";
+import { Button, PageRoot, Title } from "src/components/styled";
 import { useBroadcastList } from "src/hooks/useBroadcastList.swr";
 import { styled } from "src/utils";
 
 const BroadcastPage: NextPage = () => {
   const { data, isError, isLoading, isEmpty } = useBroadcastList();
-
+  const userInfo = useRecoilValue(userInfoState);
   return (
     <PageRoot>
       <Title>放送一覧</Title>
-
       {isLoading ? (
         "loading"
       ) : isError ? (
@@ -24,10 +25,12 @@ const BroadcastPage: NextPage = () => {
               href={`/broadcast/${item.id}${
                 item.status === "ended"
                   ? "/archive"
-                  : item.status === "upcoming"
-                  ? "/my_engivia"
+                  : userInfo.isAdmin
+                  ? "/live/admin"
                   : item.status === "live"
                   ? "/live/user"
+                  : item.status === "upcoming"
+                  ? "/my_engivia"
                   : ""
               }`}
               key={item.id}
@@ -37,6 +40,11 @@ const BroadcastPage: NextPage = () => {
           ))}
         </BroadcastItemWrap>
       )}
+      {userInfo.isAdmin ? (
+        <NextLink href={"/broadcast/input"}>
+          <Button color="primary">放送を作成する</Button>
+        </NextLink>
+      ) : null}
     </PageRoot>
   );
 };
