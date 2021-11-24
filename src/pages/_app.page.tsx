@@ -8,20 +8,20 @@ import { WithTheme } from "src/components/theme";
 import { SWRConfig } from "swr";
 
 const MyApp = (props: AppProps) => {
-	return (
-		<SWRConfig
-			value={{
-				refreshInterval: 3000,
-				fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
-			}}
-		>
-			<IdProvider>
-				<Layout>
-					<props.Component {...props.pageProps} />
-				</Layout>
-			</IdProvider>
-		</SWRConfig>
-	);
+  return (
+    <SWRConfig
+      value={{
+        refreshInterval: 3000,
+        fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
+      }}
+    >
+      <IdProvider>
+        <Layout>
+          <props.Component {...props.pageProps} />
+        </Layout>
+      </IdProvider>
+    </SWRConfig>
+  );
 };
 
 // eslint-disable-next-line import/no-default-export
