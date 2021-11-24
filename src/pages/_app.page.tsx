@@ -3,6 +3,7 @@ import "src/styles/globals.css";
 import { IdProvider } from "@radix-ui/react-id";
 import type { AppProps } from "next/app";
 import { memo } from "react";
+import { RecoilRoot } from "recoil";
 import { Layout } from "src/components/layout";
 import { WithTheme } from "src/components/theme";
 import { SWRConfig } from "swr";
@@ -16,9 +17,11 @@ const MyApp = (props: AppProps) => {
       }}
     >
       <IdProvider>
-        <Layout>
-          <props.Component {...props.pageProps} />
-        </Layout>
+        <RecoilRoot>
+          <Layout>
+            <props.Component {...props.pageProps} />
+          </Layout>
+        </RecoilRoot>
       </IdProvider>
     </SWRConfig>
   );
