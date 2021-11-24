@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import { blackA, violet } from "@radix-ui/colors";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import Image from "next/image";
