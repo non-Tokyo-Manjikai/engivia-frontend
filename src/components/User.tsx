@@ -1,9 +1,8 @@
-import React from "react";
-import { styled, keyframes } from "src/utils";
-import { violet, blackA } from "@radix-ui/colors";
+import { blackA, violet } from "@radix-ui/colors";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { UserInfo } from "src/components/UserInfo";
 import Image from "next/image";
+import { UserInfo } from "src/components/UserInfo";
+import { keyframes, styled } from "src/utils";
 
 export const User = () => (
   <Popover>
@@ -26,7 +25,7 @@ export const User = () => (
   </Popover>
 );
 
-export default User;
+// export default User;
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(2px)" },
@@ -101,7 +100,7 @@ export const PopoverArrow = StyledArrow;
 export const PopoverClose = StyledClose;
 
 // Your app...
-const Flex = styled("div", { display: "flex" });
+// const Flex = styled("div", { display: "flex" });
 
 const IconButton = styled("button", {
   all: "unset",

@@ -1,7 +1,6 @@
 import { violet } from "@radix-ui/colors";
-import { styled } from "src/utils";
-import React from "react";
 import Image from "next/image";
+import { styled } from "src/utils";
 
 export const UserInfo = () => {
   return (
