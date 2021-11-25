@@ -15,23 +15,23 @@ const BroadcastInputPage: NextPage = () => {
   const [broadcastState, setBroadcastState] = useState<BroadcastPostBodyType>({
     title: "",
     scheduledStartTime: "",
-	});
-	const [buttonDisabledState, setButtonDisabledState] = useState(false);
+  });
+  const [buttonDisabledState, setButtonDisabledState] = useState(false);
 
-	const handleSaveClick = async () => {
-		// 連続クリックで重複して送信しないようにする
-		setButtonDisabledState(true);
-		const toastId = toast.loading("Sending...");
-		const statusCode = await postBroadcast("/broadcast", broadcastState, userInfo.token);
-		if (statusCode >= 400) {
-			toast.error(`error: ${statusCode}`, { id: toastId });
-			setButtonDisabledState(false);
-		} else {
-			toast.success("保存成功しました", { id: toastId });
-			// トーストを表示した2秒後にページ遷移する
-			setTimeout(() => router.push("/broadcast"), 2000);
-		}
-	};
+  const handleSaveClick = async () => {
+    // 連続クリックで重複して送信しないようにする
+    setButtonDisabledState(true);
+    const toastId = toast.loading("Sending...");
+    const statusCode = await postBroadcast("/broadcast", broadcastState, userInfo.token);
+    if (statusCode >= 400) {
+      toast.error(`error: ${statusCode}`, { id: toastId });
+      setButtonDisabledState(false);
+    } else {
+      toast.success("保存成功しました", { id: toastId });
+      // トーストを表示した2秒後にページ遷移する
+      setTimeout(() => router.push("/broadcast"), 2000);
+    }
+  };
 
   return (
     <PageRoot>
