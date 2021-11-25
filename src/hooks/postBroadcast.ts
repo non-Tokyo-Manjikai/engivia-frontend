@@ -9,8 +9,5 @@ export const postBroadcast = (url: string, body: any, token: string) => {
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ ...body }),
-  }).then((res) => {
-    if (res.status >= 400) throw new Error(`${res.status}`);
-    return res.status;
-  });
+  }).then((res) => res.status);
 };
