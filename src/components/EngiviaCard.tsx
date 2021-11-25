@@ -30,7 +30,7 @@ export const EngiviaCard: VFC<Props> = (props) => {
             </UserInfoWrap>
             {props.isResult ? (
               <HeeWrap>
-                <HeeCount>{props.heeCount}</HeeCount>へぇ
+                <HeeCount>{props.hee}</HeeCount>へぇ
               </HeeWrap>
             ) : null}
           </Content>

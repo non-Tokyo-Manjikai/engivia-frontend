@@ -5,6 +5,7 @@ export type User = {
   id: string;
   name: string;
   image: string;
+  isAdmin: boolean;
 };
 
 export type TriviaType = {
