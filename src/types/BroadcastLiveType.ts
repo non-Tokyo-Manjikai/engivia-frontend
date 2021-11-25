@@ -21,4 +21,5 @@ export type BroadcastLiveType = {
   title: string;
   scheduleStartTime: Date;
   Trivia: TriviaType[];
+  archiveUrl: string;
 };
