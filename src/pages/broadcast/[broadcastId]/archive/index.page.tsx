@@ -27,19 +27,28 @@ const ArchivePage: NextPage = () => {
     data?.title,
   ];
 
-  const handleChangeUrl = useCallback((e: any) => {
-    setUrlValue(() => e.target.value);
-  }, []);
+  //Youtubeのサイトであるかどうか確認する
+  const myRe = new RegExp("https://www.youtube.com");
+  const myArray = myRe.test(url);
+  const SearchArray = url.search(myRe);
 
   const body = {
     token: Token,
     archiveUrl: url,
   };
 
+  const handleChangeUrl = useCallback((e: any) => {
+    setUrlValue(() => e.target.value);
+  }, []);
+
   const handleSaveUrl = () => {
-    handlePutUrl(`/broadcast/${router.query.broadcastId}`, body, body.token);
-    toast.success("保存しました");
-    setUrlValue("");
+    if (myArray === false || SearchArray !== 0) {
+      toast.error("正しいURLを入力してください");
+    } else {
+      handlePutUrl(`/broadcast/${router.query.broadcastId}`, body, body.token);
+      toast.success("保存しました");
+      setUrlValue("");
+    }
   };
 
   return (
