@@ -10,21 +10,21 @@ type Props = {
 };
 
 export const Item: VFC<Props> = memo((props) => {
-  const resultUser = props.triviaList.filter((items) => {
+  const resultTrivia = props.triviaList.filter((items) => {
     return items.id === props.id;
   })[0];
 
   return (
     <Container>
-      <p>{resultUser.content}</p>
+      <p>{resultTrivia.content}</p>
       <UserCard>
         <User>
           <ImageContainer>
-            <Image src={resultUser.User.image} width={40} height={40} alt="superhero" />
+            <Image src={resultTrivia.User.image} width={40} height={40} alt="superhero" />
           </ImageContainer>
-          <Name>{resultUser.User.name}</Name>
+          <Name>{resultTrivia.User.name}</Name>
         </User>
-        {resultUser.featured ? <div>８７へぇ</div> : null}
+        {resultTrivia.featured ? <div>{resultTrivia.hee}</div> : null}
       </UserCard>
     </Container>
   );

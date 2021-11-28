@@ -20,10 +20,13 @@ import { styled } from "src/utils";
 type Props = {
   status: LiveStatus;
   triviaList: TriviaType[];
+  totalHeeCount: number;
   onTitleCall: (trivia: TriviaType) => void;
+  onWaitTitleCall: () => void;
 };
 
 export const Multicontainers: VFC<Props> = memo((props) => {
+  const [activeId, setActiveId] = useState<number | null>();
   const [items, setItems] = useState<{ [key: string]: number[] }>({
     root: [],
     container1: [],
@@ -41,13 +44,11 @@ export const Multicontainers: VFC<Props> = memo((props) => {
     }
   }, [props.triviaList]);
 
-  const [activeId, setActiveId] = useState<number | null>();
-
   const sensors = useSensors(
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const findContainer = (id: any) => {
@@ -148,18 +149,21 @@ export const Multicontainers: VFC<Props> = memo((props) => {
     if (!activeContainer || !overContainer || activeContainer !== overContainer) {
       return;
     }
-    const body = {
-      hee: 100,
-      featured: true,
-      token: "token3",
-      content: "aaaa",
-    };
 
     /* ============= 仮実装 ============= */
     if (overContainer === "container2") {
       console.info("フィーチャー済み");
-      const result = await handlePutTrivia("/trivia/1", body, body.token);
-      console.info(result);
+      const resultTrivia = props.triviaList.filter((trivia) => {
+        return trivia.id === id;
+      })[0];
+      const PutBody = {
+        content: resultTrivia.content,
+        hee: props.totalHeeCount,
+        featured: true,
+        token: "token3",
+      };
+      const result = await handlePutTrivia(`/trivia/${id}`, PutBody);
+      props.onWaitTitleCall();
     }
 
     const activeIndex = items[activeContainer].indexOf(event.active.id);
@@ -183,7 +187,7 @@ export const Multicontainers: VFC<Props> = memo((props) => {
       })[0];
       props.onTitleCall(engivia);
     },
-    [props.onTitleCall]
+    [props.onTitleCall],
   );
 
   return (
