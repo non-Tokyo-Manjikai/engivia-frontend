@@ -4,6 +4,7 @@ import { io } from "socket.io-client";
 import { BroadcastHeader } from "src/components";
 import { Multicontainers } from "src/components/dnd";
 import { Button } from "src/components/styled";
+import { totalCount } from "src/functions/totalCount";
 import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { styled } from "src/utils";
 
@@ -17,15 +18,19 @@ const sampleUserInfo = {
   content: "HTMLにはポータルという要素がある",
 };
 
+type ConnectUser = {
+  id: string;
+  name: string;
+  image: string;
+  heeCount: number;
+};
+
 const LiveAdminPage: NextPage = () => {
   const { data, isError, isLoading, isEmpty } = useGetEngiviaInfo("/broadcast/1", "token3");
+  const [socket, setSoket] = useState<any>(null);
+  const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
 
-  /* ------- user ------- */
-  // ソケットの通信情報を保持する
-  const [socket, setSoket] = useState<any>();
-
-  /* ------- admin ------- */
-  // 1.soket通信を開始する2
+  // 放送開始
   const handleBeginLive = () => {
     const socket = io("http://localhost:8080", {
       path: "/live",
@@ -35,67 +40,85 @@ const LiveAdminPage: NextPage = () => {
         image: sampleUserInfo.image,
       },
     });
-    // 通信情報を保持する
+    // console.info("通信情報取得", socket);
     setSoket(socket);
+
+    socket.on("get_connect_user", (data) => {
+      // console.info("すべての接続ユーザー取得", data);
+      setConnectUserList(data);
+    });
+
+    socket.on("get_wait_engivia", () => {
+      // console.info("エンジビア待ち状態");
+      setConnectUserList((prev: any) => prev.map((user: any) => ({ ...user, heeCount: 0 })));
+    });
+
+    socket.on("get_hee_user", (data) => {
+      // console.info("へぇしたユーザーID取得", data);
+      setConnectUserList((prev: any) =>
+        prev.map((user: any) => (user.id === data.heeUser.id ? { ...user, heeCount: data.heeUser.count } : user)),
+      );
+    });
   };
 
-  // 3.管理者がタイトルコールをして、エンジビア情報を送信する
+  // タイトルコール送信
   const handleTitleCall = (engivia: any) => {
-    socket.emit("admin_post_title_call", {
+    // console.info("タイトルコール送信", engivia);
+    socket.emit("post_title_call", {
       query: {
         id: engivia.id,
-        name: engivia.name,
-        image: engivia.image,
+        name: engivia.User.name,
+        image: engivia.User.image,
         content: engivia.content,
       },
     });
   };
 
-  // 4.管理者が次のエンジビアを準備する
-  // const handleWaitTitleCall = () => {
-  // 	socket.emit("post_admin_wait_title_call", {});
-  // 	socket.emit("user_post_hee_count", {
-  // 		query: { heeCount: 0 },
-  // 	});
-  // };
+  // フィーチャー済み処理（ユーザー側で待ち状態にさせる）
+  const handleWaitTitleCall = () => {
+    socket.emit("post_wait_engivia");
+  };
 
-  if (isLoading) {
-    <div>loading</div>;
-  }
-  if (isEmpty) {
-    <div>isEmpty</div>;
-  }
-  if (isError) {
-    <div>error</div>;
-  }
+  // 放送終了
+  const handleFinishLive = () => {
+    socket.disconnect();
+    setSoket(null);
+  };
 
+  if (isLoading) <div>loading</div>;
+  if (isEmpty) <div>isEmpty</div>;
+  if (isError) <div>error</div>;
   return (
     <Container>
       <Top>
         <Title>
-          <BroadcastHeader title={data?.title} status={data?.status} />
+          <BroadcastHeader title={`${data?.title}：${totalCount(connectUserList)}へぇ`} status={data?.status} />
         </Title>
 
         <ButtonWrap>
           <UpcommingButtonWrap>
-            <Button color="quaternary" onClick={handleBeginLive}>
-              放送を開始する
-            </Button>
-            <Button color="secondary">編集する</Button>
-            <Button color="secondary">放送を終了する</Button>
+            {!socket ? (
+              <Button color="primary" onClick={handleBeginLive}>
+                放送を開始する
+              </Button>
+            ) : (
+              <Button color="secondary" onClick={handleFinishLive}>
+                放送を終了する
+              </Button>
+            )}
           </UpcommingButtonWrap>
-          {/* {status === "upcoming" ? (
-						<UpcommingButtonWrap>
-							<Button color="quaternary">放送を開始する</Button>
-							<Button color="secondary">編集する</Button>
-						</UpcommingButtonWrap>
-					) : (
-						<Button color="secondary">放送を終了する</Button>
-					)} */}
         </ButtonWrap>
       </Top>
 
-      {data ? <Multicontainers status={data.status} triviaList={data.Trivia} onTitleCall={handleTitleCall} /> : null}
+      {data ? (
+        <Multicontainers
+          status={data.status}
+          triviaList={data.Trivia}
+          totalHeeCount={totalCount(connectUserList)}
+          onTitleCall={handleTitleCall}
+          onWaitTitleCall={handleWaitTitleCall}
+        />
+      ) : null}
     </Container>
   );
 };

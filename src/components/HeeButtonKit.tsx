@@ -2,11 +2,15 @@ import type { VFC } from "react";
 import { memo } from "react";
 import { styled } from "src/utils";
 
-export const HeeButtonKit: VFC = memo(() => {
+type Props = {
+  onClick: () => void;
+};
+
+export const HeeButtonKit: VFC<Props> = memo((props) => {
   return (
     <HeeButtonWrap>
       <HeeButton>
-        <Hee>へぇ</Hee>
+        <Hee onClick={props.onClick}>へぇ</Hee>
         <HeeShadow />
       </HeeButton>
       <HeeBottom />
