@@ -28,7 +28,7 @@ const ArchivePage: NextPage = () => {
   ];
 
   //Youtubeのサイトであるかどうか確認する
-  const myRe = new RegExp("https://www.youtube.com");
+  const myRe = new RegExp("^https://www.youtube.com/embed/");
   const myArray = myRe.test(url);
   const SearchArray = url.search(myRe);
 
