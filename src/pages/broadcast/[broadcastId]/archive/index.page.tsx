@@ -30,7 +30,6 @@ const ArchivePage: NextPage = () => {
   //Youtubeのサイトであるかどうか確認する
   const myRe = new RegExp("^https://www.youtube.com/embed/");
   const myArray = myRe.test(url);
-  const SearchArray = url.search(myRe);
 
   const body = {
     token: Token,
@@ -42,7 +41,7 @@ const ArchivePage: NextPage = () => {
   }, []);
 
   const handleSaveUrl = () => {
-    if (myArray === false || SearchArray !== 0) {
+    if (myArray === false) {
       toast.error("正しいURLを入力してください");
     } else {
       handlePutUrl(`/broadcast/${router.query.broadcastId}`, body, body.token);
