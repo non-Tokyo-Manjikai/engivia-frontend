@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useState } from "react";
 import { io } from "socket.io-client";
 import { BroadcastHeader } from "src/components";
@@ -26,7 +27,8 @@ type ConnectUser = {
 };
 
 const LiveAdminPage: NextPage = () => {
-  const { data, isError, isLoading, isEmpty } = useGetEngiviaInfo("/broadcast/1", "token3");
+  const router = useRouter();
+  const { data, isError, isLoading, isEmpty } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, "token3");
   const [socket, setSoket] = useState<any>(null);
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
 
