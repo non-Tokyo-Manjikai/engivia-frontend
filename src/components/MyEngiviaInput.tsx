@@ -1,25 +1,29 @@
 /* eslint-disable react-hooks/rules-of-hooks */
-import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import type { ChangeEvent, VFC } from "react";
 import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { BroadcastHeader } from "src/components";
 import { Button, PageRoot, Textarea } from "src/components/styled";
 import { handlePutTrivia } from "src/hooks/handlePutTrivia";
 
-const EngiviaInputPage: NextPage = () => {
+export type MyEngiviaInputProps = {
+  token: string;
+};
+
+export const MyEngiviaInput: VFC<MyEngiviaInputProps> = (props) => {
   const [text, setText] = useState("");
   const url = "/trivia";
   const router = useRouter();
+  const { broadcastId } = router.query;
 
-  // 一旦ハードコーディングしているので、ここでは書き換えていない
   const body = {
     content: text,
-    token: "token2",
-    broadcastId: 2,
+    props: props.token,
+    broadcastId,
   };
 
-  const handleOnChange = (e) => {
+  const handleOnChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
   };
 
@@ -28,7 +32,7 @@ const EngiviaInputPage: NextPage = () => {
     const res = await handlePutTrivia(url, body);
     if (res.ok) {
       toast.success("保存に成功しました");
-      router.push("/broadcast");
+      setTimeout(() => router.push("/broadcast"), 2000);
       setText("");
     } else {
       toast.error("保存できませんでした");
@@ -37,7 +41,7 @@ const EngiviaInputPage: NextPage = () => {
 
   return (
     <PageRoot>
-      <BroadcastHeader status="live" title="第1回エンジビアの泉" />
+      <BroadcastHeader status="upcoming" title={`第${broadcastId}回エンジビアの泉`} />
       <Textarea placeholder="エンビジアを入力する" value={text} onChange={handleOnChange} />
       <Button color="primary" onClick={handleSend}>
         保存する
@@ -48,6 +52,3 @@ const EngiviaInputPage: NextPage = () => {
     </PageRoot>
   );
 };
-
-// eslint-disable-next-line import/no-default-export
-export default EngiviaInputPage;
