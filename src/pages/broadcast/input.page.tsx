@@ -20,7 +20,7 @@ const BroadcastInputPage: NextPage = () => {
 
   const handleSaveClick = async () => {
     // タイトル、放送日を指定しないと作成できないようにする。空白文字列も作成できない。
-    if (!broadcastState.title || !broadcastState.scheduledStartTime || /\S/g.test(broadcastState.title)) {
+    if (!broadcastState.title || !broadcastState.scheduledStartTime || !/\S/g.test(broadcastState.title)) {
       toast.error("タイトルと放送日を指定してください");
       return;
     }
@@ -37,6 +37,7 @@ const BroadcastInputPage: NextPage = () => {
       setTimeout(() => router.push("/broadcast"), 2000);
     }
   };
+  console.log(`test: ${/\S/g.test(broadcastState.title)}`);
 
   return (
     <PageRoot>
