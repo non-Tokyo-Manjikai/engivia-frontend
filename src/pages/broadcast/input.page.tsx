@@ -19,7 +19,8 @@ const BroadcastInputPage: NextPage = () => {
   const [buttonDisabledState, setButtonDisabledState] = useState(false);
 
   const handleSaveClick = async () => {
-    if (!broadcastState.title || !broadcastState.scheduledStartTime) {
+    // タイトル、放送日を指定しないと作成できないようにする。空白文字列も作成できない。
+    if (!broadcastState.title || !broadcastState.scheduledStartTime || /\S/g.test(broadcastState.title)) {
       toast.error("タイトルと放送日を指定してください");
       return;
     }
