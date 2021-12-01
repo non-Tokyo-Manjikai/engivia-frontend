@@ -13,15 +13,22 @@ const MyEngiviaPage: NextPage = () => {
   const { broadcastId } = router.query;
   const userInfo = useRecoilValue(userInfoState);
   const broadcastLive = useRecoilValue(broadcastLiveState);
-  useGetEngiviaInfo(`/broadcast/${broadcastId}`, userInfo.token);
+  const { isError, isLoading } = useGetEngiviaInfo(`/broadcast/${broadcastId}`, userInfo.token);
 
-  if (!broadcastLive) return null;
+  if (!broadcastId) return null;
 
   return (
     <PageRoot>
-      {broadcastLive.Trivia?.length !== 0 ? (
+      <BroadcastHeader status="upcoming" title={`第${broadcastId}回エンジビアの泉`} />
+
+      {isLoading ? (
+        <div>loading</div>
+      ) : isError ? (
+        <div>error</div>
+      ) : !broadcastLive ? (
+        <div>no data</div>
+      ) : broadcastLive.Trivia?.length !== 0 ? (
         <>
-          <BroadcastHeader status="upcoming" title={`第${broadcastId}回エンジビアの泉`} />
           <EngiviaCard
             id={broadcastLive.id}
             content={broadcastLive.Trivia[0].content}

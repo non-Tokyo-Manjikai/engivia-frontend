@@ -20,9 +20,8 @@ export const useGetEngiviaInfo = (url: string, token: string) => {
   const setBroadcast = useSetRecoilState(broadcastLiveState);
   const { data, error } = useSWR<BroadcastLiveType>([`${API_URL}${url}`, token], fetchWithToken);
 
-  console.log(data);
   useEffect(() => {
-    if (data) setBroadcast(data);
+    if (data?.id) setBroadcast(data);
   }, [data]);
 
   return {
