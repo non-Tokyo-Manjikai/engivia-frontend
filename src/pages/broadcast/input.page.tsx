@@ -19,6 +19,10 @@ const BroadcastInputPage: NextPage = () => {
   const [buttonDisabledState, setButtonDisabledState] = useState(false);
 
   const handleSaveClick = async () => {
+    if (!broadcastState.title || !broadcastState.scheduledStartTime) {
+      toast.error("タイトルと放送日を指定してください");
+      return;
+    }
     // 連続クリックで重複して送信しないようにする
     setButtonDisabledState(true);
     const toastId = toast.loading("Sending...");
