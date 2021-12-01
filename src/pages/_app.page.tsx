@@ -16,12 +16,12 @@ const MyApp = (props: AppProps) => {
         fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
       }}
     >
-			<IdProvider>
-				<RecoilRoot>
-        <Layout>
-          <props.Component {...props.pageProps} />
-        </Layout>
-				</RecoilRoot>
+      <IdProvider>
+        <RecoilRoot>
+          <Layout>
+            <props.Component {...props.pageProps} />
+          </Layout>
+        </RecoilRoot>
       </IdProvider>
     </SWRConfig>
   );
