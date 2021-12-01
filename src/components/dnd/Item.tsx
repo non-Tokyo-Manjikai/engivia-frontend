@@ -1,18 +1,23 @@
 import Image from "next/image";
 import type { VFC } from "react";
 import { memo } from "react";
+import { useRecoilValue } from "recoil";
+import { broadcastLiveState } from "src/components/atoms";
 import type { TriviaType } from "src/types";
 import { styled } from "src/utils";
 
 type Props = {
   id: number;
-  triviaList: TriviaType[];
 };
 
 export const Item: VFC<Props> = memo((props) => {
-  const resultTrivia = props.triviaList.filter((items) => {
+  const broadcast = useRecoilValue(broadcastLiveState);
+
+  const resultTrivia = broadcast?.Trivia.filter((items) => {
     return items.id === props.id;
   })[0];
+
+  if (!resultTrivia) return null;
 
   return (
     <Container>

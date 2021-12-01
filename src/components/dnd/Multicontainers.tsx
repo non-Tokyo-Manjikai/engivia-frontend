@@ -11,21 +11,22 @@ import {
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import type { VFC } from "react";
 import { memo, useCallback, useEffect, useState } from "react";
+import { useRecoilState } from "recoil";
+import { broadcastLiveState } from "src/components/atoms";
 import { Item, SortableContainer } from "src/components/dnd";
 import { Button } from "src/components/styled";
 import { handlePutTrivia } from "src/hooks/handlePutTrivia";
-import type { LiveStatus, TriviaType } from "src/types";
+import type { TriviaType } from "src/types";
 import { styled } from "src/utils";
 
 type Props = {
-  status: LiveStatus;
-  triviaList: TriviaType[];
   totalHeeCount: number;
   onTitleCall: (trivia: TriviaType) => void;
   onWaitTitleCall: () => void;
 };
 
 export const Multicontainers: VFC<Props> = memo((props) => {
+  const [broadcast, setBroadcast] = useRecoilState(broadcastLiveState);
   const [activeId, setActiveId] = useState<number | null>();
   const [items, setItems] = useState<{ [key: string]: number[] }>({
     root: [],
@@ -34,15 +35,23 @@ export const Multicontainers: VFC<Props> = memo((props) => {
   });
 
   useEffect(() => {
-    const triviaList = props.triviaList?.map((trivia: TriviaType) => trivia.id);
-    if (triviaList) {
-      setItems({
-        root: [...triviaList],
-        container1: [],
-        container2: [],
+    const rootTriviaList = broadcast?.Trivia?.reduce((nonFeature: number[], current: TriviaType) => {
+      return !current.featured ? [...nonFeature, current.id] : nonFeature;
+    }, []);
+    const featuredTriviaList = broadcast?.Trivia?.reduce((nonFeature: number[], current: TriviaType) => {
+      return current.featured ? [...nonFeature, current.id] : nonFeature;
+    }, []);
+
+    if (rootTriviaList && featuredTriviaList) {
+      setItems((prev) => {
+        return {
+          root: [...rootTriviaList],
+          container1: [],
+          container2: [...featuredTriviaList],
+        };
       });
     }
-  }, [props.triviaList]);
+  }, [broadcast]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -71,9 +80,11 @@ export const Multicontainers: VFC<Props> = memo((props) => {
     const { id } = active;
     const { id: overId } = over;
 
-    const activeEngivia = props.triviaList.filter((item) => {
+    const activeEngivia = broadcast?.Trivia.filter((item) => {
       return item.id === id;
     })[0];
+
+    if (!activeEngivia) return;
 
     const activeContainer = findContainer(id);
     const overContainer = findContainer(overId);
@@ -101,7 +112,7 @@ export const Multicontainers: VFC<Props> = memo((props) => {
     // 	return;
     // }
 
-    if (props.status === "live" && over) {
+    if (broadcast?.status === "live" && over) {
       setItems((prev: any) => {
         const activeItems = prev[activeContainer];
         const overItems = prev[overContainer];
@@ -153,16 +164,23 @@ export const Multicontainers: VFC<Props> = memo((props) => {
     /* ============= 仮実装 ============= */
     if (overContainer === "container2") {
       console.info("フィーチャー済み");
-      const resultTrivia = props.triviaList.filter((trivia) => {
+      const resultTrivia = broadcast?.Trivia.filter((trivia) => {
         return trivia.id === id;
       })[0];
       const PutBody = {
-        content: resultTrivia.content,
+        content: resultTrivia?.content,
         hee: props.totalHeeCount,
         featured: true,
         token: "token3",
       };
       const result = await handlePutTrivia(`/trivia/${id}`, PutBody);
+      setBroadcast((prevState) => {
+        if (prevState) {
+          const resultTrivia = prevState.Trivia.map((trivia) => (trivia.id === result.id ? result : trivia));
+          return { ...prevState, Trivia: resultTrivia };
+        }
+        return prevState;
+      });
       props.onWaitTitleCall();
     }
 
@@ -182,10 +200,10 @@ export const Multicontainers: VFC<Props> = memo((props) => {
 
   const handleTitleCall = useCallback(
     (currentId) => {
-      const engivia = props.triviaList.filter((item) => {
+      const engivia = broadcast?.Trivia.filter((item) => {
         return item.id === currentId;
       })[0];
-      props.onTitleCall(engivia);
+      if (engivia) props.onTitleCall(engivia);
     },
     [props.onTitleCall],
   );
@@ -208,16 +226,11 @@ export const Multicontainers: VFC<Props> = memo((props) => {
           gap: "1rem",
         }}
       >
-        <SortableContainer id="root" items={items.root} triviaList={props.triviaList} title="フィーチャー前" />
+        <SortableContainer id="root" items={items.root} title="フィーチャー前" />
 
         <div>
-          <SortableContainer
-            id="container1"
-            items={items.container1}
-            triviaList={props.triviaList}
-            title="フィーチャー中"
-          />
-          {props.status === "live" ? (
+          <SortableContainer id="container1" items={items.container1} title="フィーチャー中" />
+          {broadcast?.status === "live" ? (
             items.container1.length === 0 ? (
               <Feature>
                 <div>フィーチャーする</div>
@@ -233,19 +246,14 @@ export const Multicontainers: VFC<Props> = memo((props) => {
         </div>
 
         <div>
-          <SortableContainer
-            id="container2"
-            items={items.container2}
-            triviaList={props.triviaList}
-            title="フィーチャー済み"
-          />
-          {props.status === "live" && items.container1.length === 1 ? (
+          <SortableContainer id="container2" items={items.container2} title="フィーチャー済み" />
+          {broadcast?.status === "live" && items.container1.length === 1 ? (
             <Feature>
               <div>フィーチャーを終える</div>
             </Feature>
           ) : null}
         </div>
-        <DragOverlay>{activeId ? <Item id={activeId} triviaList={props.triviaList} /> : null}</DragOverlay>
+        <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
       </div>
     </DndContext>
   );
