@@ -2,7 +2,7 @@ import type { VFC } from "react";
 import { styled } from "src/utils";
 
 type Props = {
-  id: number | string;
+  id: number;
   name: string;
   image?: string;
   content: string;
