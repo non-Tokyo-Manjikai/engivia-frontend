@@ -6,39 +6,39 @@ import type { TriviaType } from "src/types";
 import { styled } from "src/utils";
 
 type Props = {
-	id: string;
-	items: any;
-	title: string;
-	triviaList: TriviaType[];
+  id: string;
+  items: any;
+  title: string;
+  triviaList: TriviaType[];
 };
 
 export const SortableContainer: VFC<Props> = (props) => {
-	const { setNodeRef } = useDroppable({
-		id: props.id,
-	});
+  const { setNodeRef } = useDroppable({
+    id: props.id,
+  });
 
-	return (
-		<>
-			<SortableContext id={props.id} items={props.items} strategy={verticalListSortingStrategy}>
-				<div ref={setNodeRef}>
-					<Title>{props.title}</Title>
-					{props.items.map((id: number) => {
-						return <SortableItem key={id} id={id} triviaList={props.triviaList} />;
-					})}
-				</div>
-			</SortableContext>
-		</>
-	);
+  return (
+    <>
+      <SortableContext id={props.id} items={props.items} strategy={verticalListSortingStrategy}>
+        <div ref={setNodeRef}>
+          <Title>{props.title}</Title>
+          {props.items.map((id: number) => {
+            return <SortableItem key={id} id={id} triviaList={props.triviaList} />;
+          })}
+        </div>
+      </SortableContext>
+    </>
+  );
 };
 
 const Title = styled("div", {
-	padding: "1.25rem",
+  padding: "1.25rem",
 
-	fontSize: "0.875rem",
-	lineHeight: "1.25rem",
-	fontWeight: "bold",
-	textAlign: "center",
+  fontSize: "0.875rem",
+  lineHeight: "1.25rem",
+  fontWeight: "bold",
+  textAlign: "center",
 
-	backgroundColor: "$slate7",
-	borderRadius: "0.75rem",
+  backgroundColor: "$slate7",
+  borderRadius: "0.75rem",
 });

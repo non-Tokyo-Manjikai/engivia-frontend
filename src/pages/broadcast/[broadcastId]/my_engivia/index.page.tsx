@@ -8,12 +8,6 @@ import { Button, PageRoot } from "src/components/styled";
 import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { styled } from "src/utils";
 
-const ButtonWrap = styled("div", {
-  display: "flex",
-  justifyContent: "center",
-  gap: "2rem",
-});
-
 const MyEngiviaPage: NextPage = () => {
   const router = useRouter();
   const { broadcastId } = router.query;
@@ -46,3 +40,9 @@ const MyEngiviaPage: NextPage = () => {
 };
 // eslint-disable-next-line import/no-default-export
 export default MyEngiviaPage;
+
+const ButtonWrap = styled("div", {
+  display: "flex",
+  justifyContent: "center",
+  gap: "2rem",
+});

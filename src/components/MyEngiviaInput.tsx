@@ -29,7 +29,7 @@ export const MyEngiviaInput: VFC<MyEngiviaInputProps> = (props) => {
 
   const handleSend = async () => {
     if (text === "") return;
-    const res = await handlePutTrivia(url, body);
+    const res = await handlePutTrivia(url, body, body.token);
     if (res.ok) {
       toast.success("保存に成功しました");
       setTimeout(() => router.push("/broadcast"), 2000);
