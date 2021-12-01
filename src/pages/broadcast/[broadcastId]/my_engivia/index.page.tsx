@@ -2,7 +2,7 @@ import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useRecoilValue } from "recoil";
 import { BroadcastHeader, EngiviaCard } from "src/components";
-import { broadcastLiveState, userInfoState } from "src/components/atoms";
+import { userInfoState } from "src/components/atoms";
 import { MyEngiviaInput } from "src/components/MyEngiviaInput";
 import { Button, PageRoot } from "src/components/styled";
 import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
@@ -12,8 +12,7 @@ const MyEngiviaPage: NextPage = () => {
   const router = useRouter();
   const { broadcastId } = router.query;
   const userInfo = useRecoilValue(userInfoState);
-  const broadcastLive = useRecoilValue(broadcastLiveState);
-  const { isError, isLoading } = useGetEngiviaInfo(`/broadcast/${broadcastId}`, userInfo.token);
+  const { data, isError, isLoading } = useGetEngiviaInfo(`/broadcast/${broadcastId}`, userInfo.token);
 
   if (!broadcastId) return null;
 
@@ -25,15 +24,11 @@ const MyEngiviaPage: NextPage = () => {
         <div>loading</div>
       ) : isError ? (
         <div>error</div>
-      ) : !broadcastLive ? (
+      ) : !data?.id ? (
         <div>no data</div>
-      ) : broadcastLive.Trivia?.length !== 0 ? (
+      ) : data.Trivia?.length !== 0 ? (
         <>
-          <EngiviaCard
-            id={broadcastLive.id}
-            content={broadcastLive.Trivia[0].content}
-            name={broadcastLive.Trivia[0].User.name}
-          />
+          <EngiviaCard id={data.id} content={data.Trivia[0].content} name={data.Trivia[0].User.name} />
           <ButtonWrap>
             <Button color="primary">編集する</Button>
             <Button color="secondary">削除する</Button>
