@@ -19,7 +19,7 @@ export const MyEngiviaInput: VFC<MyEngiviaInputProps> = (props) => {
 
   const body = {
     content: text,
-    props: props.token,
+    token: props.token,
     broadcastId,
   };
 

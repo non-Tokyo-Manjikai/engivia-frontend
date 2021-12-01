@@ -30,8 +30,8 @@ const MyEngiviaPage: NextPage = () => {
           <BroadcastHeader status="upcoming" title={`第${broadcastId}回エンジビアの泉`} />
           <EngiviaCard
             id={broadcastLive.id}
-            // content={broadcastLive.Trivia[0].content}
-            // name={broadcastLive.Trivia[0].User.name}
+            content={broadcastLive.Trivia[0].content}
+            name={broadcastLive.Trivia[0].User.name}
           />
           <ButtonWrap>
             <Button color="primary">編集する</Button>
