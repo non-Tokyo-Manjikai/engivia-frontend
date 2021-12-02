@@ -10,7 +10,7 @@ type Props = {
   /* isResult */
   isResult?: true;
   engiviaNumber?: number;
-  heeCount?: number;
+  heeCount?: number | null;
 };
 
 export const EngiviaCard: VFC<Props> = (props) => {

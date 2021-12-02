@@ -4,4 +4,5 @@ export type BroadcastListType = {
   scheduledStartTime: string;
   status: "live" | "upcoming" | "ended";
   count: number;
+  archiveUrl: string;
 };
