@@ -13,7 +13,7 @@ import type { VFC } from "react";
 import { memo, useCallback, useEffect, useState } from "react";
 import { Item, SortableContainer } from "src/components/dnd";
 import { Button } from "src/components/styled";
-import { handlePutTrivia } from "src/hooks/handlePutTrivia";
+import { postTrivia } from "src/hooks/postTrivia";
 import type { LiveStatus, TriviaType } from "src/types";
 import { styled } from "src/utils";
 
@@ -47,7 +47,7 @@ export const Multicontainers: VFC<Props> = memo((props) => {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const findContainer = (id: any) => {
@@ -158,7 +158,7 @@ export const Multicontainers: VFC<Props> = memo((props) => {
     /* ============= 仮実装 ============= */
     if (overContainer === "container2") {
       console.info("フィーチャー済み");
-      const result = await handlePutTrivia("/trivia/1", body, body.token);
+      const result = await postTrivia("/trivia/1", body, body.token);
       console.info(result);
     }
 
@@ -183,7 +183,7 @@ export const Multicontainers: VFC<Props> = memo((props) => {
       })[0];
       props.onTitleCall(engivia);
     },
-    [props.onTitleCall]
+    [props.onTitleCall],
   );
 
   return (
