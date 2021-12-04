@@ -6,6 +6,7 @@ type Props = {
   name: string;
   image?: string;
   content: string;
+  hee: number | null;
 
   /* isResult */
   isResult?: true;
@@ -29,7 +30,7 @@ export const EngiviaCard: VFC<Props> = (props) => {
             </UserInfoWrap>
             {props.isResult ? (
               <HeeWrap>
-                <HeeCount>{props.heeCount}</HeeCount>へぇ
+                <HeeCount>{props.hee}</HeeCount>へぇ
               </HeeWrap>
             ) : null}
           </Content>
