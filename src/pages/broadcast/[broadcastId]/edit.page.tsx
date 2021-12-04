@@ -18,7 +18,7 @@ const BroadcastEditPage: NextPage = () => {
   const { data, isError, isEmpty } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, userInfo.token);
   const [dateValue, setDateValue] = useState<string>("");
   const [titleValue, setTitleValue] = useState("");
-  console.log(userInfo.token);
+  const [buttonDisabledState, setButtonDisabledState] = useState(false);
 
   if (isError) {
     toast.error("エラーが起きました");
@@ -50,6 +50,14 @@ const BroadcastEditPage: NextPage = () => {
   };
 
   const handleSaveEngiviaInfo = async () => {
+    // タイトル、放送日を指定しないと作成できないようにする。空白文字列も作成できない。
+    if (!dateValue || !titleValue || !/\S/g.test(titleValue)) {
+      toast.error("タイトルと放送日を指定してください");
+      return;
+    }
+    // 連続クリックで重複して送信しないようにする
+    setButtonDisabledState(true);
+
     const NewDate = new Date(dateValue);
     const NewScheduledStartTime = NewDate.toISOString();
     const body = {
@@ -62,6 +70,7 @@ const BroadcastEditPage: NextPage = () => {
     const statusCode = await handlePutTrivia(`/broadcast/${router.query.broadcastId}`, body, body.token);
     if (statusCode >= 400) {
       toast.error(`error: ${statusCode}`, { id: toastId });
+      setButtonDisabledState(false);
     } else {
       toast.success("保存成功しました", { id: toastId });
       // トーストを表示した2秒後にページ遷移する
@@ -75,10 +84,10 @@ const BroadcastEditPage: NextPage = () => {
       <Input type="text" placeholder="タイトルを入力する" value={titleValue} onChange={handleTitleChange} />
       <Input type="date" value={dateValue} onChange={handleDateChange} />
       <ButtonWrap>
-        <Button color="primary" onClick={handleSaveEngiviaInfo}>
+        <Button color="primary" disabled={buttonDisabledState} onClick={handleSaveEngiviaInfo}>
           保存する
         </Button>
-        <Button color="secondary" onClick={handleCancel}>
+        <Button color="secondary" disabled={buttonDisabledState} onClick={handleCancel}>
           キャンセル
         </Button>
       </ButtonWrap>
