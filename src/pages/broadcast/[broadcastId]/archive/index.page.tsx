@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 import { BroadcastHeader, EngiviaCard } from "src/components";
 import { Button, Input, PageRoot } from "src/components/styled";
-import { handlePutUrl } from "src/hooks/handlePutUrl";
+import { handlePutTrivia } from "src/hooks/handlePutTrivia";
 import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { useGetUserInfo } from "src/hooks/useGetUserInfo";
 import toast, { Toaster } from "react-hot-toast";
@@ -44,7 +44,7 @@ const ArchivePage: NextPage = () => {
     if (myArray === false) {
       toast.error("正しいURLを入力してください");
     } else {
-      handlePutUrl(`/broadcast/${router.query.broadcastId}`, body, body.token);
+      handlePutTrivia(`/broadcast/${router.query.broadcastId}`, body, body.token);
       toast.success("保存しました");
       setUrlValue("");
     }
