@@ -1,6 +1,6 @@
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import type { VFC } from "react";
+import { memo, VFC } from "react";
 import { SortableItem } from "src/components/dnd";
 import { styled } from "src/utils";
 
@@ -10,7 +10,7 @@ type Props = {
   title: string;
 };
 
-export const SortableContainer: VFC<Props> = (props) => {
+export const SortableContainer: VFC<Props> = memo((props) => {
   const { setNodeRef } = useDroppable({
     id: props.id,
   });
@@ -25,7 +25,7 @@ export const SortableContainer: VFC<Props> = (props) => {
       </div>
     </SortableContext>
   );
-};
+});
 
 const Title = styled("div", {
   padding: "1.25rem",
