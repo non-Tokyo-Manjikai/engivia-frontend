@@ -9,25 +9,26 @@ import { useGetUserInfo } from "src/hooks/useGetUserInfo";
 import toast, { Toaster } from "react-hot-toast";
 
 import { styled } from "src/utils";
-
-//トークンを入手する機能を後で追加
-const Token = "admin-token1";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "src/components/atoms";
 
 const ArchivePage: NextPage = () => {
   const router = useRouter();
+  const userInfo = useRecoilValue(userInfoState);
+  const Token = userInfo.token;
   const { data } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, Token);
-  const { data: userInfo } = useGetUserInfo("/user", Token);
+  const { data: User } = useGetUserInfo("/user", Token);
   const [url, setUrlValue] = useState("");
 
   const [IsAdmin, Status, URL, Trivia, Title] = [
-    userInfo?.isAdmin,
+    User?.isAdmin,
     data?.status,
     data?.archiveUrl,
     data?.Trivia,
     data?.title,
   ];
 
-  //Youtubeのサイトであるかどうか確認する
+  //Youtubeのサイトであるかどうか確認する「https://www.youtube.com/embed/OWoKzNxZWw8」(試し用URL)
   const myRe = new RegExp("^https://www.youtube.com/embed/");
   const myArray = myRe.test(url);
 
