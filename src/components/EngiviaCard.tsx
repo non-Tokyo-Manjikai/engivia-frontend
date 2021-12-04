@@ -2,16 +2,13 @@ import type { VFC } from "react";
 import { styled } from "src/utils";
 
 type Props = {
-  id: number;
-  name: string;
+  id?: number;
+  name?: string;
   image?: string;
   content: string;
-  hee: number | null;
-
-  /* isResult */
   isResult?: true;
-  engiviaNumber?: number;
   heeCount?: number;
+  engiviaNumber?: number;
 };
 
 export const EngiviaCard: VFC<Props> = (props) => {
@@ -30,7 +27,7 @@ export const EngiviaCard: VFC<Props> = (props) => {
             </UserInfoWrap>
             {props.isResult ? (
               <HeeWrap>
-                <HeeCount>{props.hee}</HeeCount>へぇ
+                <HeeCount>{props.heeCount}</HeeCount>へぇ
               </HeeWrap>
             ) : null}
           </Content>

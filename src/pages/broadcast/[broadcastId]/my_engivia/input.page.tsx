@@ -25,7 +25,7 @@ const EngiviaInputPage: NextPage = () => {
 
   const handleSend = async () => {
     if (text === "") return;
-    const res = await handlePutTrivia(url, body, body.token);
+    const res = await handlePutTrivia(url, body);
     if (res.ok) {
       toast.success("保存に成功しました");
       router.push("/broadcast");
