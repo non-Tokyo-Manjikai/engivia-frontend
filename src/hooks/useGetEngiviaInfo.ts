@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { API_URL } from "src/constants/API_URL";
@@ -22,10 +21,20 @@ export const useGetEngiviaInfo = (url: string, token: string) => {
   const { data, error } = useSWRImmutable<BroadcastLiveType>([`${API_URL}${url}`, token], fetchWithToken);
 
   useEffect(() => {
-    if (data) setBroadcast(data);
+    console.info(data);
+    if (data) {
+      const numberAddTriviaList = data.Trivia?.map((item, index) => {
+        return {
+          ...item,
+          engiviaNumber: index + 1,
+        };
+      });
+      setBroadcast({ ...data, Trivia: numberAddTriviaList });
+    }
   }, [data]);
 
   return {
+    data: data,
     isError: error,
     isLoading: !error && !data,
     isEmpty: data && data === undefined,

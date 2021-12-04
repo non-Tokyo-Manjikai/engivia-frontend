@@ -9,18 +9,8 @@ import { totalCount } from "src/functions/totalCount";
 import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { handlePutBroadcast } from "src/hooks/handlePutBroadcast";
 import { styled } from "src/utils";
-import { useRecoilState } from "recoil";
-import { broadcastLiveState } from "src/components/atoms";
-
-// ユーザー情報
-const sampleUserInfo = {
-  id: "ABCDE123",
-  name: "ぽんたん",
-  image:
-    "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
-  isAdmin: true,
-  content: "HTMLにはポータルという要素がある",
-};
+import { useRecoilState, useRecoilValue } from "recoil";
+import { broadcastLiveState, userInfoState } from "src/components/atoms";
 
 type ConnectUser = {
   id: string;
@@ -29,16 +19,18 @@ type ConnectUser = {
   heeCount: number;
 };
 
+const putBody = { status: "live" };
+
 const LiveAdminPage: NextPage = () => {
   const router = useRouter();
-  const { isError, isLoading, isEmpty } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, "token3");
   const [socket, setSoket] = useState<any>(null);
+  const userInfo = useRecoilValue(userInfoState);
   const [broadcast, setBroadcast] = useRecoilState(broadcastLiveState);
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
+  const { data, isError, isEmpty, isLoading } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, "token3");
 
   // 放送開始
   const handleBeginLive = async () => {
-    const putBody = { status: "live" };
     const result = await handlePutBroadcast(`/broadcast/${router.query.broadcastId}`, putBody, "token3");
     if (result.id) {
       setBroadcast((prevState) => {
@@ -52,9 +44,9 @@ const LiveAdminPage: NextPage = () => {
     const socket = io("http://localhost:8080", {
       path: "/live",
       query: {
-        id: sampleUserInfo.id,
-        name: sampleUserInfo.name,
-        image: sampleUserInfo.image,
+        id: userInfo.id,
+        name: userInfo.name,
+        image: userInfo.image,
       },
     });
     // console.info("通信情報取得", socket);
@@ -87,15 +79,14 @@ const LiveAdminPage: NextPage = () => {
         name: engivia.User.name,
         image: engivia.User.image,
         content: engivia.content,
+        engiviaNumber: engivia.engiviaNumber,
       },
     });
   };
-
   // フィーチャー済み処理（ユーザー側で待ち状態にさせる）
   const handleWaitTitleCall = () => {
     socket.emit("post_wait_engivia");
   };
-
   // 放送終了
   const handleFinishLive = async () => {
     socket.disconnect();
@@ -113,30 +104,27 @@ const LiveAdminPage: NextPage = () => {
   };
 
   useEffect(() => {
-    if (broadcast?.status === "live") handleBeginLive();
+    if (!socket && broadcast?.status === "live") handleBeginLive();
   }, [broadcast]);
 
-  if (isLoading) <div>loading</div>;
-  if (isEmpty) <div>isEmpty</div>;
-  if (isError) <div>error</div>;
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error...</div>;
+  if (!data) return <div>Empty...</div>;
 
   return (
     <Container>
       <Top>
         <Title>
-          <BroadcastHeader
-            title={`${broadcast?.title}：${totalCount(connectUserList)}へぇ`}
-            status={broadcast?.status}
-          />
+          <BroadcastHeader title={`${data.title}：${totalCount(connectUserList)}へぇ`} status={data.status} />
         </Title>
 
         <ButtonWrap>
           <UpcommingButtonWrap>
-            {broadcast?.status === "upcoming" ? (
+            {data?.status === "upcoming" ? (
               <Button color="primary" onClick={handleBeginLive}>
                 放送を開始する
               </Button>
-            ) : broadcast?.status === "live" ? (
+            ) : data?.status === "live" ? (
               <Button color="secondary" onClick={handleFinishLive}>
                 放送を終了する
               </Button>
@@ -145,13 +133,11 @@ const LiveAdminPage: NextPage = () => {
         </ButtonWrap>
       </Top>
 
-      {broadcast ? (
-        <Multicontainers
-          totalHeeCount={totalCount(connectUserList)}
-          onTitleCall={handleTitleCall}
-          onWaitTitleCall={handleWaitTitleCall}
-        />
-      ) : null}
+      <Multicontainers
+        totalHeeCount={totalCount(connectUserList)}
+        onTitleCall={handleTitleCall}
+        onWaitTitleCall={handleWaitTitleCall}
+      />
     </Container>
   );
 };

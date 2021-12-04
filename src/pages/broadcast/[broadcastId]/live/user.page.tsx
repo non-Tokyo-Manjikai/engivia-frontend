@@ -1,36 +1,20 @@
 import type { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { io } from "socket.io-client";
 import { BroadcastHeader, EngiviaCard, HeeButtonKit, HeeList } from "src/components";
+import { userInfoState } from "src/components/atoms";
 import { Button, PageRoot } from "src/components/styled";
+import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
 import { totalCount } from "src/functions/totalCount";
 import { styled } from "src/utils";
-
-// ユーザー情報
-const sampleUserInfo = [
-  {
-    id: "ABCDE456",
-    name: "みやさん",
-    image:
-      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
-    isAdmin: false,
-    content: "HTMLにはポータルという要素がある",
-  },
-  {
-    id: "ABCDE789",
-    name: "カタンシャン",
-    image:
-      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
-    isAdmin: false,
-    content: "HTMLにはポータルという要素がある",
-  },
-];
 
 type Engivia = {
   id: number;
   name: string;
   image: string;
   content: string;
+  engiviaNumber: number;
 };
 
 type ConnectUser = {
@@ -40,19 +24,15 @@ type ConnectUser = {
   heeCount: number;
 };
 
-const initEngivia = {
-  id: 0,
-  name: "",
-  image: "",
-  content: "",
-};
-
 const LiveUserPage: NextPage = () => {
   const [socket, setSoket] = useState<any>();
   const [heeCount, setHeeCount] = useState<number>(0);
-  const [viewEngivia, setViewEngivia] = useState<Engivia>(initEngivia);
+  const [viewEngivia, setViewEngivia] = useState<Engivia>(INIT_ENGIVIA);
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
+  // 本番用
+  // const userInfo = useRecoilValue(userInfoState);
 
+  // 開発用
   const [selectUser, setSelectUser] = useState(0);
   const handleChange = (value: number) => {
     setSelectUser(value);
@@ -63,9 +43,14 @@ const LiveUserPage: NextPage = () => {
     const socket = io("http://localhost:8080", {
       path: "/live",
       query: {
+        // 開発用
         id: sampleUserInfo[selectUser].id,
         name: sampleUserInfo[selectUser].name,
         image: sampleUserInfo[selectUser].image,
+        // 本番用
+        // id: userInfo.id,
+        // name: userInfo.name,
+        // image: userInfo.image,
       },
     });
     // console.info("通信情報取得", socket);
@@ -83,9 +68,9 @@ const LiveUserPage: NextPage = () => {
 
     socket.on("get_wait_engivia", () => {
       // console.info("エンジビア待ち状態");
-      setHeeCount(0);
-      setViewEngivia(initEngivia);
       setConnectUserList((prev: any) => prev.map((user: any) => ({ ...user, heeCount: 0 })));
+      setHeeCount(0);
+      setViewEngivia(INIT_ENGIVIA);
     });
 
     socket.on("get_hee_user", (data) => {
@@ -96,12 +81,14 @@ const LiveUserPage: NextPage = () => {
     });
   };
 
+  // 本番用
   // useEffect(() => {
   //   handleLiveConnect();
   // }, []);
 
   // へぇカウント送信
   const handleHeeClick = () => {
+    if (viewEngivia.id === 0) return;
     socket.emit("post_hee_user", {
       query: { count: heeCount + 1 },
     });
@@ -158,3 +145,23 @@ const ListWrapper = styled("aside", {
   height: "calc(100vh - 4.2rem)",
   overflowY: "auto",
 });
+
+// 開発用
+const sampleUserInfo = [
+  {
+    id: "ABCDE456",
+    name: "みやさん",
+    image:
+      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+    isAdmin: false,
+    content: "HTMLにはポータルという要素がある",
+  },
+  {
+    id: "ABCDE789",
+    name: "カタンシャン",
+    image:
+      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+    isAdmin: false,
+    content: "HTMLにはポータルという要素がある",
+  },
+];
