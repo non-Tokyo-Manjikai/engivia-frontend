@@ -6,6 +6,7 @@ export type User = {
   name: string;
   image: string;
   isAdmin: boolean;
+  token: string;
 };
 
 export type TriviaType = {

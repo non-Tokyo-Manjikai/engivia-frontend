@@ -77,7 +77,7 @@ const ArchivePage: NextPage = () => {
               content={item.content}
               name={item.User.name}
               isResult
-              hee={item.hee}
+              heeCount={item.hee}
               engiviaNumber={index + 1}
             />
           ))
