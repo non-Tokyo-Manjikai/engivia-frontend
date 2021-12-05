@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { BroadcastHeader, EngiviaCard } from "src/components";
 import { userInfoState } from "src/components/atoms";
@@ -15,17 +15,16 @@ const MyEngiviaPage: NextPage = () => {
   const userInfo = useRecoilValue(userInfoState);
   const { data, isError, isLoading } = useGetEngiviaInfo(`/broadcast/${broadcastId}`, userInfo.token);
   const [edit, setEdit] = useState(false);
+
+  const handleEditToggle = useCallback(() => {
+    setEdit((edit) => !edit);
+  }, []);
+
   if (!broadcastId) return null;
-  const handleEdit = () => {
-    setEdit(true);
-  };
-  const handleCancel = () => {
-    setEdit(false);
-  };
 
   return (
     <PageRoot>
-      <BroadcastHeader status="upcoming" title={`第${broadcastId}回エンジビアの泉`} />
+      <BroadcastHeader status="upcoming" title={data?.title} />
 
       {isLoading ? (
         <div>loading</div>
@@ -37,12 +36,12 @@ const MyEngiviaPage: NextPage = () => {
         <>
           {edit ? (
             <>
-              <Textarea placeholder={data.Trivia[0].content} />
+              <Textarea value={data.Trivia[0].content} />
               <ButtonWrap>
-                <Button color="primary" onClick={handleEdit}>
+                <Button color="primary" onClick={handleEditToggle}>
                   保存する
                 </Button>
-                <Button color="secondary" onClick={handleCancel}>
+                <Button color="secondary" onClick={handleEditToggle}>
                   キャンセル
                 </Button>
               </ButtonWrap>
@@ -51,7 +50,7 @@ const MyEngiviaPage: NextPage = () => {
             <>
               <EngiviaCard id={data.id} content={data.Trivia[0].content} name={data.Trivia[0].User.name} />
               <ButtonWrap>
-                <Button color="primary" onClick={handleEdit}>
+                <Button color="primary" onClick={handleEditToggle}>
                   編集する
                 </Button>
                 <Button color="secondary">削除する</Button>
