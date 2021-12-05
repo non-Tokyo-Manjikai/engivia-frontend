@@ -9,7 +9,7 @@ type Props = {
 
 export const Layout: VFC<Props> = (props) => {
   const router = useRouter();
-  const notSignin = router.pathname !== "/signin";
+  const notSignin = router.pathname !== "/signin" && router.pathname !== "/signin/oauth_redirect";
 
   return (
     <Root>
