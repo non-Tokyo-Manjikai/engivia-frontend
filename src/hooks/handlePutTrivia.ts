@@ -1,11 +1,11 @@
 import { API_URL } from "src/constants/API_URL";
 import fetch from "unfetch";
 
-export const handlePutTrivia = (url: string, body: any) => {
+export const handlePutTrivia = (url: string, body: any, token: string) => {
   return fetch(`${API_URL}${url}`, {
     method: "PUT",
     headers: {
-      Authorization: `Bearer ${body.token}`,
+      Authorization: `Bearer ${token}`,
       "Content-Type": "application/json",
     },
     body: JSON.stringify({ ...body }),
