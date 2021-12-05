@@ -47,7 +47,7 @@ export const Multicontainers: VFC<Props> = memo((props) => {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const findContainer = (id: any) => {
@@ -183,7 +183,7 @@ export const Multicontainers: VFC<Props> = memo((props) => {
       })[0];
       props.onTitleCall(engivia);
     },
-    [props.onTitleCall]
+    [props.onTitleCall],
   );
 
   return (

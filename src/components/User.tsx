@@ -1,13 +1,13 @@
 import { blackA, violet } from "@radix-ui/colors";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import Image from "next/image";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userInfoState } from "src/components/atoms";
 import { UserInfo } from "src/components/UserInfo";
 import { keyframes, styled } from "src/utils";
 
 export const User = () => {
-  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const userInfo = useRecoilValue(userInfoState);
 
   return (
     <Popover>
@@ -30,9 +30,6 @@ export const User = () => {
     </Popover>
   );
 };
-
-// eslint-disable-next-line import/no-default-export
-export default User;
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(2px)" },

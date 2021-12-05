@@ -4,6 +4,7 @@ export type User = {
   id: string;
   name: string;
   image: string;
+  isAdmin: boolean;
 };
 
 export type TriviaType = {
@@ -19,6 +20,7 @@ export type BroadcastLiveType = {
   id: number;
   status: "upcoming" | "live" | "ended";
   title: string;
-  scheduleStartTime: Date;
+  scheduledStartTime: Date;
   Trivia: TriviaType[];
+  archiveUrl: string;
 };

@@ -1,21 +1,69 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
+import { useCallback, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { BroadcastHeader, EngiviaCard } from "src/components";
-import { Button, PageRoot } from "src/components/styled";
+import { userInfoState } from "src/components/atoms";
+import { MyEngiviaInput } from "src/components/MyEngiviaInput";
+import { Button, PageRoot, Textarea } from "src/components/styled";
+import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { styled } from "src/utils";
 
 const MyEngiviaPage: NextPage = () => {
+  const router = useRouter();
+  const { broadcastId } = router.query;
+  const userInfo = useRecoilValue(userInfoState);
+  const { data, isError, isLoading } = useGetEngiviaInfo(`/broadcast/${broadcastId}`, userInfo.token);
+  const [edit, setEdit] = useState(false);
+
+  const handleEditToggle = useCallback(() => {
+    setEdit((edit) => !edit);
+  }, []);
+
+  if (!broadcastId) return null;
+
   return (
     <PageRoot>
-      <BroadcastHeader status="ended" title="第1回エンジビアの泉" />
-      <EngiviaCard content="ユーザー１が放送１に投稿したトリビアの内容" name="テストユーザー１" />
-      <ButtonWrap>
-        <Button color="primary">編集する</Button>
-        <Button color="secondary">削除する</Button>
-      </ButtonWrap>
+      <BroadcastHeader status="upcoming" title={data?.title} />
+
+      {isLoading ? (
+        <div>loading</div>
+      ) : isError ? (
+        <div>error</div>
+      ) : !data?.id ? (
+        <div>no data</div>
+      ) : data.Trivia?.length !== 0 ? (
+        <>
+          {edit ? (
+            <>
+              <Textarea value={data.Trivia[0].content} />
+              <ButtonWrap>
+                <Button color="primary" onClick={handleEditToggle}>
+                  保存する
+                </Button>
+                <Button color="secondary" onClick={handleEditToggle}>
+                  キャンセル
+                </Button>
+              </ButtonWrap>
+            </>
+          ) : (
+            <>
+              <EngiviaCard id={data.id} content={data.Trivia[0].content} name={data.Trivia[0].User.name} />
+              <ButtonWrap>
+                <Button color="primary" onClick={handleEditToggle}>
+                  編集する
+                </Button>
+                <Button color="secondary">削除する</Button>
+              </ButtonWrap>
+            </>
+          )}
+        </>
+      ) : (
+        <MyEngiviaInput token={userInfo.token} />
+      )}
     </PageRoot>
   );
 };
-
 // eslint-disable-next-line import/no-default-export
 export default MyEngiviaPage;
 

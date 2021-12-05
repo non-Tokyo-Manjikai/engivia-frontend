@@ -2,7 +2,7 @@ import type { VFC } from "react";
 import { styled } from "src/utils";
 
 type Props = {
-  id: string;
+  id: number;
   name: string;
   image?: string;
   content: string;
@@ -10,7 +10,7 @@ type Props = {
   /* isResult */
   isResult?: true;
   engiviaNumber?: number;
-  heeCount?: number;
+  heeCount?: number | null;
 };
 
 export const EngiviaCard: VFC<Props> = (props) => {
