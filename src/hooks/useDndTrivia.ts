@@ -148,9 +148,8 @@ export const useDndTrivia = (props: Props) => {
       const PutBody = {
         hee: props.totalHeeCount,
         featured: true,
-        token: "token3",
       };
-      const result = await handlePutTrivia(`/trivia/${activeId}`, PutBody);
+      const result = await handlePutTrivia(`/trivia/${activeId}`, PutBody, "token3");
       setBroadcast((prevState) => {
         if (prevState) {
           const resultTrivia = prevState.Trivia.map((trivia) => {
