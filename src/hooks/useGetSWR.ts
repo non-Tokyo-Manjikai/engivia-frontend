@@ -1,5 +1,5 @@
 import useSWRImmutable from "swr/immutable";
-import { getFetcher } from "src/functions/getfetcher";
+import { getFetcher } from "src/functions/getFetcher";
 
 export const useGetSWR = <T extends unknown>(url: string) => {
   const { data, error } = useSWRImmutable<T>(url, getFetcher);
