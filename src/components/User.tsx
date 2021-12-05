@@ -1,30 +1,34 @@
-/* eslint-disable quotes */
 import { blackA, violet } from "@radix-ui/colors";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import Image from "next/image";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "src/components/atoms";
 import { UserInfo } from "src/components/UserInfo";
 import { keyframes, styled } from "src/utils";
 
-export const User = () => (
-  <Popover>
-    <PopoverTrigger asChild>
-      <IconButton aria-label="Update dimensions">
-        <Image className="rounded-full" src="/superhero.svg" width={80} height={80} alt="superhero" />
-      </IconButton>
-    </PopoverTrigger>
-    <PopoverContent sideOffset={5}>
-      <UserInfo />
-      <Footer>
-        <PopoverClose aria-label="Close">
-          <Back>☜ Back</Back>
-        </PopoverClose>
-        <DivSave>
-          <Save>Save</Save>
-        </DivSave>
-      </Footer>
-    </PopoverContent>
-  </Popover>
-);
+export const User = () => {
+  const userInfo = useRecoilValue(userInfoState);
+  return (
+    <Popover>
+      <PopoverTrigger asChild>
+        <IconButton aria-label="Update dimensions">
+          <Image className="rounded-full" src={userInfo.image} width={80} height={80} alt="superhero" />
+        </IconButton>
+      </PopoverTrigger>
+      <PopoverContent sideOffset={5}>
+        <UserInfo />
+        <Footer>
+          <PopoverClose aria-label="Close">
+            <Back>☜ Back</Back>
+          </PopoverClose>
+          <DivSave>
+            <Save>Save</Save>
+          </DivSave>
+        </Footer>
+      </PopoverContent>
+    </Popover>
+  );
+};
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(2px)" },
