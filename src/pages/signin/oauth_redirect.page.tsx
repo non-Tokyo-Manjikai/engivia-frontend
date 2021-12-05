@@ -29,7 +29,7 @@ const signinRedirectPage: NextPage = () => {
   const setUserInfoState = useSetRecoilState(userInfoState);
   // Slack認証をしてユーザー情報を取得する
   const { data, error } = useSWR<User>(`${API_URL}/slack/token?code=${router.query.code}`, fetcher);
-  if (data) {
+  if (data && !error) {
     setUserInfoState(data);
     router.push("/broadcast");
   }
