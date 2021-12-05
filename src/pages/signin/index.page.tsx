@@ -3,6 +3,7 @@ import type { NextPage } from "next";
 import Image from "next/image";
 import { Button } from "src/components/styled";
 import { styled } from "src/utils";
+import { API_URL } from "src/constants/API_URL";
 
 const SigninPage: NextPage = () => {
   return (
@@ -12,10 +13,12 @@ const SigninPage: NextPage = () => {
         <Title>エンジビアの泉</Title>
         <SubTitle>〜素晴らしきプログラミングマメ知識〜</SubTitle>
         <Spacer />
-        <Button color="white">
-          <Image src="/slack-logo.svg" alt="slackのアイコン" width={22} height={22} />
-          Sign in with Slack
-        </Button>
+        <a href={`${API_URL}/slack/signin`}>
+          <Button color="white">
+            <Image src="/slack-logo.svg" alt="slackのアイコン" width={22} height={22} />
+            Sign in with Slack
+          </Button>
+        </a>
       </LeftSide>
 
       <RightSide>
