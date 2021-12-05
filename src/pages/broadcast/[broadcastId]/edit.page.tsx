@@ -58,13 +58,12 @@ const BroadcastEditPage: NextPage = () => {
     const NewDate = new Date(dateValue);
     const NewScheduledStartTime = NewDate.toISOString();
     const body = {
-      token: userInfo.token,
       scheduledStartTime: NewScheduledStartTime,
       title: titleValue,
     };
     const toastId = toast.loading("Sending...");
 
-    const statusCode = await handlePutTrivia(`/broadcast/${router.query.broadcastId}`, body, body.token);
+    const statusCode = await handlePutTrivia(`/broadcast/${router.query.broadcastId}`, body, userInfo.token);
     if (statusCode >= 400) {
       toast.error(`error: ${statusCode}`, { id: toastId });
       setButtonDisabledState(false);
