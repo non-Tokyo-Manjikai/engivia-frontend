@@ -3,11 +3,14 @@ import fetch from "unfetch";
 
 type Method = "POST" | "PUT" | "DELETE";
 
-export const requestFetcher = async (url: string, body: unknown, method: Method, token: string) => {
-  console.info(`endpoint ${API_URL}${url}`);
-  console.info(`request body ${body}`);
-  console.info(`request method ${method}`);
-  console.info(`Bearer token ${token}`);
+export const requestFetcher = async (url: string, body: unknown, method: Method, token: string): Promise<number> => {
+  console.info(" ");
+  console.info("requestFetcher | ---------------------------");
+  console.info(`request method | ${method}`);
+  console.info(`endpoint       | ${API_URL}${url}`);
+  console.info(`request body   |`, body);
+  console.info(`Bearer token   | ${token}`);
+  console.info(" ");
 
   const result = await fetch(`${API_URL}${url}`, {
     method: method,
