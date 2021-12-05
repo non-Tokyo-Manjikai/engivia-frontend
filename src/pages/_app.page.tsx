@@ -7,13 +7,13 @@ import { RecoilRoot } from "recoil";
 import { Layout } from "src/components/layout";
 import { WithTheme } from "src/components/theme";
 import { SWRConfig } from "swr";
+import { getFetcherWithToken } from "src/functions/getfetcher";
 
 const MyApp = (props: AppProps) => {
   return (
     <SWRConfig
       value={{
-        // refreshInterval: 3000,
-        fetcher: (resource, init) => fetch(resource, init).then((res) => res.json()),
+        fetcher: getFetcherWithToken,
       }}
     >
       <IdProvider>
