@@ -22,7 +22,7 @@ export type BroadcastLiveType = {
   id: number;
   status: LiveStatus;
   title: string;
-  scheduleStartTime: Date;
+  scheduledStartTime: Date;
   Trivia: TriviaType[];
   archiveUrl: string;
 };
