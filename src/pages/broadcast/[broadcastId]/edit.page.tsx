@@ -15,7 +15,7 @@ const BroadcastEditPage: NextPage = () => {
   const userInfo = useRecoilValue(userInfoState);
 
   //broadcast/[id]/live/adminから遷移してくる時にrouter.query.broadcastIdを渡してくる
-  const { data, isError, isEmpty } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, userInfo.token);
+  const { data, isError } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, userInfo.token);
   const [dateValue, setDateValue] = useState<string>("");
   const [titleValue, setTitleValue] = useState("");
   const [buttonDisabledState, setButtonDisabledState] = useState(false);
@@ -23,12 +23,9 @@ const BroadcastEditPage: NextPage = () => {
   if (isError) {
     toast.error("エラーが起きました");
   }
-  if (isEmpty) {
-    toast.error("データがありません");
-  }
 
   useEffect(() => {
-    if (data?.id) {
+    if (data && data.id) {
       const date = new Date(data.scheduledStartTime);
       const jaDate = utcToZonedTime(date, "Asia/tokyo");
       const NewFormatDate = format(jaDate, "yyyy-MM-dd", { timeZone: "Asia/tokyo" });
