@@ -17,7 +17,8 @@ yarn install
 ```yarn
 yarn dev
 ```
-4. json-server 起動
+4. json-server 起動  
 ```
 yarn api
 ```
+http://localhost:3001/XXXX で簡易サーバー立ち上げ
