@@ -88,6 +88,7 @@ const LiveUserPage: NextPage = () => {
 
   // へぇカウント送信
   const handleHeeClick = () => {
+    if (heeCount === 20) return;
     if (viewEngivia.id === 0) return;
     socket.emit("post_hee_user", {
       query: { count: heeCount + 1 },
@@ -124,7 +125,7 @@ const LiveUserPage: NextPage = () => {
 
       <BroadcastHeader status="live" title="第1回エンジビアの泉" />
       <EngiviaCard {...viewEngivia} heeCount={totalCount(connectUserList)} isResult />
-      <HeeButtonKit onClick={handleHeeClick} />
+      <HeeButtonKit onClick={handleHeeClick} isDied={heeCount === 20} />
     </PageRoot>
   );
 };
