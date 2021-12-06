@@ -7,7 +7,7 @@ import { RecoilRoot } from "recoil";
 import { Layout } from "src/components/layout";
 import { WithTheme } from "src/components/theme";
 import { SWRConfig } from "swr";
-import { getFetcherWithToken } from "src/functions/getfetcher";
+import { getFetcherWithToken } from "src/functions/getFetcher";
 
 const MyApp = (props: AppProps) => {
   return (
