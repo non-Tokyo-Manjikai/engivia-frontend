@@ -8,6 +8,7 @@ import { Button, PageRoot } from "src/components/styled";
 import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
 import { totalCount } from "src/functions/totalCount";
 import { styled } from "src/utils";
+import { heeSound } from "src/components/heeSound";
 
 type Engivia = {
   id: number;
@@ -88,6 +89,8 @@ const LiveUserPage: NextPage = () => {
 
   // へぇカウント送信
   const handleHeeClick = () => {
+    const sound = new Audio(`data:audio/wav;base64, ${heeSound}`);
+    sound.play();
     if (viewEngivia.id === 0) return;
     socket.emit("post_hee_user", {
       query: { count: heeCount + 1 },
