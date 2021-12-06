@@ -1,23 +1,29 @@
-/* eslint-disable indent */
 import type { NextPage } from "next";
 import { useRecoilValue } from "recoil";
 import { BroadcastItem, NextLink } from "src/components";
 import { userInfoState } from "src/components/atoms";
 import { Button, PageRoot, Title } from "src/components/styled";
-import { useBroadcastList } from "src/hooks/useBroadcastList.swr";
+import { useGetSWR } from "src/hooks/useGetSWR";
 import { styled } from "src/utils";
+import type { BroadcastListType } from "src/types";
+import { FetcherExample } from "src/components/FetcherExample";
 
 const BroadcastPage: NextPage = () => {
-  const { data, isError, isLoading, isEmpty } = useBroadcastList();
+  const { data, isError, isLoading } = useGetSWR<BroadcastListType[]>("/broadcast");
+
   const userInfo = useRecoilValue(userInfoState);
+
   return (
     <PageRoot>
+      {data && <FetcherExample />}
+
       <Title>放送一覧</Title>
+
       {isLoading ? (
         "loading"
       ) : isError ? (
         "error"
-      ) : isEmpty ? (
+      ) : !data ? (
         "no data"
       ) : (
         <BroadcastItemWrap>
@@ -41,6 +47,7 @@ const BroadcastPage: NextPage = () => {
           ))}
         </BroadcastItemWrap>
       )}
+
       {userInfo.isAdmin ? (
         <NextLink href={"/broadcast/input"}>
           <Button color="primary">放送を作成する</Button>

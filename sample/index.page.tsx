@@ -33,7 +33,7 @@ const SamplePage: NextPage = () => {
         <Text>ダークモード変更</Text>
         <ThemeChanger />
         <Text>テーマ変更</Text>
-        <ColorTehemeChanger />
+        <ColorTehemeChanger iconPath="" />
         <Text>アイコン</Text>
         <div className="flex gap-2">
           <CountLabelIconButton color="primary" count={10}>

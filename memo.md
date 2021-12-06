@@ -135,3 +135,16 @@ const Test = () => {
 ​
 export default Test;
 ```
+
+# メモ
+
+## ユーザー
+
+- ユーザー側で、放送情報をフェッチさせる →recoil に保存する
+- interface の参照は recoil 自体を参照
+
+# 管理者
+
+- 管理者側で、放送情報＋トリビア一覧をフェッチさせる →recoil に保存する
+- interface の参照は recoil 自体を参照
+- item.tsx のリスト参照を recoil 自体を参照
