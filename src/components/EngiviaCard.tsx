@@ -2,21 +2,19 @@ import type { VFC } from "react";
 import { styled } from "src/utils";
 
 type Props = {
-  id: number;
-  name: string;
+  id?: number;
+  name?: string;
   image?: string;
   content: string;
-
-  /* isResult */
   isResult?: true;
+  heeCount?: number;
   engiviaNumber?: number;
-  heeCount?: number | null;
 };
 
 export const EngiviaCard: VFC<Props> = (props) => {
   return (
     <Root>
-      {!props.id ? (
+      {props.id === 0 ? (
         "次のエンジビアをお待ちください"
       ) : (
         <>

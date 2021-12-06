@@ -1,156 +1,130 @@
 import type { NextPage } from "next";
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { io } from "socket.io-client";
 import { BroadcastHeader, EngiviaCard, HeeButtonKit, HeeList } from "src/components";
+import { userInfoState } from "src/components/atoms";
 import { Button, PageRoot } from "src/components/styled";
+import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
+import { totalCount } from "src/functions/totalCount";
 import { styled } from "src/utils";
 
-// ユーザー情報
-const sampleUserInfo = {
-  id: "ABCDE456",
-  name: "みやさん",
-  image:
-    "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
-  isAdmin: false,
-  content: "HTMLにはポータルという要素がある",
+type Engivia = {
+  id: number;
+  name: string;
+  image: string;
+  content: string;
+  engiviaNumber: number;
+};
+
+type ConnectUser = {
+  id: string;
+  name: string;
+  image: string;
+  heeCount: number;
 };
 
 const LiveUserPage: NextPage = () => {
-  /* ------- user ------- */
-  // ソケットの通信情報を保持する
   const [socket, setSoket] = useState<any>();
-  // ログインユーザーのへぇカウント（ローカル管理）
   const [heeCount, setHeeCount] = useState<number>(0);
-  // タイトルコール中のトリビア情報を保持する
-  const [viewEngivia, setViewEngivia] = useState<any>();
-  const [heeCountList, setHeeCountList] = useState<number>(0);
-  const [allUser, setAllUser] = useState<any>();
+  const [viewEngivia, setViewEngivia] = useState<Engivia>(INIT_ENGIVIA);
+  const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
+  // 本番用
+  // const userInfo = useRecoilValue(userInfoState);
 
-  /* ------- admin ------- */
-  const [selectEngivia, setSelectEngivia] = useState<any>("null");
+  // 開発用
+  const [selectUser, setSelectUser] = useState(0);
+  const handleChange = (value: number) => {
+    setSelectUser(value);
+  };
 
-  /* ------- admin ------- */
-  // 1.soket通信を開始する
-  const handleClick = () => {
+  // 通信開始
+  const handleLiveConnect = () => {
     const socket = io("http://localhost:8080", {
       path: "/live",
       query: {
-        id: sampleUserInfo.id,
-        name: sampleUserInfo.name,
-        image: sampleUserInfo.image,
+        // 開発用
+        id: sampleUserInfo[selectUser].id,
+        name: sampleUserInfo[selectUser].name,
+        image: sampleUserInfo[selectUser].image,
+        // 本番用
+        // id: userInfo.id,
+        // name: userInfo.name,
+        // image: userInfo.image,
       },
     });
-    // 通信情報を保持する
+    // console.info("通信情報取得", socket);
     setSoket(socket);
 
-    // ここはユーザーのみ
-    socket.on("user_get_title_call", (data) => {
-      // console.info("--- タイトルコール受信 ---");
-      // console.info(data);
+    socket.on("get_connect_user", (data) => {
+      // console.info("すべての接続ユーザー取得", data);
+      setConnectUserList(data);
+    });
+
+    socket.on("get_title_call", (data) => {
+      // console.info("タイトルコール取得", data);
       setViewEngivia(data.engivia);
-
-      // とりへぇカウントをリセット
-      if (!data) {
-        // console.log("リセット");
-        setHeeCount(0);
-        setHeeCountList(0);
-      }
     });
 
-    // ここはユーザーのみ
-    socket.on("user_get_hee_count", (data) => {
-      // console.info("--- へぇカウント受信 ---");
-      // console.info(data);
-      setHeeCountList(data.heeCount);
+    socket.on("get_wait_engivia", () => {
+      // console.info("エンジビア待ち状態");
+      setConnectUserList((prev: any) => prev.map((user: any) => ({ ...user, heeCount: 0 })));
+      setHeeCount(0);
+      setViewEngivia(INIT_ENGIVIA);
     });
 
-    // ここはユーザーのみ
-    socket.on("user_get_all_user", (data) => {
-      console.info("--- 接続してる全てのユーザー情報受信 ---");
-      console.info(data);
-      setAllUser(data);
+    socket.on("get_hee_user", (data) => {
+      // console.info("へぇしたユーザーID取得", data);
+      setConnectUserList((prev: any) =>
+        prev.map((user: any) => (user.id === data.heeUser.id ? { ...user, heeCount: data.heeUser.count } : user)),
+      );
     });
   };
 
-  // 2.管理者がエンジビアを選択する
-  const handleSelect = (id: string) => {
-    setSelectEngivia(id);
-  };
+  // 本番用
+  // useEffect(() => {
+  //   handleLiveConnect();
+  // }, []);
 
-  // 3.管理者がタイトルコールをして、エンジビア情報を送信する
-  const handleTitleCall = () => {
-    socket.emit("admin_post_title_call", {
-      query: {
-        id: sampleUserInfo.id,
-        name: sampleUserInfo.name,
-        image: sampleUserInfo.image,
-        content: sampleUserInfo.content,
-      },
-    });
-  };
-
-  // 4.管理者が次のエンジビアを準備する
-  const handleWaitTitleCall = () => {
-    socket.emit("post_admin_wait_title_call", {});
-    socket.emit("user_post_hee_count", {
-      query: { heeCount: 0 },
-    });
-  };
-
-  /* ------- user ------- */
-  // 4.ユーザーがへぇボタンを押す
+  // へぇカウント送信
   const handleHeeClick = () => {
-    // ログインユーザーのへぇカウントを送信する
-    socket.emit("user_post_hee_count", {
-      query: { heeCount: heeCount + 1 },
+    if (viewEngivia.id === 0) return;
+    socket.emit("post_hee_user", {
+      query: { count: heeCount + 1 },
     });
-    // ログインユーザーカウントを増やす（ローカル管理）
-    setHeeCount((count) => count + 1);
+    setHeeCount((prev: number) => prev + 1);
   };
+
+  // 通信終了
+  const handleLiveDisconnect = useCallback(() => {
+    socket.disconnect();
+    setSoket(null);
+  }, [socket]);
 
   return (
     <PageRoot>
       <ListWrapper>
-        <HeeList data={HEE_LIST_DATA} />
+        <HeeList data={connectUserList} />
       </ListWrapper>
 
-      <div className="flex flex-col gap-4">
-        <div>
-          <h1 className="text-xl font-bold">管理者</h1>
-          <Button color="primary" onClick={handleClick}>
-            1.通信を始める
-          </Button>
+      <select onChange={(e: any) => handleChange(e.target.value)}>
+        <option value={0}>0</option>
+        <option value={1}>1</option>
+      </select>
 
-          <div>
-            <select onChange={(e) => handleSelect(e.target.value)}>
-              <option value="" disabled selected>
-                2.選択してください
-              </option>
-              <option value="1">trivia1</option>
-              <option value="2">trivia2</option>
-              <option value="3">trivia1</option>
-            </select>
-            <div>{selectEngivia}</div>
-          </div>
-
-          <Button color="primary" onClick={handleTitleCall} disabled={!socket}>
-            3.タイトルコール
-          </Button>
-          <Button color="secondary" onClick={handleWaitTitleCall} disabled={!socket}>
-            5.次のエンジビアへ準備
-          </Button>
-        </div>
-        <div>
-          <h1 className="text-xl font-bold">ユーザー</h1>
-          <Button color="primary" onClick={handleHeeClick} disabled={!socket}>
-            4.へぇ
-          </Button>
-        </div>
-      </div>
+      {!socket ? (
+        <Button color="primary" onClick={handleLiveConnect}>
+          通信を始める
+        </Button>
+      ) : (
+        <Button color="secondary" onClick={handleLiveDisconnect}>
+          通信終了
+        </Button>
+      )}
 
       <BroadcastHeader status="live" title="第1回エンジビアの泉" />
-      <EngiviaCard {...viewEngivia} heeCount={heeCountList} isResult />
-      <HeeButtonKit />
+      <EngiviaCard {...viewEngivia} heeCount={totalCount(connectUserList)} isResult />
+      <HeeButtonKit onClick={handleHeeClick} />
     </PageRoot>
   );
 };
@@ -172,41 +146,22 @@ const ListWrapper = styled("aside", {
   overflowY: "auto",
 });
 
-const HEE_LIST_DATA = [
+// 開発用
+const sampleUserInfo = [
   {
-    id: "1",
-    name: "ぽんさん",
-    image: "https://pbs.twimg.com/profile_images/12010782801/katan_normal.jpg",
-    count: 1,
+    id: "ABCDE456",
+    name: "みやさん",
+    image:
+      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+    isAdmin: false,
+    content: "HTMLにはポータルという要素がある",
   },
   {
-    id: "2",
-    name: "みやさんさん",
-    image: "https://pbs.twimg.com/profile_images/12010782801/katan_normal.jpg",
-    count: 2,
-  },
-  {
-    id: "3",
-    name: "にんじゃんさん",
-    image: "https://pbs.twimg.com/profile_images/12010782801/katan_normal.jpg",
-    count: 9,
-  },
-  {
-    id: "4",
-    name: "みっっっつあんさん",
-    image: "https://pbs.twimg.com/profile_images/12010782801/katan_normal.jpg",
-    count: 3,
-  },
-  {
-    id: "5",
-    name: "よきまるさん",
-    image: "https://pbs.twimg.com/profile_images/12010782801/katan_normal.jpg",
-    count: 85,
-  },
-  {
-    id: "6",
-    name: "かたん",
-    image: "https://pbs.twimg.com/profile_images/12010782801/katan_normal.jpg",
-    count: 100,
+    id: "ABCDE789",
+    name: "カタンシャン",
+    image:
+      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+    isAdmin: false,
+    content: "HTMLにはポータルという要素がある",
   },
 ];
