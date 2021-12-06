@@ -28,15 +28,17 @@ export const MyEngiviaInput: VFC<MyEngiviaInputProps> = (props) => {
   };
 
   const handleSend = async () => {
-    if (text === "") {
+    if (!text || !/\S/g.test(text)) {
       toast.error("エンジビアを入力してください");
+      return;
     }
+    setButtonDisabledState(true);
     const toastId = toast.loading("Sending...");
     const statusCode = await postTrivia(url, body, body.token);
     console.log(statusCode);
     if (statusCode >= 400) {
       toast.error("保存できませんでした", { id: toastId });
-      setText("");
+      setButtonDisabledState(false);
     } else {
       toast.success("保存成功しました", { id: toastId });
       setTimeout(() => router.push("/broadcast"), 2000);
@@ -46,7 +48,7 @@ export const MyEngiviaInput: VFC<MyEngiviaInputProps> = (props) => {
   return (
     <PageRoot>
       <Textarea placeholder="エンビジアを入力する" value={text} onChange={handleOnChange} />
-      <Button color="primary" onClick={handleSend}>
+      <Button color="primary" onClick={handleSend} disabled={buttonDisabledState}>
         保存する
       </Button>
       <Toaster />
