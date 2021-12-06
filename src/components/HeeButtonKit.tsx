@@ -4,16 +4,19 @@ import { styled } from "src/utils";
 
 type Props = {
   onClick: () => void;
+  isDied: boolean;
 };
 
 export const HeeButtonKit: VFC<Props> = memo((props) => {
   return (
     <HeeButtonWrap>
       <HeeButton>
-        <Hee onClick={props.onClick}>へぇ</Hee>
-        <HeeShadow />
+        <Hee isDied={props.isDied} onClick={props.onClick}>
+          へぇ
+        </Hee>
+        <HeeShadow isDied={props.isDied} />
       </HeeButton>
-      <HeeBottom />
+      <HeeBottom isDied={props.isDied} />
       <Foundation />
       <FoundationShadow />
       <FoundationBottom />
@@ -31,6 +34,10 @@ const HeeBottom = styled("div", {
   height: "170px",
   borderRadius: "100%",
   zIndex: "3",
+
+  variants: {
+    isDied: { true: { backgroundColor: "$slate10" } },
+  },
 });
 
 const HeeShadow = styled("div", {
@@ -41,6 +48,10 @@ const HeeShadow = styled("div", {
   width: "270px",
   height: "45px",
   zIndex: "3",
+
+  variants: {
+    isDied: { true: { backgroundColor: "$slate10" } },
+  },
 });
 
 const Hee = styled("button", {
@@ -58,6 +69,10 @@ const Hee = styled("button", {
   color: "white",
   fontWeight: "bold",
   zIndex: "6",
+
+  variants: {
+    isDied: { true: { backgroundColor: "$slate8" } },
+  },
 });
 
 const HeeButton = styled("div", {
