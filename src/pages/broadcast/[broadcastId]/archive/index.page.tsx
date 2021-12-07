@@ -1,16 +1,15 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
+import { useRecoilValue } from "recoil";
 import { BroadcastHeader, EngiviaCard } from "src/components";
+import { userInfoState } from "src/components/atoms";
 import { Button, Input, PageRoot } from "src/components/styled";
 import { handlePutTrivia } from "src/hooks/handlePutTrivia";
 import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { useGetUserInfo } from "src/hooks/useGetUserInfo";
-import toast, { Toaster } from "react-hot-toast";
-
 import { styled } from "src/utils";
-import { useRecoilValue } from "recoil";
-import { userInfoState } from "src/components/atoms";
 
 const ArchivePage: NextPage = () => {
   const router = useRouter();
@@ -28,7 +27,8 @@ const ArchivePage: NextPage = () => {
     data?.title,
   ];
 
-  //Youtubeのサイトであるかどうか確認する「https://www.youtube.com/embed/OWoKzNxZWw8」(試し用URL)
+  // Youtubeのサイトであるかどうか確認する「https://www.youtube.com/embed/OWoKzNxZWw8」(試し用URL)
+  // eslint-disable-next-line prefer-regex-literals
   const myRe = new RegExp("^https://www.youtube.com/embed/");
   const myArray = myRe.test(url);
 
@@ -72,16 +72,16 @@ const ArchivePage: NextPage = () => {
 
       {Trivia
         ? Trivia.map((item, index) => (
-            <EngiviaCard
-              key={item.id}
-              id={item.id}
-              content={item.content}
-              name={item.User.name}
-              isResult
-              heeCount={item.hee}
-              engiviaNumber={index + 1}
-            />
-          ))
+          <EngiviaCard
+            key={item.id}
+            id={item.id}
+            content={item.content}
+            name={item.User.name}
+            isResult
+            heeCount={item.hee}
+            engiviaNumber={index + 1}
+          />
+        ))
         : null}
     </PageRoot>
   );

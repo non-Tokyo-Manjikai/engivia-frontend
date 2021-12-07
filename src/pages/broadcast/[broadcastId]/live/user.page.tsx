@@ -1,9 +1,7 @@
 import type { NextPage } from "next";
-import { useCallback, useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
+import { useCallback, useState } from "react";
 import { io } from "socket.io-client";
 import { BroadcastHeader, EngiviaCard, HeeButtonKit, HeeList } from "src/components";
-import { userInfoState } from "src/components/atoms";
 import { Button, PageRoot } from "src/components/styled";
 import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
 import { totalCount } from "src/functions/totalCount";

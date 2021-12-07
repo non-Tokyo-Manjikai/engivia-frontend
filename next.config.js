@@ -1,9 +1,11 @@
+// const withOptimizedImages = require("next-optimized-images");
+
 module.exports = {
   // postcssをキャッシュを介してパフォーマンスあげる？
   future: { strictPostcssConfiguration: true },
   // 国際化対応
   // このアプリは日本だよ
-  i18n: { locales: ["ja"], defaultLocale: "ja" },
+  // i18n: { locales: ["ja"], defaultLocale: "ja" },
   // Reactの厳密なチェック
   // アプリケーションの潜在的な問題を強調するための開発モードのみの機能
   // 安全でないライフサイクル,レガシーAPIの使用法,およびその他の多くの機能を特定するのに役立つ
@@ -22,3 +24,12 @@ module.exports = {
   },
 };
 // https://nextjs.org/docs/api-reference/next.config.js/introduction
+
+// next/imageコンポーネントは next export で使えないため、
+// next - optimized - imagesビルド中に画像を最適化することで画像サイズを縮小するNextJSプラグインを入れる
+// 参考: https://blog.whereisthemouse.com/image-optimization-for-static-nextjs-sites
+/*
+module.exports = withOptimizedImages({
+  handleImages: ["jpeg", "png", "svg"],
+});
+*/

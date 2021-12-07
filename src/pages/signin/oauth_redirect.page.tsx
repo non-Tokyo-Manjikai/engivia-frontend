@@ -1,12 +1,13 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 import type { NextPage } from "next";
-import { PageRoot } from "src/components/styled";
 import { useRouter } from "next/router";
-import { styled } from "src/utils";
-import useSWR from "swr";
-import { API_URL } from "src/constants/API_URL";
-import fetch from "unfetch";
 import { useSetRecoilState } from "recoil";
 import { userInfoState } from "src/components/atoms";
+import { PageRoot } from "src/components/styled";
+import { API_URL } from "src/constants/API_URL";
+import { styled } from "src/utils";
+import useSWR from "swr";
+import fetch from "unfetch";
 
 type User = {
   id: string;

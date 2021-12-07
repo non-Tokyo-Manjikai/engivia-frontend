@@ -7,7 +7,7 @@ type Props = {
   image?: string;
   content: string;
   isResult?: true;
-  heeCount?: number;
+  heeCount?: number | null;
   engiviaNumber?: number;
 };
 
