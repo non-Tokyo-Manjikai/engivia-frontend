@@ -1,6 +1,7 @@
+/* eslint-disable quotes */
+/* eslint-disable @next/next/no-img-element */
 import { blackA, violet } from "@radix-ui/colors";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "src/components/atoms";
 import { UserInfo } from "src/components/UserInfo";
@@ -8,21 +9,22 @@ import { keyframes, styled } from "src/utils";
 
 export const User = () => {
   const userInfo = useRecoilValue(userInfoState);
+
   return (
     <Popover>
       <PopoverTrigger asChild>
         <IconButton aria-label="Update dimensions">
-          <Image className="rounded-full" src={userInfo.image} width={80} height={80} alt="superhero" />
+          <img className="rounded-full" src={userInfo.image} width={80} height={80} alt="superhero" />
         </IconButton>
       </PopoverTrigger>
       <PopoverContent sideOffset={5}>
         <UserInfo />
         <Footer>
           <PopoverClose aria-label="Close">
-            <Back>☜ Back</Back>
+            <LogOut>Log Out</LogOut>
           </PopoverClose>
           <DivSave>
-            <Save>Save</Save>
+            <Leave>Leave</Leave>
           </DivSave>
         </Footer>
       </PopoverContent>
@@ -51,7 +53,8 @@ const slideLeftAndFade = keyframes({
 });
 
 const StyledContent = styled(PopoverPrimitive.Content, {
-  height: "450px",
+  height: "360px",
+  width: "320px",
   borderRadius: 4,
   backgroundColor: "#ffffff",
   boxShadow: "hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px",
@@ -103,7 +106,7 @@ export const PopoverArrow = StyledArrow;
 export const PopoverClose = StyledClose;
 
 // Your app...
-// const Flex = styled("div", { display: "flex" });
+const Flex = styled("div", { display: "flex" });
 
 const IconButton = styled("button", {
   all: "unset",
@@ -122,25 +125,33 @@ const IconButton = styled("button", {
 
 const Footer = styled("div", {
   display: "flex",
-  gap: "20px",
+  gap: "50px",
   height: "30%",
   justifyContent: "center",
 });
 
-const Save = styled("button", {
+const Leave = styled("button", {
   color: "white",
   width: "80px",
   height: "40px",
-  backgroundColor: "blue",
+  backgroundColor: "#5f95fa",
   borderRadius: "20px",
   cursor: "pointer",
+  borderBottom: "2px solid #1904b8",
+  "&:hover": {
+    backgroundColor: "#3844f2",
+  },
 });
 
-const Back = styled("button", {
+const LogOut = styled("button", {
   width: "80px",
   height: "40px",
   border: "black, 1px",
-  backgroundColor: "white",
+  backgroundColor: "#ebebeb",
   borderRadius: "20px",
   cursor: "pointer",
+  borderBottom: "2px solid",
+  "&:hover": {
+    backgroundColor: "#e3e3e3",
+  },
 });
