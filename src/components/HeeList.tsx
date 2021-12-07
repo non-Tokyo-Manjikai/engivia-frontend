@@ -3,20 +3,32 @@ import { Label } from "src/components/styled";
 import { styled } from "src/utils";
 
 type Props = {
+  currentUserId: string;
   data: {
     id: string;
     name: string;
     image: string;
     heeCount: number;
+    isAdmin: boolean;
   }[];
 };
 
 export const HeeList: VFC<Props> = (props) => {
+  const result = props.data.filter((user) => props.currentUserId === user.id)[0];
   return (
     <Root>
-      {props.data.map((item) => {
-        if (item.heeCount === 0) return null;
+      <HeeListContainer key={result?.id}>
+        <UserInfo>
+          <img className="rounded-full" src="/wow.jpg" width={35} height={35} alt="ユーザーネーム" />
+          <UserName>{result?.name}</UserName>
+        </UserInfo>
+        <Label isOutline="slate" isGhost="slate">
+          <span>{result?.heeCount}</span>へぇ
+        </Label>
+      </HeeListContainer>
 
+      {props.data.map((item) => {
+        if (item.isAdmin || item.id === props.currentUserId) return null;
         return (
           <HeeListContainer key={item.id}>
             <UserInfo>
