@@ -6,6 +6,7 @@ import { BroadcastHeader, EngiviaCard } from "src/components";
 import { userInfoState } from "src/components/atoms";
 import { MyEngiviaInput } from "src/components/MyEngiviaInput";
 import { Button, PageRoot, Textarea } from "src/components/styled";
+import { deleteTrivia } from "src/hooks/deleteTrivia";
 import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { styled } from "src/utils";
 
@@ -19,6 +20,11 @@ const MyEngiviaPage: NextPage = () => {
   const handleEditToggle = useCallback(() => {
     setEdit((edit) => !edit);
   }, []);
+
+  const url = `/trivia/:${broadcastId}`;
+  const handleDelete = () => {
+    deleteTrivia(url, userInfo.token);
+  };
 
   if (!broadcastId) return null;
 
@@ -53,7 +59,9 @@ const MyEngiviaPage: NextPage = () => {
                 <Button color="primary" onClick={handleEditToggle}>
                   編集する
                 </Button>
-                <Button color="secondary">削除する</Button>
+                <Button color="secondary" onClick={handleDelete}>
+                  削除する
+                </Button>
               </ButtonWrap>
             </>
           )}
