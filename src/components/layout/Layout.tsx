@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import type { ReactNode, VFC } from "react";
-import {HistoryBackButton } from "src/components/BackIcon";
+import {HistoryBackButton } from "src/components/HistoryBackButton";
 import { Header } from "src/components/layout";
 import { styled } from "src/utils";
 
