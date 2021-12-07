@@ -1,4 +1,5 @@
 import type { VFC } from "react";
+import { format } from "date-fns-tz";
 import { BroadcastStatus } from "src/components";
 import { AcademicCapIcon, ScheduleIcon } from "src/components/icons";
 import { statusCheck } from "src/functions/statusCheck";
@@ -9,7 +10,9 @@ type Props = {
   title: string;
   scheduledStartTime: string;
   status: "live" | "upcoming" | "ended";
-  count: number;
+  _count: {
+    Trivia: number;
+  }
 };
 
 export const BroadcastItem: VFC<Props> = (props) => {
@@ -22,11 +25,13 @@ export const BroadcastItem: VFC<Props> = (props) => {
       </Upper>
       <Lower>
         <ScheduleIcon />
-        <Date>{props.scheduledStartTime}</Date>
+        <BroadcastDate>
+          {format(new Date(props.scheduledStartTime), "yyyy年MM月dd日", { timeZone: "Asia/Tokyo" })}
+        </BroadcastDate>
         <FlexGrow />
         <AcademicCapIcon />
         <CountLabel>エンジビア数</CountLabel>
-        <span>{props.count}</span>
+        <span>{props._count.Trivia}</span>
       </Lower>
     </Root>
   );
@@ -79,7 +84,7 @@ const FlexGrow = styled("div", {
   flexGrow: 1,
 });
 
-const Date = styled("span", {
+const BroadcastDate = styled("span", {
   paddingLeft: "0.5rem",
 });
 

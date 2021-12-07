@@ -11,9 +11,8 @@ export const HeeButtonKit: VFC<Props> = memo((props) => {
   return (
     <HeeButtonWrap>
       <HeeButton>
-        <Hee isDied={props.isDied} onClick={props.onClick}>
-          へぇ
-        </Hee>
+        <Hee isDied={props.isDied}>へぇ</Hee>
+        <Shadow onClick={props.onClick} />
         <HeeShadow isDied={props.isDied} />
       </HeeButton>
       <HeeBottom isDied={props.isDied} />
@@ -73,6 +72,21 @@ const Hee = styled("button", {
   variants: {
     isDied: { true: { backgroundColor: "$slate8" } },
   },
+});
+
+const Shadow = styled("button", {
+  position: "absolute",
+  top: "5px",
+  left: "45px",
+  transform: "rotateX( -50deg )",
+  width: "270px",
+  height: "170px",
+  borderRadius: "100%",
+  textAlign: "center",
+  paddingBottom: "15px",
+  fontSize: "4rem",
+  color: "white",
+  zIndex: "6",
 });
 
 const HeeButton = styled("div", {
