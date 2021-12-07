@@ -1,5 +1,4 @@
 import { violet } from "@radix-ui/colors";
-import Image from "next/image";
 import { styled } from "src/utils";
 import { useState } from "react";
 
@@ -25,7 +24,7 @@ export const UserInfo = () => {
   return (
     <OutLine>
       <Person>
-        <Image className="rounded-full" src="/superhero.svg" width={80} height={80} alt="superhero" />
+        <img className="rounded-full" src="/superhero.svg" width={80} height={80} alt="superhero" />
       </Person>
       <form onSubmit={submitForm}>
         <NameArea>

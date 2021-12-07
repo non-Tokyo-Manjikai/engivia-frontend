@@ -65,6 +65,7 @@ const RadioGroupIndicator = styled(RadioGroupPrimitive.Indicator, {
   height: "100%",
   position: "relative",
   "&::after": {
+    // eslint-disable-next-line quotes
     content: '""',
     display: "block",
     width: 11,

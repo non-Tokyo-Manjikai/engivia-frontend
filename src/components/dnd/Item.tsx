@@ -1,6 +1,5 @@
-import Image from "next/image";
-import { useMemo, VFC } from "react";
-import { memo } from "react";
+import type { VFC } from "react";
+import { memo,useMemo } from "react";
 import { useRecoilValue } from "recoil";
 import { broadcastLiveState } from "src/components/atoms";
 import { styled } from "src/utils";
@@ -26,7 +25,7 @@ export const Item: VFC<Props> = memo((props) => {
       <UserCard>
         <User>
           <ImageContainer>
-            <Image src={resultTrivia.User.image} width={40} height={40} alt="superhero" />
+            <img src={resultTrivia.User.image} width={40} height={40} alt="superhero" />
           </ImageContainer>
           <Name>{resultTrivia.User.name}</Name>
         </User>

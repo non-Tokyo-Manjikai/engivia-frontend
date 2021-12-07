@@ -1,5 +1,4 @@
 import { atom } from "recoil";
-
 import type { BroadcastLiveType } from "src/types";
 
 export const userInfoState = atom({
