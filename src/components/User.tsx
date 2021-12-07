@@ -1,6 +1,7 @@
+/* eslint-disable quotes */
+/* eslint-disable @next/next/no-img-element */
 import { blackA, violet } from "@radix-ui/colors";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import Image from "next/image";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "src/components/atoms";
 import { UserInfo } from "src/components/UserInfo";
@@ -13,7 +14,7 @@ export const User = () => {
     <Popover>
       <PopoverTrigger asChild>
         <IconButton aria-label="Update dimensions">
-          <Image className="rounded-full" src={userInfo.image} width={80} height={80} alt="superhero" />
+          <img className="rounded-full" src={userInfo.image} width={80} height={80} alt="superhero" />
         </IconButton>
       </PopoverTrigger>
       <PopoverContent sideOffset={5}>

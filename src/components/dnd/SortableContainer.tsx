@@ -1,6 +1,7 @@
 import { useDroppable } from "@dnd-kit/core";
 import { SortableContext, verticalListSortingStrategy } from "@dnd-kit/sortable";
-import { memo, VFC } from "react";
+import type { VFC } from "react";
+import { memo } from "react";
 import { SortableItem } from "src/components/dnd";
 import { styled } from "src/utils";
 
