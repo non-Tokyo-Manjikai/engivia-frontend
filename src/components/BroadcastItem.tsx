@@ -1,5 +1,6 @@
-import type { VFC } from "react";
+/* eslint-disable @typescript-eslint/naming-convention */
 import { format } from "date-fns-tz";
+import type { VFC } from "react";
 import { BroadcastStatus } from "src/components";
 import { AcademicCapIcon, ScheduleIcon } from "src/components/icons";
 import { statusCheck } from "src/functions/statusCheck";
@@ -12,7 +13,7 @@ type Props = {
   status: "live" | "upcoming" | "ended";
   _count: {
     Trivia: number;
-  }
+  };
 };
 
 export const BroadcastItem: VFC<Props> = (props) => {
