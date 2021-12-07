@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { VFC } from "react";
 import { Label } from "src/components/styled";
 import { styled } from "src/utils";
@@ -8,25 +7,29 @@ type Props = {
     id: string;
     name: string;
     image: string;
-    count: number;
+    heeCount: number;
   }[];
 };
 
 export const HeeList: VFC<Props> = (props) => {
   return (
     <Root>
-      {props.data.map((item) => (
-        <HeeListContainer key={item.id}>
-          <UserInfo>
-            <Image className="rounded-full" src="/wow.jpg" width={35} height={35} alt="ユーザーネーム" />
-            <UserName>{item.name}</UserName>
-          </UserInfo>
+      {props.data.map((item) => {
+        if (item.heeCount === 0) return null;
 
-          <Label isOutline="slate" isGhost="slate">
-            <span>{item.count}</span>へぇ
-          </Label>
-        </HeeListContainer>
-      ))}
+        return (
+          <HeeListContainer key={item.id}>
+            <UserInfo>
+              <img className="rounded-full" src="/wow.jpg" width={35} height={35} alt="ユーザーネーム" />
+              <UserName>{item.name}</UserName>
+            </UserInfo>
+
+            <Label isOutline="slate" isGhost="slate">
+              <span>{item.heeCount}</span>へぇ
+            </Label>
+          </HeeListContainer>
+        );
+      })}
       <Spacer />
     </Root>
   );

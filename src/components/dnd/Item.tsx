@@ -1,30 +1,35 @@
-import Image from "next/image";
 import type { VFC } from "react";
-import { memo } from "react";
-import type { TriviaType } from "src/types";
+import { memo,useMemo } from "react";
+import { useRecoilValue } from "recoil";
+import { broadcastLiveState } from "src/components/atoms";
 import { styled } from "src/utils";
 
 type Props = {
   id: number;
-  triviaList: TriviaType[];
 };
 
 export const Item: VFC<Props> = memo((props) => {
-  const resultUser = props.triviaList.filter((items) => {
-    return items.id === props.id;
-  })[0];
+  const broadcast = useRecoilValue(broadcastLiveState);
+
+  const resultTrivia = useMemo(() => {
+    return broadcast?.Trivia.filter((items) => {
+      return items.id === props.id;
+    })[0];
+  }, [broadcast]);
+
+  if (!resultTrivia) return <div></div>;
 
   return (
     <Container>
-      <p>{resultUser.content}</p>
+      <p>{resultTrivia.content}</p>
       <UserCard>
         <User>
           <ImageContainer>
-            <Image src={resultUser.User.image} width={40} height={40} alt="superhero" />
+            <img src={resultTrivia.User.image} width={40} height={40} alt="superhero" />
           </ImageContainer>
-          <Name>{resultUser.User.name}</Name>
+          <Name>{resultTrivia.User.name}</Name>
         </User>
-        {resultUser.featured ? <div>８７へぇ</div> : null}
+        {resultTrivia.featured ? <div>{resultTrivia.hee}</div> : null}
       </UserCard>
     </Container>
   );

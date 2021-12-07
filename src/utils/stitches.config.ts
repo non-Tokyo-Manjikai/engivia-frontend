@@ -89,5 +89,6 @@ globalCss({
     color: "$slate12",
     backgroundColor: "$slate3",
     overscrollBehaviorY: "none",
+    overscrollBehaviorX: "none",
   },
 })();
