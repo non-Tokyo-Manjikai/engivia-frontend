@@ -1,8 +1,8 @@
-import React from "react";
+/* eslint-disable camelcase */
+import { getFetcherWithToken } from "src/functions/getFetcher";
+import { requestFetcher } from "src/functions/requestFetcher";
 import { useGetSWRWithToken } from "src/hooks/useGetSWR";
 import type { User } from "src/types";
-import { requestFetcher } from "src/functions/requestFetcher";
-import { getFetcherWithToken } from "src/functions/getFetcher";
 
 const broadcastId = 3;
 const triviaId = 27;

@@ -1,6 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable";
-import { useMemo, VFC } from "react";
-import { memo } from "react";
+import type { VFC } from "react";
+import { memo,useMemo  } from "react";
 import { Item } from "src/components/dnd";
 
 type Props = {

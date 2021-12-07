@@ -1,16 +1,16 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { io } from "socket.io-client";
 import { BroadcastHeader } from "src/components";
+import { broadcastLiveState, userInfoState } from "src/components/atoms";
 import { Multicontainers } from "src/components/dnd";
 import { Button } from "src/components/styled";
 import { totalCount } from "src/functions/totalCount";
-import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { handlePutBroadcast } from "src/hooks/handlePutBroadcast";
+import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { styled } from "src/utils";
-import { useRecoilState, useRecoilValue } from "recoil";
-import { broadcastLiveState, userInfoState } from "src/components/atoms";
 
 type ConnectUser = {
   id: string;
@@ -27,7 +27,7 @@ const LiveAdminPage: NextPage = () => {
   const userInfo = useRecoilValue(userInfoState);
   const [broadcast, setBroadcast] = useRecoilState(broadcastLiveState);
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
-  const { data, isError, isEmpty, isLoading } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, "token3");
+  const { data, isError, isLoading } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, "token3");
 
   // 放送開始
   const handleBeginLive = async () => {

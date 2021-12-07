@@ -6,8 +6,8 @@ import { memo } from "react";
 import { RecoilRoot } from "recoil";
 import { Layout } from "src/components/layout";
 import { WithTheme } from "src/components/theme";
-import { SWRConfig } from "swr";
 import { getFetcherWithToken } from "src/functions/getFetcher";
+import { SWRConfig } from "swr";
 
 const MyApp = (props: AppProps) => {
   return (

@@ -2,11 +2,11 @@ import type { NextPage } from "next";
 import { useRecoilValue } from "recoil";
 import { BroadcastItem, NextLink } from "src/components";
 import { userInfoState } from "src/components/atoms";
+import { FetcherExample } from "src/components/FetcherExample";
 import { Button, PageRoot, Title } from "src/components/styled";
 import { useGetSWR } from "src/hooks/useGetSWR";
-import { styled } from "src/utils";
 import type { BroadcastListType } from "src/types";
-import { FetcherExample } from "src/components/FetcherExample";
+import { styled } from "src/utils";
 
 const BroadcastPage: NextPage = () => {
   const { data, isError, isLoading } = useGetSWR<BroadcastListType[]>("/broadcast");
@@ -33,12 +33,12 @@ const BroadcastPage: NextPage = () => {
                 item.status === "ended"
                   ? "/archive"
                   : userInfo.isAdmin
-                  ? "/live/admin"
-                  : item.status === "live"
-                  ? "/live/user"
-                  : item.status === "upcoming"
-                  ? "/my_engivia"
-                  : ""
+                    ? "/live/admin"
+                    : item.status === "live"
+                      ? "/live/user"
+                      : item.status === "upcoming"
+                        ? "/my_engivia"
+                        : ""
               }`}
               key={item.id}
             >
