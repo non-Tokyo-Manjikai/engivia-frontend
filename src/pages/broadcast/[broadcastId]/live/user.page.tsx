@@ -20,6 +20,7 @@ type ConnectUser = {
   name: string;
   image: string;
   heeCount: number;
+  isAdmin: boolean;
 };
 
 const LiveUserPage: NextPage = () => {
@@ -29,6 +30,8 @@ const LiveUserPage: NextPage = () => {
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
   // 本番用
   // const userInfo = useRecoilValue(userInfoState);
+
+  const totalHeeCount = totalCount(connectUserList);
 
   // 開発用
   const [selectUser, setSelectUser] = useState(0);
@@ -45,10 +48,12 @@ const LiveUserPage: NextPage = () => {
         id: sampleUserInfo[selectUser].id,
         name: sampleUserInfo[selectUser].name,
         image: sampleUserInfo[selectUser].image,
+        isAdmin: "false",
         // 本番用
         // id: userInfo.id,
         // name: userInfo.name,
         // image: userInfo.image,
+        // isAdmin: "false",
       },
     });
     // console.info("通信情報取得", socket);
@@ -103,7 +108,7 @@ const LiveUserPage: NextPage = () => {
   return (
     <PageRoot>
       <ListWrapper>
-        <HeeList data={connectUserList} />
+        <HeeList currentUserId={sampleUserInfo[selectUser].id} data={connectUserList} />
       </ListWrapper>
 
       <select onChange={(e: any) => handleChange(e.target.value)}>
@@ -122,7 +127,7 @@ const LiveUserPage: NextPage = () => {
       )}
 
       <BroadcastHeader status="live" title="第1回エンジビアの泉" />
-      <EngiviaCard {...viewEngivia} heeCount={totalCount(connectUserList)} isResult />
+      <EngiviaCard {...viewEngivia} heeCount={totalHeeCount} isResult />
       <HeeButtonKit onClick={handleHeeClick} isDied={heeCount === 20} />
     </PageRoot>
   );
