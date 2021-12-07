@@ -1,13 +1,14 @@
+/* eslint-disable react/jsx-handler-names */
 import type { NextPage } from "next";
-import { useState } from "react";
 import { useRouter } from "next/router";
-import { Button, Input, PageRoot, Title } from "src/components/styled";
-import { styled } from "src/utils";
+import { useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { postBroadcast } from "src/hooks/postBroadcast";
-import { BroadcastPostBodyType } from "src/types/BroadcastPostBodyType";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "src/components/atoms";
+import { Button, Input, PageRoot, Title } from "src/components/styled";
+import { postBroadcast } from "src/hooks/postBroadcast";
+import type { BroadcastPostBodyType } from "src/types/BroadcastPostBodyType";
+import { styled } from "src/utils";
 
 const BroadcastInputPage: NextPage = () => {
   const userInfo = useRecoilValue(userInfoState);
@@ -45,6 +46,7 @@ const BroadcastInputPage: NextPage = () => {
       <Input
         type="text"
         placeholder="タイトルを入力する"
+        // eslint-disable-next-line react/jsx-handler-names
         onChange={(e) => setBroadcastState({ ...broadcastState, title: e.target.value })}
       />
       <Input

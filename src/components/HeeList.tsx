@@ -1,4 +1,3 @@
-import Image from "next/image";
 import type { VFC } from "react";
 import { Label } from "src/components/styled";
 import { styled } from "src/utils";
@@ -21,7 +20,7 @@ export const HeeList: VFC<Props> = (props) => {
         return (
           <HeeListContainer key={item.id}>
             <UserInfo>
-              <Image className="rounded-full" src="/wow.jpg" width={35} height={35} alt="ユーザーネーム" />
+              <img className="rounded-full" src="/wow.jpg" width={35} height={35} alt="ユーザーネーム" />
               <UserName>{item.name}</UserName>
             </UserInfo>
 

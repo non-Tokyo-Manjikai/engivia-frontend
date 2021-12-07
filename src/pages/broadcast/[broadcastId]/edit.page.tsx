@@ -1,20 +1,20 @@
+import { format, utcToZonedTime } from "date-fns-tz";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { format, utcToZonedTime } from "date-fns-tz";
-import { Button, Input, PageRoot, Title } from "src/components/styled";
-import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
-import { styled } from "src/utils";
 import { useCallback, useEffect, useState } from "react";
-import { handlePutTrivia } from "src/hooks/handlePutTrivia";
 import toast, { Toaster } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "src/components/atoms";
+import { Button, Input, PageRoot, Title } from "src/components/styled";
+import { handlePutTrivia } from "src/hooks/handlePutTrivia";
+import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
+import { styled } from "src/utils";
 
 const BroadcastEditPage: NextPage = () => {
   const router = useRouter();
   const userInfo = useRecoilValue(userInfoState);
 
-  //broadcast/[id]/live/adminから遷移してくる時にrouter.query.broadcastIdを渡してくる
+  // broadcast/[id]/live/adminから遷移してくる時にrouter.query.broadcastIdを渡してくる
   const { data, isError } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, userInfo.token);
   const [dateValue, setDateValue] = useState<string>("");
   const [titleValue, setTitleValue] = useState("");

@@ -33,7 +33,7 @@ module.exports = {
   rules: {
     semi: ["error", "always"],
     "no-tabs": "off",
-    indent: ["error", "always"],
+    indent: ["error", 2],
     quotes: ["error", "double"],
 
     // オブジェクトの最後の要素にカンマをつけるか
