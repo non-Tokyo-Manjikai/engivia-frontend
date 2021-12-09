@@ -12,7 +12,7 @@ export const HeeButtonKit: VFC<Props> = memo((props) => {
     <HeeButtonWrap>
       <HeeButton>
         <Hee isDied={props.isDied}>へぇ</Hee>
-        <Shadow onClick={props.onClick} />
+        <Shadow onClick={props.onClick} disabled={props.isDied} />
         <HeeShadow isDied={props.isDied} />
       </HeeButton>
       <HeeBottom isDied={props.isDied} />

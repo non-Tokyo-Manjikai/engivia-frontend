@@ -128,7 +128,7 @@ const LiveUserPage: NextPage = () => {
 
       <BroadcastHeader status="live" title="第1回エンジビアの泉" />
       <EngiviaCard {...viewEngivia} heeCount={totalHeeCount} isResult />
-      <HeeButtonKit onClick={handleHeeClick} isDied={heeCount === 20} />
+      <HeeButtonKit onClick={handleHeeClick} isDied={heeCount === 20 || viewEngivia.id === 0} />
     </PageRoot>
   );
 };
