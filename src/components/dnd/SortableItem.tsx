@@ -1,6 +1,6 @@
 import { useSortable } from "@dnd-kit/sortable";
 import type { VFC } from "react";
-import { memo,useMemo  } from "react";
+import { memo } from "react";
 import { Item } from "src/components/dnd";
 
 type Props = {
@@ -11,16 +11,16 @@ export const SortableItem: VFC<Props> = memo((props: any) => {
   const { attributes, listeners, setNodeRef, transition } = useSortable({
     id: props.id,
   });
-
-  const itemStyle = useMemo(() => {
-    return {
-      transform: " CSS.Transform.toString(transform)",
-      transition,
-    };
-  }, []);
-
   return (
-    <div style={{ ...itemStyle }} ref={setNodeRef} {...attributes} {...listeners}>
+    <div
+      ref={setNodeRef}
+      style={{
+        transform: " CSS.Transform.toString(transform)",
+        transition,
+      }}
+      {...attributes}
+      {...listeners}
+    >
       <Item id={props.id} />
     </div>
   );
