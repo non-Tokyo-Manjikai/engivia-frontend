@@ -1,8 +1,8 @@
-import useSWRImmutable from "swr/immutable";
 import { getFetcher } from "src/functions/getFetcher";
+import useSWR from "swr";
 
 export const useGetSWR = <T extends unknown>(url: string) => {
-  const { data, error } = useSWRImmutable<T>(url, getFetcher);
+  const { data, error } = useSWR<T>(url, getFetcher, { revalidateOnFocus: false });
 
   return {
     data: data,
@@ -12,7 +12,7 @@ export const useGetSWR = <T extends unknown>(url: string) => {
 };
 
 export const useGetSWRWithToken = <T extends unknown>(url: string, token: string) => {
-  const { data, error } = useSWRImmutable<T>([url, token]);
+  const { data, error } = useSWR<T>([url, token], { revalidateOnFocus: false });
 
   return {
     data: data,
