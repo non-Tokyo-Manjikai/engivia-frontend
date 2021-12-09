@@ -37,8 +37,6 @@ const MyEngiviaPage: NextPage = () => {
     }
   }, [trivia]);
 
-  if (!broadcastId) return null;
-
   const handleTextChange = (e: any) => {
     setText(e.target.value);
   };
@@ -63,6 +61,13 @@ const MyEngiviaPage: NextPage = () => {
       setTimeout(() => router.push("/broadcast"), 2000);
     }
   };
+  useEffect(() => {
+    if (trivia) {
+      setText(trivia.content);
+    }
+  }, [trivia]);
+
+  if (!broadcastId) return null;
 
   return (
     <PageRoot>
