@@ -22,7 +22,7 @@ export const EngiviaCard: VFC<Props> = (props) => {
           <EngiviaContent>{props.content}</EngiviaContent>
           <Content>
             <UserInfoWrap>
-              <Icon />
+              <Icon>{props.image ? <Image src={props.image} alt="superhero" /> : null}</Icon>
               <UserName>{props.name}</UserName>
             </UserInfoWrap>
             {props.isResult ? (
@@ -75,14 +75,21 @@ const Content = styled("div", {
 });
 
 const Icon = styled("div", {
-  square: 35,
-  borderRadius: 9999,
+  width: "3rem",
+  height: "3rem",
+  borderRadius: "9999px",
   background: "$primary9",
+});
+
+const Image = styled("img", {
+  width: "3rem",
+  height: "3rem",
+  borderRadius: "9999px",
 });
 
 const UserName = styled("span", {
   fontWeight: 500,
-  fontSize: "0.9rem",
+  fontSize: "1rem",
   color: "$slate11",
 });
 

@@ -48,7 +48,12 @@ const MyEngiviaPage: NextPage = () => {
             </>
           ) : (
             <>
-              <EngiviaCard id={data.id} content={data.Trivia[0].content} name={data.Trivia[0].User.name} />
+              <EngiviaCard
+                id={data.id}
+                image={userInfo.image}
+                content={data.Trivia[0].content}
+                name={data.Trivia[0].User.name}
+              />
               <ButtonWrap>
                 <Button color="primary" onClick={handleEditToggle}>
                   編集する
