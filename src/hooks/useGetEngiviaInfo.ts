@@ -1,15 +1,16 @@
 import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
+import { broadcastLiveState } from "src/components/atoms";
 import { API_URL } from "src/constants/API_URL";
 import type { BroadcastLiveType } from "src/types";
-import useSWRImmutable from "swr/immutable";
+import useSWR from "swr";
 import fetch from "unfetch";
-import { broadcastLiveState } from "src/components/atoms";
 
 const fetchWithToken = (url: string, token: string) => {
   return fetch(url, {
     method: "GET",
     headers: {
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       Authorization: `Bearer ${token}`,
     },
   }).then((res) => res.json());
@@ -18,7 +19,9 @@ const fetchWithToken = (url: string, token: string) => {
 export const useGetEngiviaInfo = (url: string, token: string) => {
   const setBroadcast = useSetRecoilState(broadcastLiveState);
 
-  const { data, error } = useSWRImmutable<BroadcastLiveType>([`${API_URL}${url}`, token], fetchWithToken);
+  const { data, error } = useSWR<BroadcastLiveType>([`${API_URL}${url}`, token], fetchWithToken, {
+    revalidateOnFocus: false,
+  });
 
   useEffect(() => {
     console.info(data);
@@ -29,6 +32,7 @@ export const useGetEngiviaInfo = (url: string, token: string) => {
           engiviaNumber: index + 1,
         };
       });
+      // eslint-disable-next-line @typescript-eslint/naming-convention
       setBroadcast({ ...data, Trivia: numberAddTriviaList });
     }
   }, [data]);
