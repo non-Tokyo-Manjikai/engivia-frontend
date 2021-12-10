@@ -3,9 +3,12 @@ import { useCallback, useState } from "react";
 import { io } from "socket.io-client";
 import { BroadcastHeader, EngiviaCard, HeeButtonKit, HeeList } from "src/components";
 import { Button, PageRoot } from "src/components/styled";
+import { HEE_SOUND } from "src/constants/HEE_SOUND";
 import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
 import { totalCount } from "src/functions/totalCount";
 import { styled } from "src/utils";
+
+const heeSound = new Audio(`data:audio/wav;base64, ${HEE_SOUND}`);
 
 type Engivia = {
   id: number;
@@ -67,6 +70,8 @@ const LiveUserPage: NextPage = () => {
     socket.on("get_title_call", (data) => {
       // console.info("タイトルコール取得", data);
       setViewEngivia(data.engivia);
+      const sound = new Audio(`data:audio/wav;base64, ${data.engivia.heeSound}`);
+      sound.play();
     });
 
     socket.on("get_wait_engivia", () => {
@@ -97,6 +102,7 @@ const LiveUserPage: NextPage = () => {
       query: { count: heeCount + 1 },
     });
     setHeeCount((prev: number) => prev + 1);
+    heeSound.play();
   };
 
   // 通信終了
