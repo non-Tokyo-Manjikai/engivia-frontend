@@ -29,7 +29,7 @@ const BroadcastPutBody = {
 };
 
 export const FetcherExample = () => {
-  const { data, isError, isLoading } = useGetSWRWithToken<User>("/user", user_token);
+  const { data, isError, isLoading } = useGetSWRWithToken<UserType>("/user", user_token);
   isLoading && console.info("取得中...");
   isError && console.error("失敗しました");
   !data && console.info("データがありません");
