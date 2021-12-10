@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable indent */
 import type { NextPage } from "next";
 import { useRecoilValue } from "recoil";
 import { BroadcastItem, NextLink } from "src/components";
@@ -5,8 +7,19 @@ import { userInfoState } from "src/components/atoms";
 import { FetcherExample } from "src/components/FetcherExample";
 import { Button, PageRoot, Title } from "src/components/styled";
 import { useGetSWR } from "src/hooks/useGetSWR";
-import type { BroadcastListType } from "src/types";
 import { styled } from "src/utils";
+
+export type LiveStatus = "upcoming" | "live" | "ended";
+
+export type BroadcastListType = {
+  id: number;
+  title: string;
+  scheduledStartTime: string;
+  status: LiveStatus;
+  _count: {
+    Trivia: number;
+  };
+};
 
 const BroadcastPage: NextPage = () => {
   const { data, isError, isLoading } = useGetSWR<BroadcastListType[]>("/broadcast");
@@ -33,12 +46,12 @@ const BroadcastPage: NextPage = () => {
                 item.status === "ended"
                   ? "/archive"
                   : userInfo.isAdmin
-                    ? "/live/admin"
-                    : item.status === "live"
-                      ? "/live/user"
-                      : item.status === "upcoming"
-                        ? "/my_engivia"
-                        : ""
+                  ? "/live/admin"
+                  : item.status === "live"
+                  ? "/live/user"
+                  : item.status === "upcoming"
+                  ? "/my_engivia"
+                  : ""
               }`}
               key={item.id}
             >

@@ -6,5 +6,7 @@ type ConnectUser = {
 };
 
 export const totalCount = (connectUserList: ConnectUser[]) => {
-  return connectUserList.reduce((total, current) => total + current.heeCount, 0);
+  const totalCount = connectUserList.reduce((total, current) => total + current.heeCount, 0);
+  const result = Number(((totalCount / (connectUserList.length - 1)) * 5).toFixed(2));
+  return result;
 };

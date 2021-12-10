@@ -29,6 +29,8 @@ const LiveAdminPage: NextPage = () => {
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
   const { data, isError, isLoading } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, "token3");
 
+  const totalHeeCount = totalCount(connectUserList);
+
   // 放送開始
   const handleBeginLive = async () => {
     const result = await handlePutBroadcast(`/broadcast/${router.query.broadcastId}`, putBody, "token3");
@@ -47,6 +49,7 @@ const LiveAdminPage: NextPage = () => {
         id: userInfo.id,
         name: userInfo.name,
         image: userInfo.image,
+        isAdmin: "true",
       },
     });
     // console.info("通信情報取得", socket);
@@ -115,7 +118,7 @@ const LiveAdminPage: NextPage = () => {
     <Container>
       <Top>
         <Title>
-          <BroadcastHeader title={`${data.title}：${totalCount(connectUserList)}へぇ`} status={data.status} />
+          <BroadcastHeader title={`${data.title}：${totalHeeCount || 0}へぇ`} status={data.status} />
         </Title>
 
         <ButtonWrap>
@@ -134,7 +137,7 @@ const LiveAdminPage: NextPage = () => {
       </Top>
 
       <Multicontainers
-        totalHeeCount={totalCount(connectUserList)}
+        totalHeeCount={totalHeeCount}
         onTitleCall={handleTitleCall}
         onWaitTitleCall={handleWaitTitleCall}
       />
