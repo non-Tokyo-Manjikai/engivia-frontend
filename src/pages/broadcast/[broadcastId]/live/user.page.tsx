@@ -1,8 +1,13 @@
 import type { NextPage } from "next";
 import { useCallback, useEffect, useState } from "react";
+import { useRecoilValue } from "recoil";
 import { io } from "socket.io-client";
 import { BroadcastHeader, EngiviaCard, HeeButtonKit, HeeList } from "src/components";
-import { Button, PageRoot } from "src/components/styled";
+import { userInfoState } from "src/components/atoms";
+import {
+  // Button,
+  PageRoot,
+} from "src/components/styled";
 import { HEE_SOUND } from "src/constants/HEE_SOUND";
 import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
 import { totalCount } from "src/functions/totalCount";
@@ -31,15 +36,15 @@ const LiveUserPage: NextPage = () => {
   const [viewEngivia, setViewEngivia] = useState<Engivia>(INIT_ENGIVIA);
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
   // 本番用
-  // const userInfo = useRecoilValue(userInfoState);
+  const userInfo = useRecoilValue(userInfoState);
 
   const totalHeeCount = totalCount(connectUserList);
 
   // 開発用
-  const [selectUser, setSelectUser] = useState(0);
-  const handleChange = (value: number) => {
-    setSelectUser(value);
-  };
+  // const [selectUser, setSelectUser] = useState(0);
+  // const handleChange = (value: number) => {
+  //   setSelectUser(value);
+  // };
 
   // 通信開始
   const handleLiveConnect = () => {
@@ -47,15 +52,15 @@ const LiveUserPage: NextPage = () => {
       path: "/live",
       query: {
         // 開発用
-        id: sampleUserInfo[selectUser].id,
-        name: sampleUserInfo[selectUser].name,
-        image: sampleUserInfo[selectUser].image,
-        isAdmin: "false",
-        // 本番用
-        // id: userInfo.id,
-        // name: userInfo.name,
-        // image: userInfo.image,
+        // id: sampleUserInfo[selectUser].id,
+        // name: sampleUserInfo[selectUser].name,
+        // image: sampleUserInfo[selectUser].image,
         // isAdmin: "false",
+        // 本番用
+        id: userInfo.id,
+        name: userInfo.name,
+        image: userInfo.image,
+        isAdmin: "false",
       },
     });
     // console.info("通信情報取得", socket);
@@ -90,7 +95,7 @@ const LiveUserPage: NextPage = () => {
 
   useEffect(() => {
     // 本番用
-    // handleLiveConnect();
+    handleLiveConnect();
     setHeeSound(new Audio(`data:audio/wav;base64, ${HEE_SOUND}`));
   }, []);
 
@@ -111,13 +116,19 @@ const LiveUserPage: NextPage = () => {
     setSoket(null);
   }, [socket]);
 
+  useEffect(() => {
+    return () => {
+      handleLiveDisconnect();
+    };
+  }, []);
+
   return (
     <PageRoot>
       <ListWrapper>
-        <HeeList currentUserId={sampleUserInfo[selectUser].id} data={connectUserList} />
+        <HeeList currentUserId={userInfo.id} data={connectUserList} />
       </ListWrapper>
 
-      <select onChange={(e: any) => handleChange(e.target.value)}>
+      {/* <select onChange={(e: any) => handleChange(e.target.value)}>
         <option value={0}>0</option>
         <option value={1}>1</option>
       </select>
@@ -130,7 +141,7 @@ const LiveUserPage: NextPage = () => {
         <Button color="secondary" onClick={handleLiveDisconnect}>
           通信終了
         </Button>
-      )}
+      )} */}
 
       <BroadcastHeader status="live" title="第1回エンジビアの泉" />
       <EngiviaCard {...viewEngivia} heeCount={totalHeeCount} isResult />
@@ -157,21 +168,21 @@ const ListWrapper = styled("aside", {
 });
 
 // 開発用
-const sampleUserInfo = [
-  {
-    id: "ABCDE456",
-    name: "みやさん",
-    image:
-      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
-    isAdmin: false,
-    content: "HTMLにはポータルという要素がある",
-  },
-  {
-    id: "ABCDE789",
-    name: "カタンシャン",
-    image:
-      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
-    isAdmin: false,
-    content: "HTMLにはポータルという要素がある",
-  },
-];
+// const sampleUserInfo = [
+//   {
+//     id: "ABCDE456",
+//     name: "みやさん",
+//     image:
+//       "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+//     isAdmin: false,
+//     content: "HTMLにはポータルという要素がある",
+//   },
+//   {
+//     id: "ABCDE789",
+//     name: "カタンシャン",
+//     image:
+//       "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+//     isAdmin: false,
+//     content: "HTMLにはポータルという要素がある",
+//   },
+// ];
