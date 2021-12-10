@@ -2,8 +2,8 @@ import type { DragEndEvent, DragOverEvent, DragStartEvent } from "@dnd-kit/core"
 import { KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
 import { useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
-import { broadcastLiveState } from "src/components/atoms";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { broadcastLiveState, userInfoState } from "src/components/atoms";
 import { dndValidation } from "src/functions/dndValidation";
 import { handlePutTrivia } from "src/hooks/handlePutTrivia";
 import type { TriviaType } from "src/types";
@@ -15,6 +15,7 @@ type Props = {
 };
 
 export const useDndTrivia = (props: Props) => {
+  const userInfo = useRecoilValue(userInfoState);
   const [isFeature, setIsFeature] = useState(false);
   const [broadcast, setBroadcast] = useRecoilState(broadcastLiveState);
   const [activeId, setActiveId] = useState<number | null>();
@@ -49,7 +50,7 @@ export const useDndTrivia = (props: Props) => {
 
   const handleTitleCall = async (currentId: number) => {
     const PutBody = { featured: true };
-    const result = await handlePutTrivia(`/trivia/${currentId}`, PutBody, "token3");
+    const result = await handlePutTrivia(`/trivia/${currentId}`, PutBody, userInfo.token);
 
     setBroadcast((prevState) => {
       if (prevState) {
@@ -152,7 +153,7 @@ export const useDndTrivia = (props: Props) => {
 
     if (overContainer === "container2") {
       const PutBody = { hee: props.totalHeeCount === 0 ? 0 : props.totalHeeCount };
-      const result = await handlePutTrivia(`/trivia/${activeId}`, PutBody, "token3");
+      const result = await handlePutTrivia(`/trivia/${activeId}`, PutBody, userInfo.token);
 
       setBroadcast((prevState) => {
         if (prevState) {
