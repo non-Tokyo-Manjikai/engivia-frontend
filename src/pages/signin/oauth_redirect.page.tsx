@@ -36,6 +36,9 @@ const signinRedirectPage: NextPage = () => {
       path: "/",
     });
   }
+  if (cookies.token) {
+    router.push("/broadcast");
+  }
   return <PageRoot>{error ? <H1>認証エラー</H1> : data ? null : <H1>認証中</H1>}</PageRoot>;
 };
 
