@@ -16,6 +16,7 @@ export type TriviaType = {
   hee: number | null;
   userId: string;
   User: UserType;
+  statusCode?: number;
 };
 
 export type BroadcastLiveType = {
@@ -34,7 +35,7 @@ export type BroadcastListType = {
   status: LiveStatus;
   _count: {
     Trivia: number;
-  }
+  };
 };
 
 export type FetchUserInfo = {
