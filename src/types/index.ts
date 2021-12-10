@@ -16,6 +16,7 @@ export type TriviaType = {
   hee: number | null;
   userId: string;
   User: User;
+  statusCode?: number;
 };
 
 export type BroadcastLiveType = {
