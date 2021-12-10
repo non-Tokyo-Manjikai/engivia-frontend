@@ -23,9 +23,7 @@ export const Item: VFC<Props> = memo((props) => {
       <p>{resultTrivia.content}</p>
       <UserCard>
         <User>
-          <ImageContainer>
-            <Img src={resultTrivia.User.image} alt="superhero" />
-          </ImageContainer>
+          <Icon>{resultTrivia.User.image ? <Image src={resultTrivia.User.image} alt="superhero" /> : null}</Icon>
           <Name>{resultTrivia.User.name}</Name>
         </User>
         {resultTrivia.featured ? <div>{resultTrivia.hee}</div> : null}
@@ -56,13 +54,18 @@ const UserCard = styled("div", {
   alignItems: "center",
 });
 
-const ImageContainer = styled("div", {
-  display: "flex",
 
+const Icon = styled("div", {
   width: "2rem",
   height: "2rem",
+  borderRadius: "9999px",
+  backgroundColor: "$primary10",
+});
 
-  borderRadius: 9999,
+const Image = styled("img", {
+  width: "2rem",
+  height: "2rem",
+  borderRadius: "9999px",
 });
 
 const User = styled("div", {

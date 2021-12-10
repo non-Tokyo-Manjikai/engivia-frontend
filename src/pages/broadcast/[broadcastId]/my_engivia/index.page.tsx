@@ -105,7 +105,12 @@ const MyEngiviaPage: NextPage = () => {
             </>
           ) : (
             <>
-              <EngiviaCard id={trivia?.id} content={text} name={trivia?.User?.name} />
+              <EngiviaCard
+                id={data.id}
+                image={userInfo.image}
+                content={data.Trivia[0].content}
+                name={data.Trivia[0].User.name}
+              />
               <ButtonWrap>
                 <Toaster />
                 <Button color="primary" onClick={handleEditToggle}>
