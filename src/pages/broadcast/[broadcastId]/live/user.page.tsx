@@ -1,5 +1,5 @@
 import type { NextPage } from "next";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { io } from "socket.io-client";
 import { BroadcastHeader, EngiviaCard, HeeButtonKit, HeeList } from "src/components";
 import { Button, PageRoot } from "src/components/styled";
@@ -7,8 +7,6 @@ import { HEE_SOUND } from "src/constants/HEE_SOUND";
 import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
 import { totalCount } from "src/functions/totalCount";
 import { styled } from "src/utils";
-
-const heeSound = new Audio(`data:audio/wav;base64, ${HEE_SOUND}`);
 
 type Engivia = {
   id: number;
@@ -27,6 +25,7 @@ type ConnectUser = {
 };
 
 const LiveUserPage: NextPage = () => {
+  const [heeSound, setHeeSound] = useState<any>(null);
   const [socket, setSoket] = useState<any>();
   const [heeCount, setHeeCount] = useState<number>(0);
   const [viewEngivia, setViewEngivia] = useState<Engivia>(INIT_ENGIVIA);
@@ -89,10 +88,11 @@ const LiveUserPage: NextPage = () => {
     });
   };
 
-  // 本番用
-  // useEffect(() => {
-  //   handleLiveConnect();
-  // }, []);
+  useEffect(() => {
+    // 本番用
+    // handleLiveConnect();
+    setHeeSound(new Audio(`data:audio/wav;base64, ${HEE_SOUND}`));
+  }, []);
 
   // へぇカウント送信
   const handleHeeClick = () => {
