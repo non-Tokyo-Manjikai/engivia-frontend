@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export type LiveStatus = "upcoming" | "live" | "ended";
 
-export type User = {
+export type UserType = {
   id: string;
   name: string;
   image: string;
@@ -15,7 +15,7 @@ export type TriviaType = {
   featured: boolean;
   hee: number | null;
   userId: string;
-  User: User;
+  User: UserType;
   statusCode?: number;
 };
 
@@ -35,5 +35,12 @@ export type BroadcastListType = {
   status: LiveStatus;
   _count: {
     Trivia: number;
-  }
+  };
+};
+
+export type FetchUserInfo = {
+  id: string;
+  name: string;
+  image: string;
+  isAdmin: boolean;
 };

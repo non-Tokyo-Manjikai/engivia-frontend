@@ -1,8 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useSetRecoilState } from "recoil";
-import { userInfoState } from "src/components/atoms";
+import { parseCookies, setCookie } from "nookies";
 import { PageRoot } from "src/components/styled";
 import { API_URL } from "src/constants/API_URL";
 import { styled } from "src/utils";
@@ -27,11 +26,15 @@ const fetcher = async (url: string) => {
 
 const signinRedirectPage: NextPage = () => {
   const router = useRouter();
-  const setUserInfoState = useSetRecoilState(userInfoState);
-  // Slack認証をしてユーザー情報を取得する
+  // Slack認証をしてユーザー情報とトークンを取得する
   const { data, error } = useSWR<User>(`${API_URL}/slack/token?code=${router.query.code}`, fetcher);
-  if (data && !error) {
-    setUserInfoState(data);
+  const cookies = parseCookies();
+  if (data && !error && !cookies.token) {
+    console.info("set Cookie");
+    setCookie(null, "token", data.token, {
+      // maxAge: 30 * 24 * 60 * 60,
+      path: "/",
+    });
     router.push("/broadcast");
   }
   return <PageRoot>{error ? <H1>認証エラー</H1> : data ? null : <H1>認証中</H1>}</PageRoot>;
