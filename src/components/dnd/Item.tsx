@@ -1,5 +1,5 @@
 import type { VFC } from "react";
-import { memo,useMemo } from "react";
+import { memo, useMemo } from "react";
 import { useRecoilValue } from "recoil";
 import { broadcastLiveState } from "src/components/atoms";
 import { styled } from "src/utils";
@@ -17,15 +17,14 @@ export const Item: VFC<Props> = memo((props) => {
     })[0];
   }, [broadcast]);
 
-  if (!resultTrivia) return <div></div>;
-
+  if (!resultTrivia) return null;
   return (
     <Container>
       <p>{resultTrivia.content}</p>
       <UserCard>
         <User>
           <ImageContainer>
-            <img src={resultTrivia.User.image} width={40} height={40} alt="superhero" />
+            <Img src={resultTrivia.User.image} alt="superhero" />
           </ImageContainer>
           <Name>{resultTrivia.User.name}</Name>
         </User>
@@ -36,17 +35,19 @@ export const Item: VFC<Props> = memo((props) => {
 });
 
 const Container = styled("div", {
+  userSelect: "none",
   display: "flex",
   justifyContent: "center",
-  padding: "20px",
-  margin: "15px 0",
-  background: "white",
-  borderRadius: "10px",
-  boxShadow: "0px 2px 2px gray",
   flexDirection: "column",
   gap: "14px",
+
+  padding: "20px",
+  margin: "15px 0",
+  background: "$slate1",
+  borderRadius: "10px",
+  boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06)",
+
   fontSize: "15px",
-  userSelect: "none",
 });
 
 const UserCard = styled("div", {
@@ -56,10 +57,12 @@ const UserCard = styled("div", {
 });
 
 const ImageContainer = styled("div", {
+  display: "flex",
+
   width: "2rem",
   height: "2rem",
-  borderRadius: "9999px",
-  display: "flex",
+
+  borderRadius: 9999,
 });
 
 const User = styled("div", {
@@ -69,6 +72,11 @@ const User = styled("div", {
 
 const Name = styled("div", {
   paddingX: "1rem",
+
   fontSize: "0.75rem",
   lineHeight: "1rem",
+});
+
+const Img = styled("img", {
+  borderRadius: 9999,
 });

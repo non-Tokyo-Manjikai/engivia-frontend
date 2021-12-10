@@ -33,5 +33,7 @@ export type BroadcastListType = {
   title: string;
   scheduledStartTime: string;
   status: LiveStatus;
-  count: number;
+  _count: {
+    Trivia: number;
+  }
 };
