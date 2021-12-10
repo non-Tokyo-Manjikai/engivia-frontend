@@ -2,19 +2,19 @@
 /* eslint-disable @next/next/no-img-element */
 import { blackA, violet } from "@radix-ui/colors";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { useRecoilValue } from "recoil";
-import { userInfoState } from "src/components/atoms";
+import { useCookies } from "react-cookie";
 import { UserInfo } from "src/components/UserInfo";
 import { keyframes, styled } from "src/utils";
 
 export const User = () => {
-  const userInfo = useRecoilValue(userInfoState);
-
+  // const userInfo = useRecoilValue(userInfoState);
+  const [cookies] = useCookies(["userInfo"]);
+  console.log(`cookies.userInfo: ${cookies.userInfo}`);
   return (
     <Popover>
       <PopoverTrigger asChild>
         <IconButton aria-label="Update dimensions">
-          <img className="rounded-full" src={userInfo.image} width={80} height={80} alt="superhero" />
+          <img className="rounded-full" src={cookies.userInfo?.image || ""} width={80} height={80} alt="superhero" />
         </IconButton>
       </PopoverTrigger>
       <PopoverContent sideOffset={5}>
