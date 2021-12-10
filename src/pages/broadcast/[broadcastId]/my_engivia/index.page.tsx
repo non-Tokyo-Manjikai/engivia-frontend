@@ -7,6 +7,7 @@ import { BroadcastHeader, EngiviaCard } from "src/components";
 import { userInfoState } from "src/components/atoms";
 import { MyEngiviaInput } from "src/components/MyEngiviaInput";
 import { Button, PageRoot, Textarea } from "src/components/styled";
+import { deleteTrivia } from "src/hooks/deleteTrivia";
 import { handlePutTrivia } from "src/hooks/handlePutTrivia";
 import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { useGetTrivia } from "src/hooks/useGetTrivia";
@@ -29,7 +30,10 @@ const MyEngiviaPage: NextPage = () => {
 
   const handleEditToggle = useCallback(() => {
     setEdit((edit) => !edit);
-  }, []);
+    if (trivia) {
+      setText(trivia.content);
+    }
+  }, [trivia]);
 
   useEffect(() => {
     if (trivia) {
@@ -61,11 +65,16 @@ const MyEngiviaPage: NextPage = () => {
       setTimeout(() => router.push("/broadcast"), 2000);
     }
   };
-  useEffect(() => {
-    if (trivia) {
-      setText(trivia.content);
+  const handleDelete = (triviaId: number) => async () => {
+    const statusCode = await deleteTrivia(`/trivia/${triviaId}`, userInfo.token);
+    console.log(statusCode);
+    if (statusCode >= 400) {
+      toast.error("削除できませんでした");
+    } else {
+      toast.success("削除しました");
+      setTimeout(() => router.push("/broadcast"), 2000);
     }
-  }, [trivia]);
+  };
 
   if (!broadcastId) return null;
 
@@ -98,10 +107,13 @@ const MyEngiviaPage: NextPage = () => {
             <>
               <EngiviaCard id={trivia?.id} content={text} name={trivia?.User?.name} />
               <ButtonWrap>
+                <Toaster />
                 <Button color="primary" onClick={handleEditToggle}>
                   編集する
                 </Button>
-                <Button color="secondary">削除する</Button>
+                <Button color="secondary" onClick={handleDelete(data?.Trivia[0]?.id)}>
+                  削除する
+                </Button>
               </ButtonWrap>
             </>
           )}
