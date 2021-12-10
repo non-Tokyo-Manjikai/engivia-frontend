@@ -35,9 +35,6 @@ const signinRedirectPage: NextPage = () => {
       // maxAge: 30 * 24 * 60 * 60,
       path: "/",
     });
-  }
-  if (cookies.token) {
-    console.info("/broadcast");
     router.push("/broadcast");
   }
   return <PageRoot>{error ? <H1>認証エラー</H1> : data ? null : <H1>認証中</H1>}</PageRoot>;
