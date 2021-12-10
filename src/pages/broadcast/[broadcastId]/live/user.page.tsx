@@ -8,6 +8,7 @@ import {
   // Button,
   PageRoot,
 } from "src/components/styled";
+import { API_URL } from "src/constants/API_URL";
 import { HEE_SOUND } from "src/constants/HEE_SOUND";
 import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
 import { totalCount } from "src/functions/totalCount";
@@ -48,7 +49,7 @@ const LiveUserPage: NextPage = () => {
 
   // 通信開始
   const handleLiveConnect = () => {
-    const socket = io("http://localhost:8080", {
+    const socket = io(API_URL, {
       path: "/live",
       query: {
         // 開発用
