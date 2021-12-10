@@ -19,7 +19,8 @@ type ConnectUser = {
   heeCount: number;
 };
 
-const putBody = { status: "live" };
+const featurePutBody = { status: "live" };
+const featuredPutBody = { status: "ended" };
 
 const LiveAdminPage: NextPage = () => {
   const router = useRouter();
@@ -27,13 +28,13 @@ const LiveAdminPage: NextPage = () => {
   const userInfo = useRecoilValue(userInfoState);
   const [broadcast, setBroadcast] = useRecoilState(broadcastLiveState);
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
-  const { data, isError, isLoading } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, "token3");
+  const { data, isError, isLoading } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, userInfo.token);
 
   const totalHeeCount = totalCount(connectUserList);
 
   // 放送開始
   const handleBeginLive = async () => {
-    const result = await handlePutBroadcast(`/broadcast/${router.query.broadcastId}`, putBody, "token3");
+    const result = await handlePutBroadcast(`/broadcast/${router.query.broadcastId}`, featurePutBody, userInfo.token);
     if (result.id) {
       setBroadcast((prevState) => {
         if (prevState) {
@@ -94,8 +95,8 @@ const LiveAdminPage: NextPage = () => {
   const handleFinishLive = async () => {
     socket.disconnect();
     setSoket(null);
-    const putBody = { status: "ended" };
-    const result = await handlePutBroadcast(`/broadcast/${router.query.broadcastId}`, putBody, "token3");
+
+    const result = await handlePutBroadcast(`/broadcast/${router.query.broadcastId}`, featuredPutBody, userInfo.token);
     if (result.id) {
       setBroadcast((prevState) => {
         if (prevState) {
