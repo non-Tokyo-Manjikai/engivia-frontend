@@ -3,7 +3,6 @@ import "src/styles/globals.css";
 import { IdProvider } from "@radix-ui/react-id";
 import type { AppProps } from "next/app";
 import { memo } from "react";
-import { CookiesProvider } from "react-cookie";
 import { RecoilRoot } from "recoil";
 import { Layout } from "src/components/layout";
 import { WithTheme } from "src/components/theme";
@@ -18,13 +17,11 @@ const MyApp = (props: AppProps) => {
       }}
     >
       <IdProvider>
-        <CookiesProvider>
-          <RecoilRoot>
-            <Layout>
-              <props.Component {...props.pageProps} />
-            </Layout>
-          </RecoilRoot>
-        </CookiesProvider>
+        <RecoilRoot>
+          <Layout>
+            <props.Component {...props.pageProps} />
+          </Layout>
+        </RecoilRoot>
       </IdProvider>
     </SWRConfig>
   );
