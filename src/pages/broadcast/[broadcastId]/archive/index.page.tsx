@@ -73,6 +73,7 @@ const ArchivePage: NextPage = () => {
       {Trivia
         ? Trivia.map((item, index) => (
           <EngiviaCard
+            image={item.User.image}
             key={item.id}
             id={item.id}
             content={item.content}
