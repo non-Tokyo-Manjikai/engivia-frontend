@@ -18,6 +18,7 @@ export const useDndTrivia = (props: Props) => {
   const [isFeature, setIsFeature] = useState(false);
   const [broadcast, setBroadcast] = useRecoilState(broadcastLiveState);
   const [activeId, setActiveId] = useState<number | null>();
+  const [startContainer, setStartContainer] = useState();
   const [items, setItems] = useState<{ [key: string]: number[] }>({
     root: [],
     container1: [],
@@ -82,6 +83,9 @@ export const useDndTrivia = (props: Props) => {
     const { active } = event;
     const activeId = Number(active.id);
     setActiveId(activeId);
+    if (active.data.current) {
+      setStartContainer(active.data.current.sortable.containerId);
+    }
   };
 
   const handleDragOver = (event: DragOverEvent) => {
@@ -89,7 +93,14 @@ export const useDndTrivia = (props: Props) => {
     const activeId = Number(active.id);
     const overId = over?.id;
 
-    const [result, activeContainer, overContainer] = dndValidation(broadcast, items, activeId, overId, false);
+    const [result, activeContainer, overContainer] = dndValidation(
+      broadcast,
+      items,
+      activeId,
+      overId,
+      false,
+      startContainer,
+    );
     if (!result) return;
 
     if (broadcast?.status === "live" && over) {
@@ -129,7 +140,14 @@ export const useDndTrivia = (props: Props) => {
     const activeId = Number(active.id);
     const overId = over?.id;
 
-    const [result, activeContainer, overContainer] = dndValidation(broadcast, items, activeId, overId, true);
+    const [result, activeContainer, overContainer] = dndValidation(
+      broadcast,
+      items,
+      activeId,
+      overId,
+      true,
+      startContainer,
+    );
     if (!result) return;
 
     if (overContainer === "container2") {
