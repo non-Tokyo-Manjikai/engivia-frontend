@@ -2,7 +2,7 @@
 import { getFetcherWithToken } from "src/functions/getFetcher";
 import { requestFetcher } from "src/functions/requestFetcher";
 import { useGetSWRWithToken } from "src/hooks/useGetSWR";
-import type { User } from "src/types";
+import type { UserType } from "src/types";
 
 const broadcastId = 3;
 const triviaId = 27;
