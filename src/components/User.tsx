@@ -2,19 +2,30 @@
 /* eslint-disable @next/next/no-img-element */
 import { blackA, violet } from "@radix-ui/colors";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { useRecoilValue } from "recoil";
+import { parseCookies } from "nookies";
+import { useRecoilState } from "recoil";
 import { userInfoState } from "src/components/atoms";
 import { UserInfo } from "src/components/UserInfo";
+import { useGetSWR } from "src/hooks/get.swr";
+import type { FetchUserInfo } from "src/types";
 import { keyframes, styled } from "src/utils";
 
 export const User = () => {
-  const userInfo = useRecoilValue(userInfoState);
-
+  const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  // Cookieを読み込む
+  const cookies = parseCookies();
+  // Cookieに保存されているトークンを使ってユーザー情報を取得する。
+  // 本番では userInfo.id === "user2" を !userInfoにした方がいいかも(atomのデフォ値もnullにしたい)
+  const { data, error } = useGetSWR<FetchUserInfo>({ url: "/user", shouldFetch: userInfo.id === "user2" });
+  if (data && !error && userInfo.id === "user2") {
+    // recoilにユーザー情報とトークンを保存する。
+    setUserInfo({ ...data, token: cookies.token });
+  }
   return (
     <Popover>
       <PopoverTrigger asChild>
         <IconButton aria-label="Update dimensions">
-          <img className="rounded-full" src={userInfo.image} width={80} height={80} alt="superhero" />
+          <img className="rounded-full" src={userInfo?.image} width={80} height={80} />
         </IconButton>
       </PopoverTrigger>
       <PopoverContent sideOffset={5}>
