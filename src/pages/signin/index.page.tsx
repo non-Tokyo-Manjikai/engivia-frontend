@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-handler-names */
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { NextPage } from "next";
 import { Button } from "src/components/styled";
