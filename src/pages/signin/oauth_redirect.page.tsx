@@ -32,7 +32,7 @@ const signinRedirectPage: NextPage = () => {
   const { data, error } = useSWR<User>(`${API_URL}/slack/token?code=${router.query.code}`, fetcher);
   if (data && !error && !cookies.userInfo) {
     // setUserInfoState(data);
-    setCookie("userInfo", data);
+    setCookie("userInfo", data, { path: "/" });
   }
   if (cookies.userInfo) {
     router.push("/broadcast");
