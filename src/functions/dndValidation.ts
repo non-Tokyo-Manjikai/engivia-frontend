@@ -3,7 +3,14 @@ const findContainer = (id: any, items: any) => {
   return Object.keys(items).find((key) => items[key].includes(id));
 };
 
-export const dndValidation = (broadcast: any, items: any, activeId: any, overId: any, isDragEnd: boolean) => {
+export const dndValidation = (
+  broadcast: any,
+  items: any,
+  activeId: any,
+  overId: any,
+  isDragEnd: boolean,
+  startContainer?: string,
+) => {
   const activeEngivia = broadcast?.Trivia.filter((item: any) => item.id === activeId)[0];
 
   const activeContainer = findContainer(activeId, items);
@@ -22,15 +29,15 @@ export const dndValidation = (broadcast: any, items: any, activeId: any, overId:
   const isOverRoot = `${overContainer}` === "root";
   const isOverContainer1 = `${overContainer}` === "container1";
   const isOverContainer2 = `${overContainer}` === "container2";
+  const StartContainer1 = startContainer === "container1";
 
   if (isDragEnd) {
-    // ドラッグ終了時、元々あった場所だった場合は動かせない
+    // ドラッグ終了時、元々あった場所だった場合は並び替え処理のみ行う
     const dragEndCheck = activeContainer !== overContainer;
-
     if (dragEndCheck) {
-      return [true, activeContainer, overContainer];
+      return [false, activeContainer, overContainer];
     }
-    return [false, activeContainer, activeContainer];
+    return [true, activeContainer, activeContainer];
   }
 
   // ドラッグオーバー時、元々あった場所だった場合は動かせない
@@ -41,10 +48,10 @@ export const dndValidation = (broadcast: any, items: any, activeId: any, overId:
 
   // container1にあったフィーチャー済みではないものはcontainer2に移動できない
   const check1 = isActiveContainer1 && isOverContainer2 && notFeature;
-  // container2にあったフィーチャー済みではないものはcontainer2に移動できない
-  const check2 = isActiveContainer2 && isOverContainer2 && notFeature;
+  // rootにあったフィーチャー済みではないものはcontainer2に移動できない
+  const check2 = isActiveRoot && isOverContainer2 && notFeature;
   // container2にあったフィーチャー済みのものはcontainer1に移動できない
-  const check3 = isActiveContainer2 && isOverContainer1 && isFeature;
+  const check3 = isActiveContainer2 && isOverContainer1 && isFeature && !StartContainer1;
   // container2にあったフィーチャー済みのものはrootに移動できない
   const check4 = isActiveContainer2 && isOverRoot && isFeature;
   // rootからcontainer1に複数個移動できない
