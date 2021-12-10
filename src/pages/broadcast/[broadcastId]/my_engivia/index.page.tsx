@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
 import { BroadcastHeader, EngiviaCard } from "src/components";
 import { userInfoState } from "src/components/atoms";
@@ -9,7 +10,6 @@ import { Button, PageRoot, Textarea } from "src/components/styled";
 import { deleteTrivia } from "src/hooks/deleteTrivia";
 import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { styled } from "src/utils";
-import toast, { Toaster } from "react-hot-toast";
 
 const MyEngiviaPage: NextPage = () => {
   const router = useRouter();
