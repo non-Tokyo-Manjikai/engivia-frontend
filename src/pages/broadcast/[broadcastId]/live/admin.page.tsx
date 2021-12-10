@@ -7,6 +7,7 @@ import { BroadcastHeader } from "src/components";
 import { broadcastLiveState, userInfoState } from "src/components/atoms";
 import { Multicontainers } from "src/components/dnd";
 import { Button } from "src/components/styled";
+import { API_URL } from "src/constants/API_URL";
 import { totalCount } from "src/functions/totalCount";
 import { handlePutBroadcast } from "src/hooks/handlePutBroadcast";
 import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
@@ -44,7 +45,7 @@ const LiveAdminPage: NextPage = () => {
       });
     }
 
-    const socket = io("http://localhost:8080", {
+    const socket = io(API_URL, {
       path: "/live",
       query: {
         id: userInfo.id,
