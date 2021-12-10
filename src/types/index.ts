@@ -36,3 +36,10 @@ export type BroadcastListType = {
     Trivia: number;
   }
 };
+
+export type FetchUserInfo = {
+  id: string;
+  name: string;
+  image: string;
+  isAdmin: boolean;
+};
