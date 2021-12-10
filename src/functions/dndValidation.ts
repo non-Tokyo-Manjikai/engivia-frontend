@@ -24,13 +24,12 @@ export const dndValidation = (broadcast: any, items: any, activeId: any, overId:
   const isOverContainer2 = `${overContainer}` === "container2";
 
   if (isDragEnd) {
-    // ドラッグ終了時、元々あった場所だった場合は動かせない
+    // ドラッグ終了時、元々あった場所だった場合は並び替え処理のみ行う
     const dragEndCheck = activeContainer !== overContainer;
-
     if (dragEndCheck) {
-      return [true, activeContainer, overContainer];
+      return [false, activeContainer, overContainer];
     }
-    return [false, activeContainer, activeContainer];
+    return [true, activeContainer, activeContainer];
   }
 
   // ドラッグオーバー時、元々あった場所だった場合は動かせない
@@ -41,8 +40,8 @@ export const dndValidation = (broadcast: any, items: any, activeId: any, overId:
 
   // container1にあったフィーチャー済みではないものはcontainer2に移動できない
   const check1 = isActiveContainer1 && isOverContainer2 && notFeature;
-  // container2にあったフィーチャー済みではないものはcontainer2に移動できない
-  const check2 = isActiveContainer2 && isOverContainer2 && notFeature;
+  // rootにあったフィーチャー済みではないものはcontainer2に移動できない
+  const check2 = isActiveRoot && isOverContainer2 && notFeature;
   // container2にあったフィーチャー済みのものはcontainer1に移動できない
   const check3 = isActiveContainer2 && isOverContainer1 && isFeature;
   // container2にあったフィーチャー済みのものはrootに移動できない

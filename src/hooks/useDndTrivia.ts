@@ -130,6 +130,7 @@ export const useDndTrivia = (props: Props) => {
     const overId = over?.id;
 
     const [result, activeContainer, overContainer] = dndValidation(broadcast, items, activeId, overId, true);
+    if (!result) return;
 
     if (overContainer === "container2") {
       const PutBody = { hee: props.totalHeeCount === 0 ? 0 : props.totalHeeCount };
@@ -150,7 +151,6 @@ export const useDndTrivia = (props: Props) => {
       setIsFeature(false);
     }
 
-    if (!result || activeContainer !== overContainer) return;
     const activeIndex = items[activeContainer].indexOf(activeId);
     const overIndex = items[overContainer].indexOf(Number(overId));
     if (activeIndex !== overIndex) {
