@@ -73,6 +73,11 @@ const LiveAdminPage: NextPage = () => {
         prev.map((user: any) => (user.id === data.heeUser.id ? { ...user, heeCount: data.heeUser.count } : user)),
       );
     });
+
+    socket.on("exit_user", (data) => {
+      // console.info("すべての接続ユーザー取得", data);
+      setConnectUserList(data);
+    });
   };
 
   // タイトルコール送信
