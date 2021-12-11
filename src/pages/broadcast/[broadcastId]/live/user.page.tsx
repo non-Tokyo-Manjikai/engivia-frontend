@@ -14,7 +14,7 @@ import { styled } from "src/utils";
 
 const LiveUserPage: NextPage = () => {
   const userInfo = useRecoilValue(userInfoState);
-  const [heeSound, setHeeSound] = useState<any>(null);
+  const [heeSound, setHeeSound] = useState<HTMLAudioElement | null>(null);
   const [socket, setSoket] = useState<any>();
   const [heeCount, setHeeCount] = useState<number>(0);
   const [viewEngivia, setViewEngivia] = useState<ViewEngivia>(INIT_ENGIVIA);
@@ -30,7 +30,7 @@ const LiveUserPage: NextPage = () => {
       query: { count: heeCount + 1 },
     });
     setHeeCount((prev: number) => prev + 1);
-    heeSound.play();
+    if (heeSound) heeSound.play();
   };
 
   // 通信開始
@@ -61,15 +61,15 @@ const LiveUserPage: NextPage = () => {
 
     socket.on("get_wait_engivia", () => {
       // console.info("エンジビア待ち状態");
-      setConnectUserList((prev: any) => prev.map((user: any) => ({ ...user, heeCount: 0 })));
+      setConnectUserList((prev) => prev.map((user) => ({ ...user, heeCount: 0 })));
       setHeeCount(0);
       setViewEngivia(INIT_ENGIVIA);
     });
 
     socket.on("get_hee_user", (data) => {
       // console.info("へぇしたユーザーID取得", data);
-      setConnectUserList((prev: any) =>
-        prev.map((user: any) => (user.id === data.heeUser.id ? { ...user, heeCount: data.heeUser.count } : user)),
+      setConnectUserList((prev) =>
+        prev.map((user) => (user.id === data.heeUser.id ? { ...user, heeCount: data.heeUser.count } : user)),
       );
     });
   };

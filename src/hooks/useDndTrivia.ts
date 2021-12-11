@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import type { DragEndEvent, DragOverEvent, DragStartEvent } from "@dnd-kit/core";
 import { KeyboardSensor, PointerSensor, useSensor, useSensors } from "@dnd-kit/core";
 import { arrayMove, sortableKeyboardCoordinates } from "@dnd-kit/sortable";
@@ -14,7 +15,7 @@ type Props = {
   onWaitTitleCall: () => void;
 };
 
-type Item = Record<string, number[]>;
+type ItemList = Record<string, number[]>;
 
 export const useDndTrivia = (props: Props) => {
   const userInfo = useRecoilValue(userInfoState);
@@ -22,7 +23,7 @@ export const useDndTrivia = (props: Props) => {
   const [broadcast, setBroadcast] = useRecoilState(broadcastLiveState);
   const [activeId, setActiveId] = useState(0);
   const [startContainer, setStartContainer] = useState("");
-  const [items, setItems] = useState<Item>({
+  const [items, setItems] = useState<ItemList>({
     root: [],
     container1: [],
     container2: [],
@@ -59,7 +60,6 @@ export const useDndTrivia = (props: Props) => {
         const resultTrivia = prevState.Trivia.map((trivia) => {
           return trivia.id === response.id ? { ...trivia, ...response } : trivia;
         });
-        // eslint-disable-next-line @typescript-eslint/naming-convention
         return { ...prevState, Trivia: resultTrivia };
       }
       return prevState;
@@ -162,7 +162,6 @@ export const useDndTrivia = (props: Props) => {
           const resultTrivia = prevState.Trivia.map((trivia) => {
             return trivia.id === response.id ? { ...trivia, ...response } : trivia;
           });
-          // eslint-disable-next-line @typescript-eslint/naming-convention
           return { ...prevState, Trivia: resultTrivia };
         }
         return prevState;

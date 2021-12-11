@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-handler-names */
 import { violet } from "@radix-ui/colors";
 import { useState } from "react";
 import { styled } from "src/utils";

@@ -1,6 +1,7 @@
 import { format, utcToZonedTime } from "date-fns-tz";
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import type { ChangeEvent } from "react";
 import { useCallback, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
@@ -20,12 +21,12 @@ const BroadcastEditPage: NextPage = () => {
 
   const { data, isError } = useGetSWRWithToken<BroadcastLive>(`/broadcast/${router.query.broadcastId}`, userInfo.token);
 
-  const handleDateChange = useCallback((e: any) => {
-    setDateValue(e.target.value);
+  const handleTitleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setTitleValue(e.target.value);
   }, []);
 
-  const handleTitleChange = useCallback((e: any) => {
-    setTitleValue(e.target.value);
+  const handleDateChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setDateValue(e.target.value);
   }, []);
 
   const handleCancel = () => {

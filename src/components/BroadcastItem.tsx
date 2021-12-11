@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 import { format } from "date-fns-tz";
 import type { VFC } from "react";
 import { AcademicCapIcon, ScheduleIcon } from "src/components/icon";

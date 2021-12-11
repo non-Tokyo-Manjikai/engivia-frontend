@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { broadcastLiveState } from "src/components/atoms";
@@ -17,7 +18,6 @@ export const useGetEngiviaInfo = (url: string, token: string) => {
           engiviaNumber: index + 1,
         };
       });
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       setBroadcast({ ...data, Trivia: numberAddTriviaList });
     }
   }, [data]);

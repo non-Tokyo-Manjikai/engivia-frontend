@@ -7,9 +7,9 @@ type Props = {
   id: number;
 };
 
-export const SortableItem: VFC<Props> = memo((props: any) => {
+export const SortableItem: VFC<Props> = memo((props) => {
   const { attributes, listeners, setNodeRef, transition } = useSortable({
-    id: props.id,
+    id: String(props.id),
   });
 
   return (

@@ -73,13 +73,13 @@ const LiveAdminPage: NextPage = () => {
 
     socket.on("get_wait_engivia", () => {
       // console.info("エンジビア待ち状態");
-      setConnectUserList((prev: any) => prev.map((user: any) => ({ ...user, heeCount: 0 })));
+      setConnectUserList((prev) => prev.map((user) => ({ ...user, heeCount: 0 })));
     });
 
     socket.on("get_hee_user", (data) => {
       // console.info("へぇしたユーザーID取得", data);
-      setConnectUserList((prev: any) =>
-        prev.map((user: any) => (user.id === data.heeUser.id ? { ...user, heeCount: data.heeUser.count } : user)),
+      setConnectUserList((prev) =>
+        prev.map((user) => (user.id === data.heeUser.id ? { ...user, heeCount: data.heeUser.count } : user)),
       );
     });
   };

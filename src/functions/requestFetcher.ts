@@ -15,13 +15,13 @@ export const requestFetcher = async <R>(
   method: Method,
   token: string,
 ): Promise<Response<R>> => {
-  console.info("");
-  console.info("requestFetcher | ---------------------------");
-  console.info(`request method | ${method}`);
-  console.info(`endpoint       | ${API_URL}${url}`);
-  console.info("request body   |", body);
-  console.info(`Bearer token   | ${token}`);
-  console.info("");
+  // console.info("");
+  // console.info("requestFetcher | ---------------------------");
+  // console.info(`request method | ${method}`);
+  // console.info(`endpoint       | ${API_URL}${url}`);
+  // console.info("request body   |", body);
+  // console.info(`Bearer token   | ${token}`);
+  // console.info("");
 
   const result = await fetch(`${API_URL}${url}`, {
     method: method,

@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/rules-of-hooks */
 import { useRouter } from "next/router";
 import type { ChangeEvent, VFC } from "react";
 import { useCallback, useState } from "react";

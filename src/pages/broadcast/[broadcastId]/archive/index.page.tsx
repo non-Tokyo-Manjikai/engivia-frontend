@@ -1,6 +1,7 @@
 /* eslint-disable indent */
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import type { ChangeEvent } from "react";
 import { useCallback, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
@@ -19,8 +20,8 @@ const ArchivePage: NextPage = () => {
 
   const { data } = useGetSWRWithToken<BroadcastLive>(`/broadcast/${router.query.broadcastId}`, userInfo.token);
 
-  const handleChangeUrl = useCallback((e: any) => {
-    setUrlValue(() => e.target.value);
+  const handleChangeUrl = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setUrlValue(e.target.value);
   }, []);
 
   const handleSaveUrl = async () => {

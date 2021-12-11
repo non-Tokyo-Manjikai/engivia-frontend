@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { parseCookies } from "nookies";
 import { API_URL } from "src/constants/API_URL";
 import useSWR from "swr";
@@ -9,7 +10,6 @@ const fetcher = (url: string) => {
   return fetch(url, {
     method: "GET",
     headers: {
-      // eslint-disable-next-line @typescript-eslint/naming-convention
       Authorization: `Bearer ${cookies.token}`,
     },
   }).then((res) => {
@@ -19,13 +19,9 @@ const fetcher = (url: string) => {
 };
 
 export const useGetSWR = <T>(params: { url: string; shouldFetch: boolean }) => {
-  const { data, error, isValidating } = useSWR<T>(
-    params.shouldFetch ? `${API_URL}${params.url}` : null,
-    fetcher,
-    {
-      revalidateOnFocus: false,
-    },
-  );
+  const { data, error, isValidating } = useSWR<T>(params.shouldFetch ? `${API_URL}${params.url}` : null, fetcher, {
+    revalidateOnFocus: false,
+  });
 
   return {
     data,
