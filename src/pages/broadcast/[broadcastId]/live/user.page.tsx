@@ -1,14 +1,19 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { io } from "socket.io-client";
 import { BroadcastHeader, EngiviaCard, HeeButtonKit, HeeList } from "src/components";
 import { userInfoState } from "src/components/atoms";
-import { Button, PageRoot } from "src/components/styled";
+import {
+  // Button,
+  PageRoot,
+} from "src/components/styled";
 import { API_URL } from "src/constants/API_URL";
 import { HEE_SOUND } from "src/constants/HEE_SOUND";
 import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
 import { totalCount } from "src/functions/totalCount";
+import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { styled } from "src/utils";
 
 type Engivia = {
@@ -28,13 +33,14 @@ type ConnectUser = {
 };
 
 const LiveUserPage: NextPage = () => {
+  const router = useRouter();
+  const userInfo = useRecoilValue(userInfoState);
   const [heeSound, setHeeSound] = useState<any>(null);
   const [socket, setSoket] = useState<any>();
   const [heeCount, setHeeCount] = useState<number>(0);
   const [viewEngivia, setViewEngivia] = useState<Engivia>(INIT_ENGIVIA);
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
-  // 本番用
-  const userInfo = useRecoilValue(userInfoState);
+  const { data, isError, isLoading } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, userInfo.token);
 
   const totalHeeCount = totalCount(connectUserList);
 
@@ -116,7 +122,6 @@ const LiveUserPage: NextPage = () => {
   // 通信終了
   const handleLiveDisconnect = useCallback(() => {
     socket.disconnect();
-    setSoket(null);
   }, [socket]);
 
   useEffect(() => {
@@ -124,6 +129,10 @@ const LiveUserPage: NextPage = () => {
       handleLiveDisconnect();
     };
   }, []);
+
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error...</div>;
+  if (!data) return <div>Empty...</div>;
 
   return (
     <PageRoot>
@@ -137,7 +146,7 @@ const LiveUserPage: NextPage = () => {
         <option value={2}>2</option>
       </select> */}
 
-      {!socket ? (
+      {/* {!socket ? (
         <Button color="primary" onClick={handleLiveConnect}>
           通信を始める
         </Button>
@@ -145,9 +154,9 @@ const LiveUserPage: NextPage = () => {
         <Button color="secondary" onClick={handleLiveDisconnect}>
           通信終了
         </Button>
-      )}
+      )} */}
 
-      <BroadcastHeader status="live" title="第1回エンジビアの泉" />
+      <BroadcastHeader status="live" title={data.title} />
       <EngiviaCard {...viewEngivia} heeCount={totalHeeCount} isResult />
       <HeeButtonKit onClick={handleHeeClick} isDied={heeCount === 20 || viewEngivia.id === 0} />
     </PageRoot>

@@ -25,9 +25,9 @@ const featuredPutBody = { status: "ended" };
 
 const LiveAdminPage: NextPage = () => {
   const router = useRouter();
-  const [socket, setSoket] = useState<any>(null);
   const userInfo = useRecoilValue(userInfoState);
   const [broadcast, setBroadcast] = useRecoilState(broadcastLiveState);
+  const [socket, setSoket] = useState<any>(null);
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
   const { isError, isLoading } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, userInfo.token);
 
