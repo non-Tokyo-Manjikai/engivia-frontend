@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { io } from "socket.io-client";
 import { BroadcastHeader } from "src/components";
@@ -29,21 +29,21 @@ const LiveAdminPage: NextPage = () => {
   const userInfo = useRecoilValue(userInfoState);
   const [broadcast, setBroadcast] = useRecoilState(broadcastLiveState);
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
-  const { data, isError, isLoading } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, userInfo.token);
+  const { isError, isLoading } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, userInfo.token);
 
   const totalHeeCount = totalCount(connectUserList);
 
   // 放送開始
   const handleBeginLive = async () => {
     const result = await handlePutBroadcast(`/broadcast/${router.query.broadcastId}`, featurePutBody, userInfo.token);
-    if (result.id) {
-      setBroadcast((prevState) => {
-        if (prevState) {
-          return { ...prevState, status: "live" };
-        }
-        return prevState;
-      });
-    }
+    if (result >= 400) return;
+
+    setBroadcast((prevState) => {
+      if (prevState) {
+        return { ...prevState, status: "live" };
+      }
+      return prevState;
+    });
 
     const socket = io(API_URL, {
       path: "/live",
@@ -98,38 +98,48 @@ const LiveAdminPage: NextPage = () => {
     setSoket(null);
 
     const result = await handlePutBroadcast(`/broadcast/${router.query.broadcastId}`, featuredPutBody, userInfo.token);
-    if (result.id) {
-      setBroadcast((prevState) => {
-        if (prevState) {
-          return { ...prevState, status: "ended" };
-        }
-        return prevState;
-      });
-    }
+    if (result >= 400) return;
+    setBroadcast((prevState) => {
+      if (prevState) {
+        return { ...prevState, status: "ended" };
+      }
+      return prevState;
+    });
   };
 
   useEffect(() => {
     if (!socket && broadcast?.status === "live") handleBeginLive();
   }, [broadcast]);
 
+  // 通信終了
+  const handleLiveDisconnect = useCallback(() => {
+    socket.disconnect();
+  }, [socket]);
+
+  useEffect(() => {
+    return () => {
+      handleLiveDisconnect();
+    };
+  }, []);
+
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
-  if (!data) return <div>Empty...</div>;
+  if (!broadcast) return <div>Empty...</div>;
 
   return (
     <Container>
       <Top>
         <Title>
-          <BroadcastHeader title={`${data.title}：${totalHeeCount || 0}へぇ`} status={data.status} />
+          <BroadcastHeader title={`${broadcast.title}：${totalHeeCount || 0}へぇ`} status={broadcast.status} />
         </Title>
 
         <ButtonWrap>
           <UpcommingButtonWrap>
-            {data?.status === "upcoming" ? (
+            {broadcast?.status === "upcoming" ? (
               <Button color="primary" onClick={handleBeginLive}>
                 放送を開始する
               </Button>
-            ) : data?.status === "live" ? (
+            ) : broadcast?.status === "live" ? (
               <Button color="secondary" onClick={handleFinishLive}>
                 放送を終了する
               </Button>

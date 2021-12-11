@@ -4,10 +4,7 @@ import { useRecoilValue } from "recoil";
 import { io } from "socket.io-client";
 import { BroadcastHeader, EngiviaCard, HeeButtonKit, HeeList } from "src/components";
 import { userInfoState } from "src/components/atoms";
-import {
-  // Button,
-  PageRoot,
-} from "src/components/styled";
+import { Button, PageRoot } from "src/components/styled";
 import { API_URL } from "src/constants/API_URL";
 import { HEE_SOUND } from "src/constants/HEE_SOUND";
 import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
@@ -92,6 +89,11 @@ const LiveUserPage: NextPage = () => {
         prev.map((user: any) => (user.id === data.heeUser.id ? { ...user, heeCount: data.heeUser.count } : user)),
       );
     });
+
+    socket.on("exit_user", (data) => {
+      // console.info("すべての接続ユーザー取得", data);
+      setConnectUserList(data);
+    });
   };
 
   useEffect(() => {
@@ -132,7 +134,8 @@ const LiveUserPage: NextPage = () => {
       {/* <select onChange={(e: any) => handleChange(e.target.value)}>
         <option value={0}>0</option>
         <option value={1}>1</option>
-      </select>
+        <option value={2}>2</option>
+      </select> */}
 
       {!socket ? (
         <Button color="primary" onClick={handleLiveConnect}>
@@ -142,7 +145,7 @@ const LiveUserPage: NextPage = () => {
         <Button color="secondary" onClick={handleLiveDisconnect}>
           通信終了
         </Button>
-      )} */}
+      )}
 
       <BroadcastHeader status="live" title="第1回エンジビアの泉" />
       <EngiviaCard {...viewEngivia} heeCount={totalHeeCount} isResult />
@@ -181,6 +184,14 @@ const ListWrapper = styled("aside", {
 //   {
 //     id: "ABCDE789",
 //     name: "カタンシャン",
+//     image:
+//       "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+//     isAdmin: false,
+//     content: "HTMLにはポータルという要素がある",
+//   },
+//   {
+//     id: "ABCDE123",
+//     name: "カaaaaaンシャン",
 //     image:
 //       "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
 //     isAdmin: false,

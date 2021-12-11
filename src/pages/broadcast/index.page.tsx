@@ -8,6 +8,7 @@ import { FetcherExample } from "src/components/FetcherExample";
 import { Button, PageRoot, Title } from "src/components/styled";
 import { useGetSWR } from "src/hooks/useGetSWR";
 import { styled } from "src/utils";
+import toast, { Toaster } from "react-hot-toast";
 
 export type LiveStatus = "upcoming" | "live" | "ended";
 
@@ -31,6 +32,7 @@ const BroadcastPage: NextPage = () => {
       {data && <FetcherExample />}
 
       <Title>放送一覧</Title>
+      <Toaster />
 
       {isLoading ? (
         "loading"

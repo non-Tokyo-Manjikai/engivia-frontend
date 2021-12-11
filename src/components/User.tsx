@@ -1,42 +1,27 @@
+/* eslint-disable react/jsx-handler-names */
 /* eslint-disable quotes */
 /* eslint-disable @next/next/no-img-element */
 import { blackA, violet } from "@radix-ui/colors";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import router from "next/router";
-import { parseCookies } from "nookies";
+import { useRouter } from "next/router";
+import { destroyCookie, parseCookies } from "nookies";
+import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "src/components/atoms";
 import { Button } from "src/components/styled";
 import { UserInfo } from "src/components/UserInfo";
-import { requestFetcher2 } from "src/functions/requestFetcher";
+import { deleteUser } from "src/hooks/deleteUser";
 import { useGetSWR } from "src/hooks/get.swr";
 import type { FetchUserInfo } from "src/types";
 import { keyframes, styled } from "src/utils";
 
 export const User = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [buttonDisabledState, setButtonDisabledState] = useState(false);
+  const router = useRouter();
   // Cookieを読み込む
   const cookies = parseCookies();
-
-  // ログアウト機能
-  const handleLogOut = () => {
-    // トークン削除
-    document.cookie = "token=; expires=0";
-    router.push("/signin");
-  };
-
-  // 退会機能
-
-  const handleLeave = async () => {
-    const result = await requestFetcher2("/user", userInfo.token);
-    if (result) {
-      toast.error("退会できませんでした");
-
-      return;
-    }
-    toast.success("退会しました");
-  };
 
   // Cookieに保存されているトークンを使ってユーザー情報を取得する。
   // 本番では userInfo.id === "user2"(recoilがデフォルト値である場合) を !userInfoにした方がいいかも(atomのデフォ値もnullにしたい)
@@ -46,6 +31,27 @@ export const User = () => {
     // recoilにユーザー情報とトークンを保存する。
     setUserInfo({ ...data, token: cookies.token });
   }
+
+  const handleSignout = () => {
+    destroyCookie(null, "token", { path: "/" });
+    router.push("/signin");
+  };
+
+  const handleDeleteUser = async () => {
+    // 連続クリックで重複して送信しないようにする
+    setButtonDisabledState(true);
+    const toastId = toast.loading("Sending...");
+    const statusCode = await deleteUser("/user");
+    if (statusCode >= 400) {
+      toast.error(`error: ${statusCode}`, { id: toastId });
+      setButtonDisabledState(false);
+    } else {
+      toast.success("削除成功しました", { id: toastId });
+      destroyCookie(null, "token", { path: "/" });
+      // トーストを表示した2秒後にページ遷移する
+      setTimeout(() => router.push("/signin"), 2000);
+    }
+  };
 
   return (
     <Popover>
@@ -59,10 +65,10 @@ export const User = () => {
           <UserInfo user={userInfo} />
         </Main>
         <Footer>
-          <Button color="smallerSecondary" onClick={handleLogOut}>
+          <Button color="smallerSecondary" disabled={buttonDisabledState} onClick={handleSignout}>
             ログアウト
           </Button>
-          <Button color="smallerPrimary" onClick={handleLeave}>
+          <Button color="smallerPrimary" disabled={buttonDisabledState} onClick={handleDeleteUser}>
             退会
           </Button>
         </Footer>
