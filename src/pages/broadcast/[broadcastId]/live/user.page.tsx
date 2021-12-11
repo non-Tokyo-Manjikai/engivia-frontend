@@ -4,60 +4,40 @@ import { useRecoilValue } from "recoil";
 import { io } from "socket.io-client";
 import { BroadcastHeader, EngiviaCard, HeeButtonKit, HeeList } from "src/components";
 import { userInfoState } from "src/components/atoms";
-import {
-  // Button,
-  PageRoot,
-} from "src/components/styled";
+import { PageRoot } from "src/components/styled";
 import { API_URL } from "src/constants/API_URL";
 import { HEE_SOUND } from "src/constants/HEE_SOUND";
 import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
 import { totalCount } from "src/functions/totalCount";
 import { styled } from "src/utils";
-
-type Engivia = {
-  id: number;
-  name: string;
-  image: string;
-  content: string;
-  engiviaNumber: number;
-};
-
-type ConnectUser = {
-  id: string;
-  name: string;
-  image: string;
-  heeCount: number;
-  isAdmin: boolean;
-};
+import type { ConnectUser, ViewEngivia } from "type";
 
 const LiveUserPage: NextPage = () => {
+  const userInfo = useRecoilValue(userInfoState);
   const [heeSound, setHeeSound] = useState<any>(null);
   const [socket, setSoket] = useState<any>();
   const [heeCount, setHeeCount] = useState<number>(0);
-  const [viewEngivia, setViewEngivia] = useState<Engivia>(INIT_ENGIVIA);
+  const [viewEngivia, setViewEngivia] = useState<ViewEngivia>(INIT_ENGIVIA);
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
-  // 本番用
-  const userInfo = useRecoilValue(userInfoState);
 
   const totalHeeCount = totalCount(connectUserList);
 
-  // 開発用
-  // const [selectUser, setSelectUser] = useState(0);
-  // const handleChange = (value: number) => {
-  //   setSelectUser(value);
-  // };
+  // へぇカウント送信
+  const handleHeeClick = () => {
+    if (heeCount === 20) return;
+    if (viewEngivia.id === 0) return;
+    socket.emit("post_hee_user", {
+      query: { count: heeCount + 1 },
+    });
+    setHeeCount((prev: number) => prev + 1);
+    heeSound.play();
+  };
 
   // 通信開始
   const handleLiveConnect = () => {
     const socket = io(API_URL, {
       path: "/live",
       query: {
-        // 開発用
-        // id: sampleUserInfo[selectUser].id,
-        // name: sampleUserInfo[selectUser].name,
-        // image: sampleUserInfo[selectUser].image,
-        // isAdmin: "false",
-        // 本番用
         id: userInfo.id,
         name: userInfo.name,
         image: userInfo.image,
@@ -94,23 +74,6 @@ const LiveUserPage: NextPage = () => {
     });
   };
 
-  useEffect(() => {
-    // 本番用
-    handleLiveConnect();
-    setHeeSound(new Audio(`data:audio/wav;base64, ${HEE_SOUND}`));
-  }, []);
-
-  // へぇカウント送信
-  const handleHeeClick = () => {
-    if (heeCount === 20) return;
-    if (viewEngivia.id === 0) return;
-    socket.emit("post_hee_user", {
-      query: { count: heeCount + 1 },
-    });
-    setHeeCount((prev: number) => prev + 1);
-    heeSound.play();
-  };
-
   // 通信終了
   const handleLiveDisconnect = useCallback(() => {
     socket.disconnect();
@@ -118,6 +81,8 @@ const LiveUserPage: NextPage = () => {
   }, [socket]);
 
   useEffect(() => {
+    handleLiveConnect();
+    setHeeSound(new Audio(`data:audio/wav;base64, ${HEE_SOUND}`));
     return () => {
       handleLiveDisconnect();
     };
@@ -128,21 +93,6 @@ const LiveUserPage: NextPage = () => {
       <ListWrapper>
         <HeeList currentUserId={userInfo.id} data={connectUserList} />
       </ListWrapper>
-
-      {/* <select onChange={(e: any) => handleChange(e.target.value)}>
-        <option value={0}>0</option>
-        <option value={1}>1</option>
-      </select>
-
-      {!socket ? (
-        <Button color="primary" onClick={handleLiveConnect}>
-          通信を始める
-        </Button>
-      ) : (
-        <Button color="secondary" onClick={handleLiveDisconnect}>
-          通信終了
-        </Button>
-      )} */}
 
       <BroadcastHeader status="live" title="第1回エンジビアの泉" />
       <EngiviaCard {...viewEngivia} heeCount={totalHeeCount} isResult />
@@ -167,23 +117,3 @@ const ListWrapper = styled("aside", {
   height: "calc(100vh - 4.2rem)",
   overflowY: "auto",
 });
-
-// 開発用
-// const sampleUserInfo = [
-//   {
-//     id: "ABCDE456",
-//     name: "みやさん",
-//     image:
-//       "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
-//     isAdmin: false,
-//     content: "HTMLにはポータルという要素がある",
-//   },
-//   {
-//     id: "ABCDE789",
-//     name: "カタンシャン",
-//     image:
-//       "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
-//     isAdmin: false,
-//     content: "HTMLにはポータルという要素がある",
-//   },
-// ];

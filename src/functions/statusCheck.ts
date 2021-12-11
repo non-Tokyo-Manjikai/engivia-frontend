@@ -1,4 +1,6 @@
-type StatusType = "live" | "upcoming" | "ended";
+/* eslint-disable indent */
+import type { LiveStatus } from "type";
+
 type ColorType = "green" | "orange" | "gray";
 
 type ReturnType = {
@@ -6,7 +8,7 @@ type ReturnType = {
   label: string;
 };
 
-export const statusCheck = (status?: StatusType): ReturnType => {
+export const statusCheck = (status?: LiveStatus): ReturnType => {
   switch (status) {
     case "live":
       return { color: "green", label: "放送中" };

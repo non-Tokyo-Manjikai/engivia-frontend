@@ -1,10 +1,11 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { VFC } from "react";
+import { memo } from "react";
 import { ColorThemeChanger } from "src/components/theme";
 import { User } from "src/components/User";
 import { styled } from "src/utils";
 
-export const Header: VFC = () => {
+export const Header: VFC = memo(() => {
   return (
     <Root>
       <LeftSide>
@@ -18,7 +19,7 @@ export const Header: VFC = () => {
       </RightSide>
     </Root>
   );
-};
+});
 
 const Root = styled("header", {
   display: "flex",

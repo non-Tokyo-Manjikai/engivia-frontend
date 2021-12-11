@@ -3,11 +3,13 @@ const findContainer = (id: any, items: any) => {
   return Object.keys(items).find((key) => items[key].includes(id));
 };
 
+type Item = Record<string, number[]>;
+
 export const dndValidation = (
   broadcast: any,
-  items: any,
-  activeId: any,
-  overId: any,
+  items: Item,
+  activeId: number,
+  overId: number,
   isDragEnd: boolean,
   startContainer?: string,
 ) => {
@@ -20,6 +22,7 @@ export const dndValidation = (
     return [false, activeContainer, overContainer];
   }
 
+  const notStartContainer1 = startContainer !== "container1";
   const notFeature = activeEngivia.featured === false;
   const isFeature = activeEngivia.featured === true;
   const isSingleItemContainer1 = items.container1.length === 1;
@@ -29,7 +32,6 @@ export const dndValidation = (
   const isOverRoot = `${overContainer}` === "root";
   const isOverContainer1 = `${overContainer}` === "container1";
   const isOverContainer2 = `${overContainer}` === "container2";
-  const StartContainer1 = startContainer === "container1";
 
   if (isDragEnd) {
     // ドラッグ終了時、元々あった場所だった場合は並び替え処理のみ行う
@@ -51,7 +53,7 @@ export const dndValidation = (
   // rootにあったフィーチャー済みではないものはcontainer2に移動できない
   const check2 = isActiveRoot && isOverContainer2 && notFeature;
   // container2にあったフィーチャー済みのものはcontainer1に移動できない
-  const check3 = isActiveContainer2 && isOverContainer1 && isFeature && !StartContainer1;
+  const check3 = isActiveContainer2 && isOverContainer1 && isFeature && notStartContainer1;
   // container2にあったフィーチャー済みのものはrootに移動できない
   const check4 = isActiveContainer2 && isOverRoot && isFeature;
   // rootからcontainer1に複数個移動できない

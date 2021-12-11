@@ -36,6 +36,8 @@ module.exports = {
     indent: ["error", 2],
     quotes: ["error", "double"],
 
+    "@next/next/no-img-element": "off",
+
     // オブジェクトの最後の要素にカンマをつけるか
     "comma-dangle": "off",
     // 宣言されていない変数をどうするか

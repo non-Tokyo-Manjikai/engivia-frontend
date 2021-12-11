@@ -11,6 +11,7 @@ export const SortableItem: VFC<Props> = memo((props: any) => {
   const { attributes, listeners, setNodeRef, transition } = useSortable({
     id: props.id,
   });
+
   return (
     <div
       ref={setNodeRef}

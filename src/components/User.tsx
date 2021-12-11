@@ -117,7 +117,6 @@ export const PopoverArrow = StyledArrow;
 export const PopoverClose = StyledClose;
 
 // Your app...
-const Flex = styled("div", { display: "flex" });
 
 const IconButton = styled("button", {
   all: "unset",

@@ -54,7 +54,6 @@ const UserCard = styled("div", {
   alignItems: "center",
 });
 
-
 const Icon = styled("div", {
   width: "2rem",
   height: "2rem",
@@ -78,8 +77,4 @@ const Name = styled("div", {
 
   fontSize: "0.75rem",
   lineHeight: "1rem",
-});
-
-const Img = styled("img", {
-  borderRadius: 9999,
 });

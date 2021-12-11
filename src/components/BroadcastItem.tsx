@@ -1,34 +1,26 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { format } from "date-fns-tz";
 import type { VFC } from "react";
-import { BroadcastStatus } from "src/components";
-import { AcademicCapIcon, ScheduleIcon } from "src/components/icons";
+import { AcademicCapIcon, ScheduleIcon } from "src/components/icon";
+import { BroadcastStatus } from "src/components/styled";
 import { statusCheck } from "src/functions/statusCheck";
 import { styled } from "src/utils";
+import type { Broadcast } from "type";
 
-type Props = {
-  id: number;
-  title: string;
-  scheduledStartTime: string;
-  status: "live" | "upcoming" | "ended";
-  _count: {
-    Trivia: number;
-  };
-};
-
-export const BroadcastItem: VFC<Props> = (props) => {
+export const BroadcastItem: VFC<Broadcast> = (props) => {
   const result = statusCheck(props.status);
+  const date = format(new Date(props.scheduledStartTime), "yyyy年MM月dd日", { timeZone: "Asia/Tokyo" });
+
   return (
     <Root>
       <Upper>
         <BroadCastTitle>{props.title}</BroadCastTitle>
         <BroadcastStatus color={result.color}>{result.label}</BroadcastStatus>
       </Upper>
+
       <Lower>
         <ScheduleIcon />
-        <BroadcastDate>
-          {format(new Date(props.scheduledStartTime), "yyyy年MM月dd日", { timeZone: "Asia/Tokyo" })}
-        </BroadcastDate>
+        <BroadcastDate>{date}</BroadcastDate>
         <FlexGrow />
         <AcademicCapIcon />
         <CountLabel>エンジビア数</CountLabel>

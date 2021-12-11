@@ -5,32 +5,34 @@ import { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { broadcastLiveState, userInfoState } from "src/components/atoms";
 import { dndValidation } from "src/functions/dndValidation";
-import { handlePutTrivia } from "src/hooks/handlePutTrivia";
-import type { TriviaType } from "src/types";
+import { requestFetcher } from "src/functions/requestFetcher";
+import type { Trivia } from "type";
 
 type Props = {
   totalHeeCount: number;
-  onTitleCall: (trivia: TriviaType) => void;
+  onTitleCall: (trivia: Trivia) => void;
   onWaitTitleCall: () => void;
 };
+
+type Item = Record<string, number[]>;
 
 export const useDndTrivia = (props: Props) => {
   const userInfo = useRecoilValue(userInfoState);
   const [isFeature, setIsFeature] = useState(false);
   const [broadcast, setBroadcast] = useRecoilState(broadcastLiveState);
-  const [activeId, setActiveId] = useState<number | null>();
-  const [startContainer, setStartContainer] = useState();
-  const [items, setItems] = useState<{ [key: string]: number[] }>({
+  const [activeId, setActiveId] = useState(0);
+  const [startContainer, setStartContainer] = useState("");
+  const [items, setItems] = useState<Item>({
     root: [],
     container1: [],
     container2: [],
   });
 
   useEffect(() => {
-    const rootTriviaList = broadcast?.Trivia?.reduce((nonFeature: number[], current: TriviaType) => {
+    const rootTriviaList = broadcast?.Trivia?.reduce((nonFeature: number[], current: Trivia) => {
       return !current.featured ? [...nonFeature, current.id] : nonFeature;
     }, []);
-    const featuredTriviaList = broadcast?.Trivia?.reduce((nonFeature: number[], current: TriviaType) => {
+    const featuredTriviaList = broadcast?.Trivia?.reduce((nonFeature: number[], current: Trivia) => {
       return current.featured ? [...nonFeature, current.id] : nonFeature;
     }, []);
     if (rootTriviaList && featuredTriviaList) {
@@ -50,12 +52,12 @@ export const useDndTrivia = (props: Props) => {
 
   const handleTitleCall = async (currentId: number) => {
     const PutBody = { featured: true };
-    const result = await handlePutTrivia(`/trivia/${currentId}`, PutBody, userInfo.token);
+    const { response } = await requestFetcher<Trivia>(`/trivia/${currentId}`, PutBody, "PUT", userInfo.token);
 
     setBroadcast((prevState) => {
       if (prevState) {
         const resultTrivia = prevState.Trivia.map((trivia) => {
-          return trivia.id === result.id ? { ...trivia, ...result } : trivia;
+          return trivia.id === response.id ? { ...trivia, ...response } : trivia;
         });
         // eslint-disable-next-line @typescript-eslint/naming-convention
         return { ...prevState, Trivia: resultTrivia };
@@ -92,7 +94,7 @@ export const useDndTrivia = (props: Props) => {
   const handleDragOver = (event: DragOverEvent) => {
     const { active, over } = event;
     const activeId = Number(active.id);
-    const overId = over?.id;
+    const overId = Number(over?.id);
 
     const [result, activeContainer, overContainer] = dndValidation(
       broadcast,
@@ -105,13 +107,13 @@ export const useDndTrivia = (props: Props) => {
     if (!result) return;
 
     if (broadcast?.status === "live" && over) {
-      setItems((prev: any) => {
+      setItems((prev) => {
         const activeItems = prev[activeContainer];
         const overItems = prev[overContainer];
         const activeIndex = activeItems.indexOf(activeId);
-        const overIndex = overItems.indexOf(over.id);
+        const overIndex = overItems.indexOf(overId);
         let newIndex;
-        if (over.id in prev) {
+        if (overId in prev) {
           newIndex = overItems.length + 1;
         } else {
           const isBelowLastItem =
@@ -122,7 +124,7 @@ export const useDndTrivia = (props: Props) => {
         return {
           ...prev,
           [activeContainer]: [
-            ...prev[activeContainer].filter((item: any) => {
+            ...prev[activeContainer].filter((item: number) => {
               return item !== activeId;
             }),
           ],
@@ -139,7 +141,7 @@ export const useDndTrivia = (props: Props) => {
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
     const activeId = Number(active.id);
-    const overId = over?.id;
+    const overId = Number(over?.id);
 
     const [result, activeContainer, overContainer] = dndValidation(
       broadcast,
@@ -153,12 +155,12 @@ export const useDndTrivia = (props: Props) => {
 
     if (overContainer === "container2") {
       const PutBody = { hee: props.totalHeeCount === 0 ? 0 : props.totalHeeCount };
-      const result = await handlePutTrivia(`/trivia/${activeId}`, PutBody, userInfo.token);
+      const { response } = await requestFetcher<Trivia>(`/trivia/${activeId}`, PutBody, "PUT", userInfo.token);
 
       setBroadcast((prevState) => {
         if (prevState) {
           const resultTrivia = prevState.Trivia.map((trivia) => {
-            return trivia.id === result.id ? { ...trivia, ...result } : trivia;
+            return trivia.id === response.id ? { ...trivia, ...response } : trivia;
           });
           // eslint-disable-next-line @typescript-eslint/naming-convention
           return { ...prevState, Trivia: resultTrivia };
@@ -171,16 +173,16 @@ export const useDndTrivia = (props: Props) => {
     }
 
     const activeIndex = items[activeContainer].indexOf(activeId);
-    const overIndex = items[overContainer].indexOf(Number(overId));
+    const overIndex = items[overContainer].indexOf(overId);
     if (activeIndex !== overIndex) {
-      setItems((items: any) => {
+      setItems((items) => {
         return {
           ...items,
           [overContainer]: arrayMove(items[overContainer], activeIndex, overIndex),
         };
       });
     }
-    setActiveId(null);
+    setActiveId(0);
   };
 
   return {

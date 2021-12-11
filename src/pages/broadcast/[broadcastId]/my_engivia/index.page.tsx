@@ -1,5 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
+import type { ChangeEvent, VFC } from "react";
 import { useCallback, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
@@ -7,125 +8,145 @@ import { BroadcastHeader, EngiviaCard } from "src/components";
 import { userInfoState } from "src/components/atoms";
 import { MyEngiviaInput } from "src/components/MyEngiviaInput";
 import { Button, PageRoot, Textarea } from "src/components/styled";
-import { deleteTrivia } from "src/hooks/deleteTrivia";
-import { handlePutTrivia } from "src/hooks/handlePutTrivia";
-import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
-import { useGetTrivia } from "src/hooks/useGetTrivia";
+import { requestFetcher } from "src/functions/requestFetcher";
+import { useGetSWRWithToken } from "src/hooks/useGetSWR";
 import { styled } from "src/utils";
+import type { BroadcastLive, Trivia } from "type";
 
 const MyEngiviaPage: NextPage = () => {
   const router = useRouter();
   const { broadcastId } = router.query;
   const userInfo = useRecoilValue(userInfoState);
-  const { data, isError, isLoading } = useGetEngiviaInfo(`/broadcast/${broadcastId}`, userInfo.token);
-  const {
-    data: trivia,
-    isError: triviaError,
-    isLoading: triviaIsLoading,
-  } = useGetTrivia(`/trivia?broadcastId=${broadcastId}`, userInfo.token);
+  const [text, setText] = useState("");
+  const [isEdit, setIsEdit] = useState(false);
+  const [isButtonDisabled, setisButtonDisabled] = useState(false);
 
-  const [edit, setEdit] = useState(false);
-  const [text, setText] = useState<string>("");
-  const [buttonDisabledState, setButtonDisabledState] = useState(false);
+  const {
+    data: broadcastData,
+    isError: broadcastIsError,
+    isLoading: broadcastIsLoading,
+  } = useGetSWRWithToken<BroadcastLive>(`/broadcast/${broadcastId}`, userInfo.token);
+  const {
+    data: triviaData,
+    isError: triviaIsError,
+    isLoading: triviaIsLoading,
+  } = useGetSWRWithToken<Trivia>(`/trivia?broadcastId=${broadcastId}`, userInfo.token);
 
   const handleEditToggle = useCallback(() => {
-    setEdit((edit) => !edit);
-    if (trivia) {
-      setText(trivia.content);
-    }
-  }, [trivia]);
+    setIsEdit((prevState) => !prevState);
+    if (triviaData) setText(triviaData.content);
+  }, [triviaData]);
 
-  useEffect(() => {
-    if (trivia) {
-      setText(trivia.content);
-    }
-  }, [trivia]);
-
-  const handleTextChange = (e: any) => {
+  const handleTextChange = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
     setText(e.target.value);
-  };
+  }, []);
 
-  const handleEditEngivia = async () => {
+  const handlePutEngivia = async () => {
     if (!text || !/\S/g.test(text)) {
       toast.error("エンジビアを入力してください");
       return;
     }
-    setButtonDisabledState(true);
+
     const toastId = toast.loading("Sending...");
-    const body = {
-      content: text,
-      token: userInfo.token,
-    };
-    const statusCode = await handlePutTrivia(`/trivia/${trivia?.id}`, body, body.token);
+    setisButtonDisabled(true);
+
+    const PutBody = { content: text };
+    const { statusCode } = await requestFetcher(`/trivia/${triviaData?.id}`, PutBody, "PUT", userInfo.token);
+
     if (statusCode >= 400) {
       toast.error("保存できませんでした", { id: toastId });
-      setButtonDisabledState(false);
-    } else {
-      toast.success("保存成功しました", { id: toastId });
-      setTimeout(() => router.push("/broadcast"), 2000);
+      setisButtonDisabled(false);
+      return;
     }
-  };
-  const handleDelete = (triviaId: number) => async () => {
-    const statusCode = await deleteTrivia(`/trivia/${triviaId}`, userInfo.token);
-    console.log(statusCode);
-    if (statusCode >= 400) {
-      toast.error("削除できませんでした");
-    } else {
-      toast.success("削除しました");
-      setTimeout(() => router.push("/broadcast"), 2000);
-    }
+
+    toast.success("保存成功しました", { id: toastId });
+    setTimeout(() => router.push("/broadcast"), 2000);
   };
 
-  if (!broadcastId) return null;
+  const handleDelete = (triviaId: number) => async () => {
+    const toastId = toast.loading("Sending...");
+
+    const { statusCode } = await requestFetcher(`/trivia/${triviaId}`, {}, "DELETE", userInfo.token);
+
+    if (statusCode >= 400) {
+      toast.error("削除できませんでした", { id: toastId });
+      return;
+    }
+
+    toast.success("削除しました", { id: toastId });
+    setTimeout(() => router.push("/broadcast"), 2000);
+  };
+
+  useEffect(() => {
+    if (triviaData) {
+      setText(triviaData.content);
+    }
+  }, [triviaData]);
+
+  if (!broadcastData || !triviaData) return null;
 
   return (
     <PageRoot>
-      <BroadcastHeader status={data?.status} title={data?.title} />
+      <BroadcastHeader status={broadcastData.status} title={broadcastData.title} />
 
-      {isLoading || triviaIsLoading ? (
+      {broadcastIsLoading || triviaIsLoading ? (
         <div>loading</div>
-      ) : isError || triviaError ? (
+      ) : broadcastIsError || triviaIsError ? (
         <div>error</div>
-      ) : !data?.id ? (
+      ) : !broadcastData?.id ? (
         <div>no data</div>
-      ) : trivia?.statusCode !== 400 ? (
+      ) : triviaData?.id ? (
         <>
-          {edit ? (
+          {isEdit ? (
             <>
               <Textarea value={text} onChange={handleTextChange} />
-              <ButtonWrap>
-                <Button color="primary" onClick={handleEditEngivia} disabled={buttonDisabledState}>
+              <ButtonGroup
+                leftLabel="保存する"
+                onLeftButtonClick={handlePutEngivia}
+                rightLabel="キャンセル"
+                onRightButtonClick={handleEditToggle}
+                disabled={isButtonDisabled}
+              />
+              {/* <ButtonWrap>
+                <Button color="primary" onClick={handlePutEngivia} disabled={isButtonDisabled}>
                   保存する
                 </Button>
                 <Button color="secondary" onClick={handleEditToggle}>
                   キャンセル
                 </Button>
-              </ButtonWrap>
-              <Toaster />
+              </ButtonWrap> */}
             </>
           ) : (
             <>
               <EngiviaCard
-                id={data.id}
+                id={broadcastData.id}
+                content={broadcastData.Trivia[0].content}
+                name={broadcastData.Trivia[0].User.name}
                 image={userInfo.image}
-                content={data.Trivia[0].content}
-                name={data.Trivia[0].User.name}
               />
-              <ButtonWrap>
-                <Toaster />
+              <ButtonGroup
+                leftLabel="編集する"
+                onLeftButtonClick={handleEditToggle}
+                rightLabel="削除する"
+                onRightButtonClick={() => handleDelete(broadcastData?.Trivia[0]?.id)}
+              />
+
+              {/* <ButtonWrap>
                 <Button color="primary" onClick={handleEditToggle}>
                   編集する
                 </Button>
-                <Button color="secondary" onClick={handleDelete(data?.Trivia[0]?.id)}>
+                <Button color="secondary" onClick={handleDelete(broadcastData?.Trivia[0]?.id)}>
                   削除する
                 </Button>
-              </ButtonWrap>
+              </ButtonWrap> */}
             </>
           )}
         </>
       ) : (
-        <MyEngiviaInput token={userInfo.token} />
+        <MyEngiviaInput />
       )}
+
+      <Toaster />
     </PageRoot>
   );
 };
@@ -137,3 +158,24 @@ const ButtonWrap = styled("div", {
   justifyContent: "center",
   gap: "2rem",
 });
+
+type Props = {
+  leftLabel: string;
+  onLeftButtonClick: () => void;
+  rightLabel: string;
+  onRightButtonClick: () => void;
+  disabled?: boolean;
+};
+
+const ButtonGroup: VFC<Props> = (props) => {
+  return (
+    <ButtonWrap>
+      <Button color="primary" onClick={props.onLeftButtonClick} disabled={props.disabled}>
+        {props.leftLabel}
+      </Button>
+      <Button color="secondary" onClick={props.onRightButtonClick} disabled={props.disabled}>
+        {props.rightLabel}
+      </Button>
+    </ButtonWrap>
+  );
+};

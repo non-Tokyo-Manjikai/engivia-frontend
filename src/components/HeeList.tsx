@@ -1,16 +1,11 @@
 import type { VFC } from "react";
 import { Label } from "src/components/styled";
 import { styled } from "src/utils";
+import type { ConnectUser } from "type";
 
 type Props = {
   currentUserId: string;
-  data: {
-    id: string;
-    name: string;
-    image: string;
-    heeCount: number;
-    isAdmin: boolean;
-  }[];
+  data: ConnectUser[];
 };
 
 export const HeeList: VFC<Props> = (props) => {

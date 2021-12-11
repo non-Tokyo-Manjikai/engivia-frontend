@@ -6,18 +6,17 @@ import toast, { Toaster } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "src/components/atoms";
 import { Button, Input, PageRoot, Title } from "src/components/styled";
-import { postBroadcast } from "src/hooks/postBroadcast";
-import type { BroadcastPostBodyType } from "src/types/BroadcastPostBodyType";
+import { requestFetcher } from "src/functions/requestFetcher";
 import { styled } from "src/utils";
 
 const BroadcastInputPage: NextPage = () => {
-  const userInfo = useRecoilValue(userInfoState);
   const router = useRouter();
-  const [broadcastState, setBroadcastState] = useState<BroadcastPostBodyType>({
+  const userInfo = useRecoilValue(userInfoState);
+  const [buttonDisabledState, setButtonDisabledState] = useState(false);
+  const [broadcastState, setBroadcastState] = useState({
     title: "",
     scheduledStartTime: "",
   });
-  const [buttonDisabledState, setButtonDisabledState] = useState(false);
 
   const handleSaveClick = async () => {
     // タイトル、放送日を指定しないと作成できないようにする。空白文字列も作成できない。
@@ -25,28 +24,29 @@ const BroadcastInputPage: NextPage = () => {
       toast.error("タイトルと放送日を指定してください");
       return;
     }
-    // 連続クリックで重複して送信しないようにする
-    setButtonDisabledState(true);
+
     const toastId = toast.loading("Sending...");
-    const statusCode = await postBroadcast("/broadcast", broadcastState, userInfo.token);
+    setButtonDisabledState(true);
+
+    const { statusCode } = await requestFetcher("/broadcast", broadcastState, "POST", userInfo.token);
+
     if (statusCode >= 400) {
       toast.error(`error: ${statusCode}`, { id: toastId });
       setButtonDisabledState(false);
-    } else {
-      toast.success("保存成功しました", { id: toastId });
-      // トーストを表示した2秒後にページ遷移する
-      setTimeout(() => router.push("/broadcast"), 2000);
+      return;
     }
+
+    toast.success("保存成功しました", { id: toastId });
+    setTimeout(() => router.push("/broadcast"), 2000);
   };
-  console.log(`test: ${/\S/g.test(broadcastState.title)}`);
 
   return (
     <PageRoot>
       <Title>放送を作成</Title>
+
       <Input
         type="text"
         placeholder="タイトルを入力する"
-        // eslint-disable-next-line react/jsx-handler-names
         onChange={(e) => setBroadcastState({ ...broadcastState, title: e.target.value })}
       />
       <Input
@@ -56,6 +56,7 @@ const BroadcastInputPage: NextPage = () => {
           setBroadcastState({ ...broadcastState, scheduledStartTime: `${e.target.value}T00:00:00+09:00` })
         }
       />
+
       <ButtonWrap>
         <Button color="primary" disabled={buttonDisabledState} onClick={handleSaveClick}>
           保存する
@@ -64,6 +65,7 @@ const BroadcastInputPage: NextPage = () => {
           キャンセル
         </Button>
       </ButtonWrap>
+
       <Toaster />
     </PageRoot>
   );

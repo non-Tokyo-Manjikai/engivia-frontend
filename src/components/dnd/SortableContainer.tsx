@@ -7,7 +7,7 @@ import { styled } from "src/utils";
 
 type Props = {
   id: string;
-  items: any;
+  items: number[];
   title: string;
 };
 
@@ -15,9 +15,9 @@ export const SortableContainer: VFC<Props> = memo((props) => {
   const { setNodeRef } = useDroppable({
     id: props.id,
   });
-
+  const items = props.items as unknown as string[];
   return (
-    <SortableContext id={props.id} items={props.items} strategy={verticalListSortingStrategy}>
+    <SortableContext id={props.id} items={items} strategy={verticalListSortingStrategy}>
       <div ref={setNodeRef}>
         <Title>{props.title}</Title>
         {props.items.map((id: number) => {

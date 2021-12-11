@@ -6,33 +6,19 @@ import toast, { Toaster } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "src/components/atoms";
 import { Button, Input, PageRoot, Title } from "src/components/styled";
-import { handlePutTrivia } from "src/hooks/handlePutTrivia";
-import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
+import { requestFetcher } from "src/functions/requestFetcher";
+import { useGetSWRWithToken } from "src/hooks/useGetSWR";
 import { styled } from "src/utils";
+import type { BroadcastLive } from "type";
 
 const BroadcastEditPage: NextPage = () => {
   const router = useRouter();
   const userInfo = useRecoilValue(userInfoState);
-
-  // broadcast/[id]/live/adminから遷移してくる時にrouter.query.broadcastIdを渡してくる
-  const { data, isError } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, userInfo.token);
-  const [dateValue, setDateValue] = useState<string>("");
   const [titleValue, setTitleValue] = useState("");
+  const [dateValue, setDateValue] = useState<string>("");
   const [buttonDisabledState, setButtonDisabledState] = useState(false);
 
-  if (isError) {
-    toast.error("エラーが起きました");
-  }
-
-  useEffect(() => {
-    if (data && data.id) {
-      const date = new Date(data.scheduledStartTime);
-      const jaDate = utcToZonedTime(date, "Asia/tokyo");
-      const NewFormatDate = format(jaDate, "yyyy-MM-dd", { timeZone: "Asia/tokyo" });
-      setDateValue(NewFormatDate);
-      setTitleValue(data.title);
-    }
-  }, [data]);
+  const { data, isError } = useGetSWRWithToken<BroadcastLive>(`/broadcast/${router.query.broadcastId}`, userInfo.token);
 
   const handleDateChange = useCallback((e: any) => {
     setDateValue(e.target.value);
@@ -52,33 +38,54 @@ const BroadcastEditPage: NextPage = () => {
       toast.error("タイトルと放送日を指定してください");
       return;
     }
-    // 連続クリックで重複して送信しないようにする
+
+    const toastId = toast.loading("Sending...");
     setButtonDisabledState(true);
 
     const NewDate = new Date(dateValue);
     const NewScheduledStartTime = NewDate.toISOString();
-    const body = {
+    const PutBody = {
       scheduledStartTime: NewScheduledStartTime,
       title: titleValue,
     };
-    const toastId = toast.loading("Sending...");
 
-    const statusCode = await handlePutTrivia(`/broadcast/${router.query.broadcastId}`, body, userInfo.token);
+    // 更新処理
+    const { statusCode } = await requestFetcher(
+      `/broadcast/${router.query.broadcastId}`,
+      PutBody,
+      "PUT",
+      userInfo.token,
+    );
+
     if (statusCode >= 400) {
       toast.error(`error: ${statusCode}`, { id: toastId });
       setButtonDisabledState(false);
-    } else {
-      toast.success("保存成功しました", { id: toastId });
-      // トーストを表示した2秒後にページ遷移する
-      setTimeout(() => router.push(`/broadcast/${router.query.broadcastId}/live/admin`), 2000);
+      return;
     }
+
+    toast.success("保存成功しました", { id: toastId });
+    setTimeout(() => router.push(`/broadcast/${router.query.broadcastId}/live/admin`), 2000);
   };
+
+  useEffect(() => {
+    if (data && data.id) {
+      const date = new Date(data.scheduledStartTime);
+      const jaDate = utcToZonedTime(date, "Asia/tokyo");
+      const NewFormatDate = format(jaDate, "yyyy-MM-dd", { timeZone: "Asia/tokyo" });
+      setDateValue(NewFormatDate);
+      setTitleValue(data.title);
+    }
+  }, [data]);
+
+  if (isError) toast.error("エラーが起きました");
 
   return (
     <PageRoot>
       <Title>放送を編集</Title>
+
       <Input type="text" placeholder="タイトルを入力する" value={titleValue} onChange={handleTitleChange} />
       <Input type="date" value={dateValue} onChange={handleDateChange} />
+
       <ButtonWrap>
         <Button color="primary" disabled={buttonDisabledState} onClick={handleSaveEngiviaInfo}>
           保存する
@@ -87,9 +94,8 @@ const BroadcastEditPage: NextPage = () => {
           キャンセル
         </Button>
       </ButtonWrap>
-      <div>
-        <Toaster />
-      </div>
+
+      <Toaster />
     </PageRoot>
   );
 };

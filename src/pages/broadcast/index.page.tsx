@@ -1,35 +1,19 @@
-/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable indent */
 import type { NextPage } from "next";
 import { useRecoilValue } from "recoil";
 import { BroadcastItem, NextLink } from "src/components";
 import { userInfoState } from "src/components/atoms";
-import { FetcherExample } from "src/components/FetcherExample";
 import { Button, PageRoot, Title } from "src/components/styled";
 import { useGetSWR } from "src/hooks/useGetSWR";
 import { styled } from "src/utils";
-
-export type LiveStatus = "upcoming" | "live" | "ended";
-
-export type BroadcastListType = {
-  id: number;
-  title: string;
-  scheduledStartTime: string;
-  status: LiveStatus;
-  _count: {
-    Trivia: number;
-  };
-};
+import type { Broadcast } from "type";
 
 const BroadcastPage: NextPage = () => {
-  const { data, isError, isLoading } = useGetSWR<BroadcastListType[]>("/broadcast");
-
   const userInfo = useRecoilValue(userInfoState);
+  const { data, isError, isLoading } = useGetSWR<Broadcast[]>("/broadcast");
 
   return (
     <PageRoot>
-      {data && <FetcherExample />}
-
       <Title>放送一覧</Title>
 
       {isLoading ? (
@@ -40,7 +24,7 @@ const BroadcastPage: NextPage = () => {
         "no data"
       ) : (
         <BroadcastItemWrap>
-          {data?.map((item) => (
+          {data.map((item) => (
             <NextLink
               href={`/broadcast/${item.id}${
                 item.status === "ended"
@@ -62,7 +46,7 @@ const BroadcastPage: NextPage = () => {
       )}
 
       {userInfo.isAdmin ? (
-        <NextLink href={"/broadcast/input"}>
+        <NextLink href="/broadcast/input">
           <Button color="primary">放送を作成する</Button>
         </NextLink>
       ) : null}
@@ -78,9 +62,7 @@ const BroadcastItemWrap = styled("ul", {
   flexDirection: "column",
   justifyContent: "center",
   alignItems: "center",
-
   borderRadius: 5,
-
   boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06)",
   listStyle: "none",
 });

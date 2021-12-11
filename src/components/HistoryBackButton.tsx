@@ -1,13 +1,14 @@
 import { useRouter } from "next/router";
+import type { VFC } from "react";
 import { memo } from "react";
 import { styled } from "src/utils";
 
-export const HistoryBackButton: React.FC = memo(() => {
+export const HistoryBackButton: VFC = memo(() => {
   const router = useRouter();
-
   const handleBack = () => {
     router.back();
   };
+
   return (
     <Root onClick={handleBack}>
       <BackIcon xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">

@@ -1,6 +1,7 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { io } from "socket.io-client";
 import { BroadcastHeader } from "src/components";
@@ -8,42 +9,49 @@ import { broadcastLiveState, userInfoState } from "src/components/atoms";
 import { Multicontainers } from "src/components/dnd";
 import { Button } from "src/components/styled";
 import { API_URL } from "src/constants/API_URL";
+import { requestFetcher } from "src/functions/requestFetcher";
 import { totalCount } from "src/functions/totalCount";
-import { handlePutBroadcast } from "src/hooks/handlePutBroadcast";
 import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import { styled } from "src/utils";
-
-type ConnectUser = {
-  id: string;
-  name: string;
-  image: string;
-  heeCount: number;
-};
+import type { ConnectUser } from "type";
 
 const featurePutBody = { status: "live" };
 const featuredPutBody = { status: "ended" };
 
 const LiveAdminPage: NextPage = () => {
   const router = useRouter();
-  const [socket, setSoket] = useState<any>(null);
   const userInfo = useRecoilValue(userInfoState);
   const [broadcast, setBroadcast] = useRecoilState(broadcastLiveState);
+  const [socket, setSoket] = useState<any>(null);
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
+
   const { data, isError, isLoading } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, userInfo.token);
 
   const totalHeeCount = totalCount(connectUserList);
 
   // 放送開始
   const handleBeginLive = async () => {
-    const result = await handlePutBroadcast(`/broadcast/${router.query.broadcastId}`, featurePutBody, userInfo.token);
-    if (result.id) {
-      setBroadcast((prevState) => {
-        if (prevState) {
-          return { ...prevState, status: "live" };
-        }
-        return prevState;
-      });
+    const toastId = toast.loading("Sending...");
+
+    const { statusCode } = await requestFetcher(
+      `/broadcast/${router.query.broadcastId}`,
+      featurePutBody,
+      "POST",
+      userInfo.token,
+    );
+
+    if (statusCode >= 400) {
+      toast.error("開始できませんでした", { id: toastId });
+      return;
     }
+
+    toast.success("放送を開始しました", { id: toastId });
+    setBroadcast((prevState) => {
+      if (prevState) {
+        return { ...prevState, status: "live" };
+      }
+      return prevState;
+    });
 
     const socket = io(API_URL, {
       path: "/live",
@@ -54,6 +62,7 @@ const LiveAdminPage: NextPage = () => {
         isAdmin: "true",
       },
     });
+
     // console.info("通信情報取得", socket);
     setSoket(socket);
 
@@ -88,24 +97,37 @@ const LiveAdminPage: NextPage = () => {
       },
     });
   };
+
   // フィーチャー済み処理（ユーザー側で待ち状態にさせる）
   const handleWaitTitleCall = () => {
     socket.emit("post_wait_engivia");
   };
+
   // 放送終了
   const handleFinishLive = async () => {
+    const toastId = toast.loading("Sending...");
+
+    const { statusCode } = await requestFetcher(
+      `/broadcast/${router.query.broadcastId}`,
+      featuredPutBody,
+      "POST",
+      userInfo.token,
+    );
+
+    if (statusCode >= 400) {
+      toast.error("保存できませんでした", { id: toastId });
+      return;
+    }
+
+    toast.success("保存成功しました", { id: toastId });
+    setBroadcast((prevState) => {
+      if (prevState) {
+        return { ...prevState, status: "ended" };
+      }
+      return prevState;
+    });
     socket.disconnect();
     setSoket(null);
-
-    const result = await handlePutBroadcast(`/broadcast/${router.query.broadcastId}`, featuredPutBody, userInfo.token);
-    if (result.id) {
-      setBroadcast((prevState) => {
-        if (prevState) {
-          return { ...prevState, status: "ended" };
-        }
-        return prevState;
-      });
-    }
   };
 
   useEffect(() => {
@@ -143,6 +165,8 @@ const LiveAdminPage: NextPage = () => {
         onTitleCall={handleTitleCall}
         onWaitTitleCall={handleWaitTitleCall}
       />
+
+      <Toaster />
     </Container>
   );
 };

@@ -1,6 +1,6 @@
 import { violet } from "@radix-ui/colors";
-import { styled } from "src/utils";
 import { useState } from "react";
+import { styled } from "src/utils";
 
 export const UserInfo = () => {
   const [editing, setEditing] = useState(true);
