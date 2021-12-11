@@ -152,7 +152,7 @@ export const useDndTrivia = (props: Props) => {
     if (!result) return;
 
     if (overContainer === "container2") {
-      const PutBody = { hee: props.totalHeeCount === 0 ? 0 : props.totalHeeCount };
+      const PutBody = { hee: props.totalHeeCount };
       const result = await handlePutTrivia(`/trivia/${activeId}`, PutBody, userInfo.token);
 
       setBroadcast((prevState) => {
