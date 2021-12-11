@@ -9,7 +9,7 @@ const SigninPage: NextPage = () => {
   return (
     <SigninPageRoot>
       <LeftSide>
-        <img src="/fountain-logo.jpg" alt="噴水のアイコン" width={70} height={80} />
+        <img src="/fountain-logo.png" alt="噴水のアイコン" width={70} height={80} />
         <Title>エンジビアの泉</Title>
         <SubTitle>〜素晴らしきプログラミングマメ知識〜</SubTitle>
         <Spacer />
