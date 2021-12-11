@@ -21,6 +21,7 @@ export const User = () => {
     // recoilにユーザー情報とトークンを保存する。
     setUserInfo({ ...data, token: cookies.token });
   }
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -28,6 +29,7 @@ export const User = () => {
           <img className="rounded-full" src={userInfo?.image} width={80} height={80} />
         </IconButton>
       </PopoverTrigger>
+
       <PopoverContent sideOffset={5}>
         <UserInfo />
         <Footer>

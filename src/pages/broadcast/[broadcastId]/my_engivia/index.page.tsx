@@ -63,7 +63,8 @@ const MyEngiviaPage: NextPage = () => {
     setTimeout(() => router.push("/broadcast"), 2000);
   };
 
-  const handleDelete = (triviaId: number) => async () => {
+  const handleDeleteTrivia = async () => {
+    const triviaId = broadcastData?.Trivia[0]?.id;
     const toastId = toast.loading("Sending...");
 
     const { statusCode } = await requestFetcher(`/trivia/${triviaId}`, {}, "DELETE", userInfo.token);
@@ -93,9 +94,9 @@ const MyEngiviaPage: NextPage = () => {
         <div>loading</div>
       ) : broadcastIsError || triviaIsError ? (
         <div>error</div>
-      ) : !broadcastData?.id ? (
+      ) : !broadcastData || !triviaData ? (
         <div>no data</div>
-      ) : triviaData?.id ? (
+      ) : triviaData && broadcastData.Trivia[0] ? (
         <>
           {isEdit ? (
             <>
@@ -107,14 +108,6 @@ const MyEngiviaPage: NextPage = () => {
                 onRightButtonClick={handleEditToggle}
                 disabled={isButtonDisabled}
               />
-              {/* <ButtonWrap>
-                <Button color="primary" onClick={handlePutEngivia} disabled={isButtonDisabled}>
-                  保存する
-                </Button>
-                <Button color="secondary" onClick={handleEditToggle}>
-                  キャンセル
-                </Button>
-              </ButtonWrap> */}
             </>
           ) : (
             <>
@@ -128,17 +121,9 @@ const MyEngiviaPage: NextPage = () => {
                 leftLabel="編集する"
                 onLeftButtonClick={handleEditToggle}
                 rightLabel="削除する"
-                onRightButtonClick={() => handleDelete(broadcastData?.Trivia[0]?.id)}
+                onRightButtonClick={handleDeleteTrivia}
+                disabled={isButtonDisabled}
               />
-
-              {/* <ButtonWrap>
-                <Button color="primary" onClick={handleEditToggle}>
-                  編集する
-                </Button>
-                <Button color="secondary" onClick={handleDelete(broadcastData?.Trivia[0]?.id)}>
-                  削除する
-                </Button>
-              </ButtonWrap> */}
             </>
           )}
         </>
@@ -153,18 +138,12 @@ const MyEngiviaPage: NextPage = () => {
 // eslint-disable-next-line import/no-default-export
 export default MyEngiviaPage;
 
-const ButtonWrap = styled("div", {
-  display: "flex",
-  justifyContent: "center",
-  gap: "2rem",
-});
-
 type Props = {
   leftLabel: string;
   onLeftButtonClick: () => void;
   rightLabel: string;
   onRightButtonClick: () => void;
-  disabled?: boolean;
+  disabled: boolean;
 };
 
 const ButtonGroup: VFC<Props> = (props) => {
@@ -179,3 +158,9 @@ const ButtonGroup: VFC<Props> = (props) => {
     </ButtonWrap>
   );
 };
+
+const ButtonWrap = styled("div", {
+  display: "flex",
+  justifyContent: "center",
+  gap: "2rem",
+});
