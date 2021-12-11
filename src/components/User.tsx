@@ -1,17 +1,25 @@
+/* eslint-disable react/jsx-handler-names */
 /* eslint-disable quotes */
 /* eslint-disable @next/next/no-img-element */
 import { blackA, violet } from "@radix-ui/colors";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
-import { parseCookies } from "nookies";
+import { useRouter } from "next/router";
+import { destroyCookie,parseCookies } from "nookies";
+import { useState } from "react";
+import toast from "react-hot-toast";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "src/components/atoms";
 import { UserInfo } from "src/components/UserInfo";
+import { deleteUser } from "src/hooks/deleteUser";
 import { useGetSWR } from "src/hooks/get.swr";
 import type { FetchUserInfo } from "src/types";
 import { keyframes, styled } from "src/utils";
 
+
 export const User = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+  const [buttonDisabledState, setButtonDisabledState] = useState(false);
+  const router = useRouter();
   // Cookieを読み込む
   const cookies = parseCookies();
   // Cookieに保存されているトークンを使ってユーザー情報を取得する。
@@ -21,6 +29,28 @@ export const User = () => {
     // recoilにユーザー情報とトークンを保存する。
     setUserInfo({ ...data, token: cookies.token });
   }
+
+  const handleSignout = () => {
+    destroyCookie(null, "token", { path: "/" });
+    router.push("/signin");
+  };
+
+  const handleDeleteUser = async () => {
+    // 連続クリックで重複して送信しないようにする
+    setButtonDisabledState(true);
+    const toastId = toast.loading("Sending...");
+    const statusCode = await deleteUser("/user");
+    if (statusCode >= 400) {
+      toast.error(`error: ${statusCode}`, { id: toastId });
+      setButtonDisabledState(false);
+    } else {
+      toast.success("削除成功しました", { id: toastId });
+      destroyCookie(null, "token", { path: "/" });
+      // トーストを表示した2秒後にページ遷移する
+      setTimeout(() => router.push("/signin"), 2000);
+    }
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -32,10 +62,14 @@ export const User = () => {
         <UserInfo />
         <Footer>
           <PopoverClose aria-label="Close">
-            <LogOut>Log Out</LogOut>
+            <LogOut disabled={buttonDisabledState} onClick={handleSignout}>
+              Log Out
+            </LogOut>
           </PopoverClose>
           <DivSave>
-            <Leave>Leave</Leave>
+            <Leave disabled={buttonDisabledState} onClick={handleDeleteUser}>
+              Leave
+            </Leave>
           </DivSave>
         </Footer>
       </PopoverContent>
