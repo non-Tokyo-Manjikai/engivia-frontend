@@ -116,6 +116,7 @@ const LiveUserPage: NextPage = () => {
   // 通信終了
   const handleLiveDisconnect = useCallback(() => {
     socket.disconnect();
+    setSoket(null);
   }, [socket]);
 
   useEffect(() => {
