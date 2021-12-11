@@ -4,12 +4,12 @@ import { memo } from "react";
 import { Item, SortableContainer } from "src/components/dnd";
 import { Button } from "src/components/styled";
 import { useDndTrivia } from "src/hooks/useDndTrivia";
-import type { TriviaType } from "src/types";
+import type { Trivia } from "src/types";
 import { styled } from "src/utils";
 
 type Props = {
   totalHeeCount: number;
-  onTitleCall: (trivia: TriviaType) => void;
+  onTitleCall: (trivia: Trivia) => void;
   onWaitTitleCall: () => void;
 };
 

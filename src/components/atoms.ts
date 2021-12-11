@@ -1,5 +1,5 @@
 import { atom } from "recoil";
-import type { BroadcastLive, User } from "type";
+import type { BroadcastLive, User } from "src/types";
 
 export const userInfoState = atom<User>({
   key: "userInfoState",

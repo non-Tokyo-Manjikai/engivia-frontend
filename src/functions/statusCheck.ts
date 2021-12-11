@@ -1,5 +1,5 @@
 /* eslint-disable indent */
-import type { LiveStatus } from "type";
+import type { LiveStatus } from "src/types";
 
 type ColorType = "green" | "orange" | "gray";
 

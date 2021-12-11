@@ -7,7 +7,7 @@ import { useRecoilState } from "recoil";
 import { userInfoState } from "src/components/atoms";
 import { UserInfo } from "src/components/UserInfo";
 import { useGetSWR } from "src/hooks/get.swr";
-import type { FetchUserInfo } from "src/types";
+import type { User as UserType } from "src/types";
 import { keyframes, styled } from "src/utils";
 
 export const User = () => {
@@ -16,7 +16,7 @@ export const User = () => {
   const cookies = parseCookies();
   // Cookieに保存されているトークンを使ってユーザー情報を取得する。
   // 本番では userInfo.id === "user2" を !userInfoにした方がいいかも(atomのデフォ値もnullにしたい)
-  const { data, error } = useGetSWR<FetchUserInfo>({ url: "/user", shouldFetch: userInfo.id === "user2" });
+  const { data, error } = useGetSWR<UserType>({ url: "/user", shouldFetch: userInfo.id === "user2" });
   if (data && !error && userInfo.id === "user2") {
     // recoilにユーザー情報とトークンを保存する。
     setUserInfo({ ...data, token: cookies.token });

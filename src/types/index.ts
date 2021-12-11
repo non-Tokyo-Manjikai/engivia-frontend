@@ -1,34 +1,26 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 export type LiveStatus = "upcoming" | "live" | "ended";
 
-export type UserType = {
+export type User = {
   id: string;
   name: string;
   image: string;
-  isAdmin: boolean;
   token: string;
+  isAdmin: boolean;
 };
 
-export type TriviaType = {
+export type Trivia = {
   id: number;
+  userId: string;
   content: string;
   featured: boolean;
   hee: number | null;
-  userId: string;
-  User: UserType;
   statusCode?: number;
+
+  User: User;
 };
 
-export type BroadcastLiveType = {
-  id: number;
-  status: LiveStatus;
-  title: string;
-  scheduledStartTime: Date;
-  Trivia: TriviaType[];
-  archiveUrl: string;
-};
-
-export type BroadcastListType = {
+export type Broadcast = {
   id: number;
   title: string;
   scheduledStartTime: string;
@@ -38,9 +30,28 @@ export type BroadcastListType = {
   };
 };
 
-export type FetchUserInfo = {
+export type BroadcastLive = {
+  id: number;
+  title: string;
+  status: LiveStatus;
+  scheduledStartTime: Date;
+  archiveUrl: string | null;
+
+  Trivia: Trivia[];
+};
+
+export type ViewEngivia = {
+  id: number;
+  name: string;
+  image: string;
+  content: string;
+  engiviaNumber: number;
+};
+
+export type ConnectUser = {
   id: string;
   name: string;
   image: string;
+  heeCount: number;
   isAdmin: boolean;
 };

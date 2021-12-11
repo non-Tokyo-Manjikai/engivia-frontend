@@ -10,8 +10,8 @@ import { MyEngiviaInput } from "src/components/MyEngiviaInput";
 import { Button, PageRoot, Textarea } from "src/components/styled";
 import { requestFetcher } from "src/functions/requestFetcher";
 import { useGetSWRWithToken } from "src/hooks/useGetSWR";
+import type { BroadcastLive, Trivia } from "src/types";
 import { styled } from "src/utils";
-import type { BroadcastLive, Trivia } from "type";
 
 const MyEngiviaPage: NextPage = () => {
   const router = useRouter();

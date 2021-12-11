@@ -9,8 +9,8 @@ import { API_URL } from "src/constants/API_URL";
 import { HEE_SOUND } from "src/constants/HEE_SOUND";
 import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
 import { totalCount } from "src/functions/totalCount";
+import type { ConnectUser, ViewEngivia } from "src/types";
 import { styled } from "src/utils";
-import type { ConnectUser, ViewEngivia } from "type";
 
 const LiveUserPage: NextPage = () => {
   const userInfo = useRecoilValue(userInfoState);

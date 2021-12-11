@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useSetRecoilState } from "recoil";
 import { broadcastLiveState } from "src/components/atoms";
 import { useGetSWRWithToken } from "src/hooks/useGetSWR";
-import type { BroadcastLive } from "type";
+import type { BroadcastLive } from "src/types";
 
 export const useGetEngiviaInfo = (url: string, token: string) => {
   const { data, isError, isLoading } = useGetSWRWithToken<BroadcastLive>(url, token);

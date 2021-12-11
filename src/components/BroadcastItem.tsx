@@ -4,8 +4,8 @@ import type { VFC } from "react";
 import { AcademicCapIcon, ScheduleIcon } from "src/components/icon";
 import { BroadcastStatus } from "src/components/styled";
 import { statusCheck } from "src/functions/statusCheck";
+import type { Broadcast } from "src/types";
 import { styled } from "src/utils";
-import type { Broadcast } from "type";
 
 export const BroadcastItem: VFC<Broadcast> = (props) => {
   const result = statusCheck(props.status);

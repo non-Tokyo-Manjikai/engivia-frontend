@@ -1,7 +1,7 @@
 import type { VFC } from "react";
 import { Label } from "src/components/styled";
+import type { ConnectUser } from "src/types";
 import { styled } from "src/utils";
-import type { ConnectUser } from "type";
 
 type Props = {
   currentUserId: string;

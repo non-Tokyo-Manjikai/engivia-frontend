@@ -5,8 +5,8 @@ import { BroadcastItem, NextLink } from "src/components";
 import { userInfoState } from "src/components/atoms";
 import { Button, PageRoot, Title } from "src/components/styled";
 import { useGetSWR } from "src/hooks/useGetSWR";
+import type { Broadcast } from "src/types";
 import { styled } from "src/utils";
-import type { Broadcast } from "type";
 
 const BroadcastPage: NextPage = () => {
   const userInfo = useRecoilValue(userInfoState);

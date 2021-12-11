@@ -9,8 +9,8 @@ import { userInfoState } from "src/components/atoms";
 import { Button, Input, PageRoot } from "src/components/styled";
 import { requestFetcher } from "src/functions/requestFetcher";
 import { useGetSWRWithToken } from "src/hooks/useGetSWR";
+import type { BroadcastLive } from "src/types";
 import { styled } from "src/utils";
-import type { BroadcastLive } from "type";
 
 const ArchivePage: NextPage = () => {
   const router = useRouter();

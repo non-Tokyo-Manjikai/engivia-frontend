@@ -12,8 +12,8 @@ import { API_URL } from "src/constants/API_URL";
 import { requestFetcher } from "src/functions/requestFetcher";
 import { totalCount } from "src/functions/totalCount";
 import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
+import type { ConnectUser } from "src/types";
 import { styled } from "src/utils";
-import type { ConnectUser } from "type";
 
 const featurePutBody = { status: "live" };
 const featuredPutBody = { status: "ended" };

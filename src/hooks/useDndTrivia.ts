@@ -6,7 +6,7 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { broadcastLiveState, userInfoState } from "src/components/atoms";
 import { dndValidation } from "src/functions/dndValidation";
 import { requestFetcher } from "src/functions/requestFetcher";
-import type { Trivia } from "type";
+import type { Trivia } from "src/types";
 
 type Props = {
   totalHeeCount: number;
