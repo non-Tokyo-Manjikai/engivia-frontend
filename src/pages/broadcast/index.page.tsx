@@ -1,5 +1,6 @@
 /* eslint-disable indent */
 import type { NextPage } from "next";
+import toast, { Toaster } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
 import { BroadcastItem, NextLink } from "src/components";
 import { userInfoState } from "src/components/atoms";
@@ -15,6 +16,7 @@ const BroadcastPage: NextPage = () => {
   return (
     <PageRoot>
       <Title>放送一覧</Title>
+      <Toaster />
 
       {isLoading ? (
         "loading"

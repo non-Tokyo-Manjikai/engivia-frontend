@@ -9,7 +9,7 @@ export const Header: VFC = memo(() => {
   return (
     <Root>
       <LeftSide>
-        <img src="/fountain-logo.jpg" alt="噴水ロゴ" width={30} height={34} />
+        <img src="/fountain-logo.png" alt="噴水ロゴ" width={30} height={34} />
         <Title>エンビジアの泉</Title>
       </LeftSide>
 

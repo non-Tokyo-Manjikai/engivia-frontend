@@ -1,4 +1,5 @@
 import type { NextPage } from "next";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { io } from "socket.io-client";
@@ -9,16 +10,19 @@ import { API_URL } from "src/constants/API_URL";
 import { HEE_SOUND } from "src/constants/HEE_SOUND";
 import { INIT_ENGIVIA } from "src/constants/INIT_ENGIVIA";
 import { totalCount } from "src/functions/totalCount";
+import { useGetEngiviaInfo } from "src/hooks/useGetEngiviaInfo";
 import type { ConnectUser, ViewEngivia } from "src/types";
 import { styled } from "src/utils";
 
 const LiveUserPage: NextPage = () => {
+  const router = useRouter();
   const userInfo = useRecoilValue(userInfoState);
   const [heeSound, setHeeSound] = useState<HTMLAudioElement | null>(null);
   const [socket, setSoket] = useState<any>();
   const [heeCount, setHeeCount] = useState<number>(0);
   const [viewEngivia, setViewEngivia] = useState<ViewEngivia>(INIT_ENGIVIA);
   const [connectUserList, setConnectUserList] = useState<ConnectUser[]>([]);
+  const { data, isError, isLoading } = useGetEngiviaInfo(`/broadcast/${router.query.broadcastId}`, userInfo.token);
 
   const totalHeeCount = totalCount(connectUserList);
 
@@ -72,12 +76,16 @@ const LiveUserPage: NextPage = () => {
         prev.map((user) => (user.id === data.heeUser.id ? { ...user, heeCount: data.heeUser.count } : user)),
       );
     });
+
+    socket.on("exit_user", (data) => {
+      // console.info("すべての接続ユーザー取得", data);
+      setConnectUserList(data);
+    });
   };
 
   // 通信終了
   const handleLiveDisconnect = useCallback(() => {
-    // socket.disconnect();
-    setSoket(null);
+    socket.disconnect();
   }, [socket]);
 
   useEffect(() => {
@@ -88,13 +96,17 @@ const LiveUserPage: NextPage = () => {
     };
   }, []);
 
+  if (isLoading) return <div>Loading...</div>;
+  if (isError) return <div>Error...</div>;
+  if (!data) return <div>Empty...</div>;
+
   return (
     <PageRoot>
       <ListWrapper>
         <HeeList currentUserId={userInfo.id} data={connectUserList} />
       </ListWrapper>
 
-      <BroadcastHeader status="live" title="第1回エンジビアの泉" />
+      <BroadcastHeader status="live" title={data.title} />
       <EngiviaCard {...viewEngivia} heeCount={totalHeeCount} isResult />
       <HeeButtonKit onClick={handleHeeClick} isDied={heeCount === 20 || viewEngivia.id === 0} />
     </PageRoot>

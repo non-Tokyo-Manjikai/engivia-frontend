@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/rules-of-hooks */
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { parseCookies, setCookie } from "nookies";
+import { setCookie } from "nookies";
 import { PageRoot } from "src/components/styled";
 import { API_URL } from "src/constants/API_URL";
 import { styled } from "src/utils";
@@ -28,8 +28,7 @@ const signinRedirectPage: NextPage = () => {
   const router = useRouter();
   // Slack認証をしてユーザー情報とトークンを取得する
   const { data, error } = useSWR<User>(`${API_URL}/slack/token?code=${router.query.code}`, fetcher);
-  const cookies = parseCookies();
-  if (data && !error && !cookies.token) {
+  if (data && !error) {
     console.info("set Cookie");
     setCookie(null, "token", data.token, {
       // maxAge: 30 * 24 * 60 * 60,

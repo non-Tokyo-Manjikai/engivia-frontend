@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { io } from "socket.io-client";
@@ -134,24 +134,35 @@ const LiveAdminPage: NextPage = () => {
     if (!socket && broadcast?.status === "live") handleBeginLive();
   }, [broadcast]);
 
+  // 通信終了
+  const handleLiveDisconnect = useCallback(() => {
+    socket.disconnect();
+  }, [socket]);
+
+  useEffect(() => {
+    return () => {
+      handleLiveDisconnect();
+    };
+  }, []);
+
   if (isLoading) return <div>Loading...</div>;
   if (isError) return <div>Error...</div>;
-  if (!data) return <div>Empty...</div>;
+  if (!broadcast || !data) return <div>Empty...</div>;
 
   return (
     <Container>
       <Top>
         <Title>
-          <BroadcastHeader title={`${data.title}：${totalHeeCount || 0}へぇ`} status={data.status} />
+          <BroadcastHeader title={`${broadcast.title}：${totalHeeCount || 0}へぇ`} status={broadcast.status} />
         </Title>
 
         <ButtonWrap>
           <UpcommingButtonWrap>
-            {data?.status === "upcoming" ? (
+            {broadcast?.status === "upcoming" ? (
               <Button color="primary" onClick={handleBeginLive}>
                 放送を開始する
               </Button>
-            ) : data?.status === "live" ? (
+            ) : broadcast?.status === "live" ? (
               <Button color="secondary" onClick={handleFinishLive}>
                 放送を終了する
               </Button>
