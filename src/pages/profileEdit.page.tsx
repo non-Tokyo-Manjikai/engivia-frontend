@@ -28,6 +28,11 @@ const ProfileEditPage = () => {
   // イメージデータを変換する
   const handleToBase64Url = (url: string, callback: any) => {
     setButtonDisabledState(true);
+    if (text === userInfo.name || image === userInfo.image) {
+      toast.error("変更点がありません");
+      setButtonDisabledState(false);
+      return;
+    }
     const xhr = new XMLHttpRequest();
     xhr.onload = function () {
       const reader = new FileReader();
@@ -45,6 +50,17 @@ const ProfileEditPage = () => {
 
   // ユーザー情報を更新する
   const handleSendUrl = async (xhr: string) => {
+    if (!text || !/\S/g.test(text)) {
+      toast.error("名前を入力してください");
+      setButtonDisabledState(false);
+      return;
+    }
+    if (!image) {
+      toast.error("画像を選択してください");
+      setButtonDisabledState(false);
+      return;
+    }
+
     const body = {
       name: text,
       base64Image: xhr,
