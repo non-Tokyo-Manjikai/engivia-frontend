@@ -51,6 +51,10 @@ export const User = () => {
     }
   };
 
+  const handleChange = (value: string) => {
+    setUserInfo(sampleUserInfo[Number(value)]);
+  };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -59,6 +63,11 @@ export const User = () => {
         </IconButton>
       </PopoverTrigger>
       <PopoverContent sideOffset={5}>
+        <select onChange={(e) => handleChange(e.target.value)}>
+          <option value={0}>0</option>
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+        </select>
         <UserInfo />
         <Footer>
           <PopoverClose aria-label="Close">
@@ -200,3 +209,30 @@ const LogOut = styled("button", {
     backgroundColor: "#e3e3e3",
   },
 });
+
+const sampleUserInfo = [
+  {
+    id: "admin1",
+    name: "管理者１",
+    image:
+      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+    isAdmin: true,
+    token: "admin-token1",
+  },
+  {
+    id: "user1",
+    name: "テストユーザー１",
+    image:
+      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+    isAdmin: false,
+    token: "token1",
+  },
+  {
+    id: "user2",
+    name: "テストユーザー２",
+    image:
+      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+    isAdmin: false,
+    token: "token2",
+  },
+];
