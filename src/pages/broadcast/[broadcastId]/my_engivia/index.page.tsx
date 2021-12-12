@@ -88,7 +88,7 @@ const MyEngiviaPage: NextPage = () => {
         <div>error</div>
       ) : !data?.id ? (
         <div>no data</div>
-      ) : trivia?.statusCode !== 400 ? (
+      ) : data?.Trivia[0]?.content ? (
         <>
           {edit ? (
             <>

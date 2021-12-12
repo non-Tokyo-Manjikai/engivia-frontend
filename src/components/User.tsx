@@ -4,17 +4,17 @@
 import { blackA, violet } from "@radix-ui/colors";
 import * as PopoverPrimitive from "@radix-ui/react-popover";
 import { useRouter } from "next/router";
-import { destroyCookie,parseCookies } from "nookies";
+import { destroyCookie, parseCookies } from "nookies";
 import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "src/components/atoms";
+import { Button } from "src/components/styled";
 import { UserInfo } from "src/components/UserInfo";
 import { deleteUser } from "src/hooks/deleteUser";
 import { useGetSWR } from "src/hooks/get.swr";
 import type { FetchUserInfo } from "src/types";
 import { keyframes, styled } from "src/utils";
-
 
 export const User = () => {
   const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -22,9 +22,11 @@ export const User = () => {
   const router = useRouter();
   // Cookieを読み込む
   const cookies = parseCookies();
+
   // Cookieに保存されているトークンを使ってユーザー情報を取得する。
-  // 本番では userInfo.id === "user2" を !userInfoにした方がいいかも(atomのデフォ値もnullにしたい)
+  // 本番では userInfo.id === "user2"(recoilがデフォルト値である場合) を !userInfoにした方がいいかも(atomのデフォ値もnullにしたい)
   const { data, error } = useGetSWR<FetchUserInfo>({ url: "/user", shouldFetch: userInfo.id === "user2" });
+
   if (data && !error && userInfo.id === "user2") {
     // recoilにユーザー情報とトークンを保存する。
     setUserInfo({ ...data, token: cookies.token });
@@ -59,32 +61,40 @@ export const User = () => {
     <Popover>
       <PopoverTrigger asChild>
         <IconButton aria-label="Update dimensions">
-          <img className="rounded-full" src={userInfo?.image} width={80} height={80} />
+          <Image className="rounded-full" src={userInfo?.image} width={80} height={80} alt="userIcon" />
         </IconButton>
       </PopoverTrigger>
       <PopoverContent sideOffset={5}>
-        <select onChange={(e) => handleChange(e.target.value)}>
-          <option value={0}>0</option>
-          <option value={1}>1</option>
-          <option value={2}>2</option>
-        </select>
-        <UserInfo />
+        <Main>
+          <UserInfo user={userInfo} />
+          <select onChange={(e) => handleChange(e.target.value)}>
+            <option value={0}>0</option>
+            <option value={1}>1</option>
+            <option value={2}>2</option>
+          </select>
+        </Main>
         <Footer>
-          <PopoverClose aria-label="Close">
-            <LogOut disabled={buttonDisabledState} onClick={handleSignout}>
-              Log Out
-            </LogOut>
-          </PopoverClose>
-          <DivSave>
-            <Leave disabled={buttonDisabledState} onClick={handleDeleteUser}>
-              Leave
-            </Leave>
-          </DivSave>
+          <Button color="smallerSecondary" disabled={buttonDisabledState} onClick={handleSignout}>
+            ログアウト
+          </Button>
+          <Button color="smallerPrimary" disabled={buttonDisabledState} onClick={handleDeleteUser}>
+            退会
+          </Button>
         </Footer>
       </PopoverContent>
     </Popover>
   );
 };
+const Main = styled("div", {
+  height: "75%",
+  textAlign: "center",
+  padding: "10px",
+  backgroundColor: "'inherit'",
+});
+
+const Image = styled("img", {
+  borderRadius: "9999px",
+});
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(2px)" },
@@ -107,8 +117,8 @@ const slideLeftAndFade = keyframes({
 });
 
 const StyledContent = styled(PopoverPrimitive.Content, {
-  height: "360px",
-  width: "320px",
+  height: "330px",
+  width: "250px",
   borderRadius: 4,
   backgroundColor: "#ffffff",
   boxShadow: "hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px",
@@ -128,26 +138,6 @@ const StyledContent = styled(PopoverPrimitive.Content, {
   },
 });
 
-const StyledClose = styled(PopoverPrimitive.Close, {
-  all: "unset",
-  fontFamily: "inherit",
-  borderRadius: "100%",
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  color: violet.violet11,
-});
-
-const DivSave = styled(PopoverPrimitive.Close, {
-  all: "unset",
-  fontFamily: "inherit",
-  borderRadius: "100%",
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  color: violet.violet11,
-});
-
 const StyledArrow = styled(PopoverPrimitive.Arrow, {
   fill: "white",
 });
@@ -157,10 +147,6 @@ export const Popover = PopoverPrimitive.Root;
 export const PopoverTrigger = PopoverPrimitive.Trigger;
 export const PopoverContent = StyledContent;
 export const PopoverArrow = StyledArrow;
-export const PopoverClose = StyledClose;
-
-// Your app...
-const Flex = styled("div", { display: "flex" });
 
 const IconButton = styled("button", {
   all: "unset",
@@ -179,35 +165,10 @@ const IconButton = styled("button", {
 
 const Footer = styled("div", {
   display: "flex",
-  gap: "50px",
-  height: "30%",
+  gap: "20px",
+  height: "25%",
   justifyContent: "center",
-});
-
-const Leave = styled("button", {
-  color: "white",
-  width: "80px",
-  height: "40px",
-  backgroundColor: "#5f95fa",
-  borderRadius: "20px",
-  cursor: "pointer",
-  borderBottom: "2px solid #1904b8",
-  "&:hover": {
-    backgroundColor: "#3844f2",
-  },
-});
-
-const LogOut = styled("button", {
-  width: "80px",
-  height: "40px",
-  border: "black, 1px",
-  backgroundColor: "#ebebeb",
-  borderRadius: "20px",
-  cursor: "pointer",
-  borderBottom: "2px solid",
-  "&:hover": {
-    backgroundColor: "#e3e3e3",
-  },
+  alignItems: "center",
 });
 
 const sampleUserInfo = [
