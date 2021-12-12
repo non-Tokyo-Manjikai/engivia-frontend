@@ -94,6 +94,7 @@ const LiveAdminPage: NextPage = () => {
   };
   // 放送終了
   const handleFinishLive = async () => {
+    socket.emit("finish_live");
     socket.disconnect();
     setSoket(null);
 
@@ -113,7 +114,7 @@ const LiveAdminPage: NextPage = () => {
 
   // 通信終了
   const handleLiveDisconnect = useCallback(() => {
-    socket.disconnect();
+    socket?.disconnect();
   }, [socket]);
 
   useEffect(() => {
