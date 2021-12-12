@@ -51,6 +51,11 @@ export const User = () => {
     }
   };
 
+  const handleToggleLeaveOpen = () => {
+    setIsLeave(!isleave);
+  };
+
+  const [isleave, setIsLeave] = useState(false);
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -59,21 +64,63 @@ export const User = () => {
         </IconButton>
       </PopoverTrigger>
       <PopoverContent sideOffset={5}>
-        <Main>
-          <UserInfo />
-        </Main>
-        <Footer>
-          <Button color="smallerSecondary" disabled={buttonDisabledState} onClick={handleSignout}>
-            ログアウト
-          </Button>
-          <Button color="smallerPrimary" disabled={buttonDisabledState} onClick={handleDeleteUser}>
-            退会
-          </Button>
-        </Footer>
+        {isleave ? (
+          <>
+            <Leave>
+              <div>
+                <Announce1>本当に退会しますか？</Announce1>
+                <br />
+                <Announce2>全てのユーザー情報、投稿したエンジビアの内容が削除されます。</Announce2>
+              </div>
+              <Footer>
+                <Button color="secondary" onClick={handleDeleteUser}>
+                  退会
+                </Button>
+                <Button color="primary" onClick={handleToggleLeaveOpen}>
+                  戻る
+                </Button>
+              </Footer>
+            </Leave>
+          </>
+        ) : (
+          <>
+            <Main>
+              <UserInfo />
+            </Main>
+            <Footer>
+              <Button color="smallerPrimary" disabled={buttonDisabledState} onClick={handleSignout}>
+                ログアウト
+              </Button>
+              <Button color="smallerSecondary" disabled={buttonDisabledState} onClick={handleToggleLeaveOpen}>
+                退会
+              </Button>
+            </Footer>
+          </>
+        )}
       </PopoverContent>
     </Popover>
   );
 };
+
+const Leave = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  gap: "1.25rem",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100%",
+  textAlign: "center",
+});
+
+const Announce1 = styled("p", {
+  paddingY: "1.25rem",
+  fontSize: "1.25rem",
+  lineHeight: "1.75rem",
+});
+const Announce2 = styled("p", {
+  paddingX: "2.5rem",
+});
+
 const Main = styled("div", {
   height: "75%",
   textAlign: "center",
@@ -84,7 +131,7 @@ const Main = styled("div", {
 const Image = styled("img", {
   borderRadius: "9999px",
   height: "100%",
-  width:"100%"
+  width: "100%",
 });
 
 const slideUpAndFade = keyframes({
