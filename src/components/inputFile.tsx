@@ -29,13 +29,27 @@ export const InputFile = (props: Props) => {
 
   return (
     <div>
-      <input type="file" name={props.name} id="" src={props.value} onChange={handleChangeInputFile} />
+      <Label>
+        画像を選択
+        <Input type="file" name={props.name} src={props.value} onChange={handleChangeInputFile} />
+      </Label>
       <div>
         <Image src={props.value} alt="プロフィール画像" />
       </div>
     </div>
   );
 };
+
+const Label = styled("label", {
+  padding: "10px",
+  borderRadius: "9999px",
+  backgroundColor: "$white",
+  border: "1px solid $slate8",
+  "&:hover": { backgroundColor: "$slate5" },
+});
+const Input = styled("input", {
+  display: "none",
+});
 
 const Image = styled("img", {
   height: "300px",
