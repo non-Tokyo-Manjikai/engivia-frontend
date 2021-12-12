@@ -1,28 +1,40 @@
+/* eslint-disable react/jsx-handler-names */
 /* eslint-disable @typescript-eslint/naming-convention */
 import type { NextPage } from "next";
-import Image from "next/image";
+import Link from "next/link";
+import { parseCookies } from "nookies";
 import { Button } from "src/components/styled";
-import { styled } from "src/utils";
 import { API_URL } from "src/constants/API_URL";
+import { styled } from "src/utils";
 
 const SigninPage: NextPage = () => {
+  const cookies = parseCookies();
   return (
     <SigninPageRoot>
       <LeftSide>
-        <Image src="/fountain-logo.jpg" alt="噴水のアイコン" width={70} height={80} />
+        <img src="/fountain-logo.png" alt="噴水のアイコン" width={70} height={80} />
         <Title>エンジビアの泉</Title>
         <SubTitle>〜素晴らしきプログラミングマメ知識〜</SubTitle>
         <Spacer />
-        <a href={`${API_URL}/slack/signin`}>
-          <Button color="white">
-            <Image src="/slack-logo.svg" alt="slackのアイコン" width={22} height={22} />
-            Sign in with Slack
-          </Button>
-        </a>
+        {cookies.token ? (
+          <Link href="/broadcast" passHref>
+            <Button color="white">
+              <img src="/slack-logo.svg" alt="slackのアイコン" width={22} height={22} />
+              Sign in with Slack
+            </Button>
+          </Link>
+        ) : (
+          <a href={`${API_URL}/slack/signin`}>
+            <Button color="white">
+              <img src="/slack-logo.svg" alt="slackのアイコン" width={22} height={22} />
+              Sign in with Slack
+            </Button>
+          </a>
+        )}
       </LeftSide>
 
       <RightSide>
-        <Image src="/trivia.png" alt="トリビアの泉" layout="fill" />
+        <img src="/trivia.png" alt="トリビアの泉" />
       </RightSide>
     </SigninPageRoot>
   );

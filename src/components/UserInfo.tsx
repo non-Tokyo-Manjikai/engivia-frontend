@@ -1,75 +1,78 @@
 import { violet } from "@radix-ui/colors";
-import Image from "next/image";
+import { useRouter } from "next/router";
+import { useCallback } from "react";
+import { useRecoilValue } from "recoil";
+import { userInfoState } from "src/components/atoms";
+import { Button } from "src/components/styled";
 import { styled } from "src/utils";
 
 export const UserInfo = () => {
+  const userInfo = useRecoilValue(userInfoState);
+  const router = useRouter();
+
+  const handleToggleEdit = useCallback(() => {
+    router.push("/profileEdit");
+  }, [router]);
+
   return (
-    <OutLine>
+    <>
+      <EditArea>
+        <Button color="verySmallerPrimary" onClick={handleToggleEdit}>
+          編集
+        </Button>
+      </EditArea>
+
       <Person>
-        <Image className="rounded-full" src="/superhero.svg" width={80} height={80} alt="superhero" />
+        <Image className="rounded-full" src={userInfo.image} alt="userIcon" />
+        <NameArea>
+          <Nombre>{userInfo.name}</Nombre>
+        </NameArea>
       </Person>
-      <Fieldset>
-        <Label htmlFor="width">NAME</Label>
-        <Input />
-      </Fieldset>
-      <Fieldset>
-        <Label htmlFor="width">HOBBY</Label>
-        <Input />
-      </Fieldset>
-      <Fieldset>
-        <Label htmlFor="width">INTRO</Label>
-        <Input />
-      </Fieldset>
-    </OutLine>
+    </>
   );
 };
 
-const OutLine = styled("div", {
-  width: "100%",
-  height: "70%",
-  padding: "40px",
-  textAlign: "center",
-  borderRadius: 4,
-  backgroundColor: "'inherit'",
+const Image = styled("img", {
+  width: "6rem",
+  height: "6rem",
+  borderRadius: "9999px",
 });
-
 const Person = styled("div", {
-  margin: " 20px auto",
-  width: "100px",
-  height: "100px",
+  margin: "auto",
+  width: "100%",
+  height: "90%",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  justifyContent: "center",
+
+  gap: "10px",
+
   backgroundColor: "white",
   borderRadius: "50px",
 });
 
-const Fieldset = styled("fieldset", {
+const NameArea = styled("div", {
   all: "unset",
   display: "flex",
-  gap: 20,
-  margin: "20px ",
-  alignItems: "center",
-});
-
-const Label = styled("label", {
-  fontSize: 16,
-  color: violet.violet11,
-  width: 75,
-  fontWeight: "bold",
-});
-
-const Input = styled("input", {
-  all: "unset",
-  width: "100%",
-  display: "inline-flex",
   alignItems: "center",
   justifyContent: "center",
-  flex: "1",
-  borderRadius: 4,
-  fontSize: 13,
-  lineHeight: 1,
-  color: violet.violet11,
-  boxShadow: `0 0 0 1px ${violet.violet7}`,
-  height: 25,
-  backgroundColor: "white",
+  width: "90%",
+});
 
-  "&:focus": { boxShadow: `0 0 0 2px ${violet.violet8}` },
+const Nombre = styled("p", {
+  width: "100%",
+  alignItems: "center",
+  justifyContent: "center",
+  textAlign: "center",
+  fontSize: 18,
+  fontWeight: 600,
+  color: violet.violet11,
+});
+
+const EditArea = styled("div", {
+  height: "15%",
+  alignItems: "center",
+  display: "flex",
+  justifyContent: "right",
 });

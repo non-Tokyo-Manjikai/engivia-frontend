@@ -1,6 +1,5 @@
-import Image from "next/image";
-import { useMemo, VFC } from "react";
-import { memo } from "react";
+import type { VFC } from "react";
+import { memo, useMemo } from "react";
 import { useRecoilValue } from "recoil";
 import { broadcastLiveState } from "src/components/atoms";
 import { styled } from "src/utils";
@@ -18,16 +17,13 @@ export const Item: VFC<Props> = memo((props) => {
     })[0];
   }, [broadcast]);
 
-  if (!resultTrivia) return <div></div>;
-
+  if (!resultTrivia) return null;
   return (
     <Container>
       <p>{resultTrivia.content}</p>
       <UserCard>
         <User>
-          <ImageContainer>
-            <Image src={resultTrivia.User.image} width={40} height={40} alt="superhero" />
-          </ImageContainer>
+          <Icon>{resultTrivia.User.image ? <Image src={resultTrivia.User.image} alt="superhero" /> : null}</Icon>
           <Name>{resultTrivia.User.name}</Name>
         </User>
         {resultTrivia.featured ? <div>{resultTrivia.hee}</div> : null}
@@ -37,17 +33,19 @@ export const Item: VFC<Props> = memo((props) => {
 });
 
 const Container = styled("div", {
+  userSelect: "none",
   display: "flex",
   justifyContent: "center",
-  padding: "20px",
-  margin: "15px 0",
-  background: "white",
-  borderRadius: "10px",
-  boxShadow: "0px 2px 2px gray",
   flexDirection: "column",
   gap: "14px",
+
+  padding: "20px",
+  margin: "15px 0",
+  background: "$slate1",
+  borderRadius: "10px",
+  boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06)",
+
   fontSize: "15px",
-  userSelect: "none",
 });
 
 const UserCard = styled("div", {
@@ -56,11 +54,18 @@ const UserCard = styled("div", {
   alignItems: "center",
 });
 
-const ImageContainer = styled("div", {
+
+const Icon = styled("div", {
   width: "2rem",
   height: "2rem",
   borderRadius: "9999px",
-  display: "flex",
+  backgroundColor: "$primary10",
+});
+
+const Image = styled("img", {
+  width: "2rem",
+  height: "2rem",
+  borderRadius: "9999px",
 });
 
 const User = styled("div", {
@@ -70,6 +75,11 @@ const User = styled("div", {
 
 const Name = styled("div", {
   paddingX: "1rem",
+
   fontSize: "0.75rem",
   lineHeight: "1rem",
+});
+
+const Img = styled("img", {
+  borderRadius: 9999,
 });

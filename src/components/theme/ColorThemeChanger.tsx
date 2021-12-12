@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import * as HoverCardPrimitive from "@radix-ui/react-hover-card";
 import type { VFC } from "react";
 import { slideDownAndFade, slideLeftAndFade, slideRightAndFade, slideUpAndFade } from "src/components/animation";

@@ -1,12 +1,25 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+/* eslint-disable indent */
 import type { NextPage } from "next";
+import { Toaster } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
 import { BroadcastItem, NextLink } from "src/components";
 import { userInfoState } from "src/components/atoms";
 import { Button, PageRoot, Title } from "src/components/styled";
 import { useGetSWR } from "src/hooks/useGetSWR";
 import { styled } from "src/utils";
-import type { BroadcastListType } from "src/types";
-import { FetcherExample } from "src/components/FetcherExample";
+
+export type LiveStatus = "upcoming" | "live" | "ended";
+
+export type BroadcastListType = {
+  id: number;
+  title: string;
+  scheduledStartTime: string;
+  status: LiveStatus;
+  _count: {
+    Trivia: number;
+  };
+};
 
 const BroadcastPage: NextPage = () => {
   const { data, isError, isLoading } = useGetSWR<BroadcastListType[]>("/broadcast");
@@ -15,9 +28,8 @@ const BroadcastPage: NextPage = () => {
 
   return (
     <PageRoot>
-      {data && <FetcherExample />}
-
       <Title>放送一覧</Title>
+      <Toaster />
 
       {isLoading ? (
         "loading"

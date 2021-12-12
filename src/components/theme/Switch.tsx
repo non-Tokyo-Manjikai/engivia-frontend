@@ -30,12 +30,14 @@ const SwitchRoot = styled(SwitchPrimitive.Root, {
   borderRadius: 9999,
   border: "1px solid $slate11",
   boxSizing: "border-box",
+  // eslint-disable-next-line quotes
   '&[data-state="checked"]': { backgroundColor: "$primary9" },
 
   variants: {
     isDark: {
       true: {
         backgroundColor: "$slate7",
+        // eslint-disable-next-line quotes
         '&[data-state="checked"]': { backgroundColor: "$slate9" },
       },
     },
@@ -50,6 +52,7 @@ const SwitchThumb = styled(SwitchPrimitive.Thumb, {
   transition: "transform 100ms",
   transform: "translateX(2px)",
   willChange: "transform",
+  // eslint-disable-next-line quotes
   '&[data-state="checked"]': { transform: "translateX(28px)" },
 });
 

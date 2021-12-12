@@ -1,8 +1,8 @@
-import React from "react";
-import { useGetSWRWithToken } from "src/hooks/useGetSWR";
-import type { User } from "src/types";
-import { requestFetcher } from "src/functions/requestFetcher";
+/* eslint-disable camelcase */
 import { getFetcherWithToken } from "src/functions/getFetcher";
+import { requestFetcher } from "src/functions/requestFetcher";
+import { useGetSWRWithToken } from "src/hooks/useGetSWR";
+import type { UserType } from "src/types";
 
 const broadcastId = 3;
 const triviaId = 27;
@@ -29,7 +29,7 @@ const BroadcastPutBody = {
 };
 
 export const FetcherExample = () => {
-  const { data, isError, isLoading } = useGetSWRWithToken<User>("/user", user_token);
+  const { data, isError, isLoading } = useGetSWRWithToken<UserType>("/user", user_token);
   isLoading && console.info("取得中...");
   isError && console.error("失敗しました");
   !data && console.info("データがありません");

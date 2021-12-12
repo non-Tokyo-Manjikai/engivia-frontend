@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import Image from "next/image";
 import type { VFC } from "react";
 import { ColorThemeChanger } from "src/components/theme";
 import { User } from "src/components/User";
@@ -9,7 +8,7 @@ export const Header: VFC = () => {
   return (
     <Root>
       <LeftSide>
-        <Image src="/fountain-logo.jpg" alt="噴水ロゴ" width={30} height={34} />
+        <img src="/fountain-logo.png" alt="噴水ロゴ" width={30} height={34} />
         <Title>エンビジアの泉</Title>
       </LeftSide>
 

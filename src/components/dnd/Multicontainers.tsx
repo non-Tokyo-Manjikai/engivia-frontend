@@ -14,8 +14,17 @@ type Props = {
 };
 
 export const Multicontainers: VFC<Props> = memo((props) => {
-  const { sensors, handleDragStart, handleDragOver, handleDragEnd, handleTitleCall, items, broadcast, activeId } =
-    useDndTrivia(props);
+  const {
+    sensors,
+    handleDragStart,
+    handleDragOver,
+    handleDragEnd,
+    handleTitleCall,
+    items,
+    broadcast,
+    activeId,
+    isFeature,
+  } = useDndTrivia(props);
 
   return (
     <DndContext
@@ -25,31 +34,24 @@ export const Multicontainers: VFC<Props> = memo((props) => {
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
     >
-      <div
-        style={{
-          display: "grid",
-          gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
-          padding: "10px",
-          justifyContent: "center",
-          width: "full",
-          gap: "1rem",
-        }}
-      >
+      <Grid>
         <SortableContainer id="root" items={items.root} title="フィーチャー前" />
 
         <div>
           <SortableContainer id="container1" items={items.container1} title="フィーチャー中" />
           {broadcast?.status === "live" ? (
             items.container1.length === 0 ? (
-              <Feature>
-                <div>フィーチャーする</div>
-              </Feature>
+              <Feature>フィーチャーする</Feature>
             ) : (
-              <div className=" w-full h-10 text-center ">
-                <Button color="primary" onClick={() => handleTitleCall(items.container1[0])}>
-                  タイトルコールする
+              <ButtonWrap>
+                <Button
+                  disabled={isFeature}
+                  color={isFeature ? "secondary" : "primary"}
+                  onClick={() => handleTitleCall(items.container1[0])}
+                >
+                  {isFeature ? "フィーチャー中です" : "タイトルコールする"}
                 </Button>
-              </div>
+              </ButtonWrap>
             )
           ) : null}
         </div>
@@ -57,22 +59,37 @@ export const Multicontainers: VFC<Props> = memo((props) => {
         <div>
           <SortableContainer id="container2" items={items.container2} title="フィーチャー済み" />
           {broadcast?.status === "live" && items.container1.length === 1 ? (
-            <Feature>
-              <div>フィーチャーを終える</div>
-            </Feature>
+            <Feature>フィーチャーを終える</Feature>
           ) : null}
         </div>
+
         <DragOverlay>{activeId ? <Item id={activeId} /> : null}</DragOverlay>
-      </div>
+      </Grid>
     </DndContext>
   );
 });
 
 const Feature = styled("div", {
-  paddingY: "2.5rem",
-  marginY: "1.5rem",
   width: "full",
-  textAlign: "center",
-  color: "$slate8",
+  paddingY: "2.5rem",
+  marginY: "1rem",
   border: "dashed 2px $slate7",
+
+  color: "$slate8",
+  textAlign: "center",
+});
+
+const Grid = styled("div", {
+  display: "grid",
+  justifyContent: "center",
+  gap: "1rem",
+  gridTemplateColumns: "repeat(3, minmax(0, 1fr))",
+
+  width: "full",
+  padding: "10px",
+});
+
+const ButtonWrap = styled("div", {
+  width: "100%",
+  textAlign: "center",
 });

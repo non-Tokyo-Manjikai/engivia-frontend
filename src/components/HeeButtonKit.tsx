@@ -4,16 +4,18 @@ import { styled } from "src/utils";
 
 type Props = {
   onClick: () => void;
+  isDied: boolean;
 };
 
 export const HeeButtonKit: VFC<Props> = memo((props) => {
   return (
     <HeeButtonWrap>
       <HeeButton>
-        <Hee onClick={props.onClick}>へぇ</Hee>
-        <HeeShadow />
+        <Hee isDied={props.isDied}>へぇ</Hee>
+        <Shadow onClick={props.onClick} disabled={props.isDied} />
+        <HeeShadow isDied={props.isDied} />
       </HeeButton>
-      <HeeBottom />
+      <HeeBottom isDied={props.isDied} />
       <Foundation />
       <FoundationShadow />
       <FoundationBottom />
@@ -31,6 +33,10 @@ const HeeBottom = styled("div", {
   height: "170px",
   borderRadius: "100%",
   zIndex: "3",
+
+  variants: {
+    isDied: { true: { backgroundColor: "$slate10" } },
+  },
 });
 
 const HeeShadow = styled("div", {
@@ -41,6 +47,10 @@ const HeeShadow = styled("div", {
   width: "270px",
   height: "45px",
   zIndex: "3",
+
+  variants: {
+    isDied: { true: { backgroundColor: "$slate10" } },
+  },
 });
 
 const Hee = styled("button", {
@@ -57,6 +67,25 @@ const Hee = styled("button", {
   fontSize: "4rem",
   color: "white",
   fontWeight: "bold",
+  zIndex: "6",
+
+  variants: {
+    isDied: { true: { backgroundColor: "$slate8" } },
+  },
+});
+
+const Shadow = styled("button", {
+  position: "absolute",
+  top: "5px",
+  left: "45px",
+  transform: "rotateX( -50deg )",
+  width: "270px",
+  height: "170px",
+  borderRadius: "100%",
+  textAlign: "center",
+  paddingBottom: "15px",
+  fontSize: "4rem",
+  color: "white",
   zIndex: "6",
 });
 
