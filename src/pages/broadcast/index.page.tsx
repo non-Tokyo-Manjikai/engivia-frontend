@@ -1,14 +1,13 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable indent */
 import type { NextPage } from "next";
+import { Toaster } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
 import { BroadcastItem, NextLink } from "src/components";
 import { userInfoState } from "src/components/atoms";
-import { FetcherExample } from "src/components/FetcherExample";
 import { Button, PageRoot, Title } from "src/components/styled";
 import { useGetSWR } from "src/hooks/useGetSWR";
 import { styled } from "src/utils";
-import toast, { Toaster } from "react-hot-toast";
 
 export type LiveStatus = "upcoming" | "live" | "ended";
 
@@ -29,8 +28,6 @@ const BroadcastPage: NextPage = () => {
 
   return (
     <PageRoot>
-      {data && <FetcherExample />}
-
       <Title>放送一覧</Title>
       <Toaster />
 

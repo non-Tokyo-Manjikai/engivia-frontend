@@ -19,7 +19,7 @@ export const HeeList: VFC<Props> = (props) => {
     <Root>
       <HeeListContainer key={result?.id}>
         <UserInfo>
-          <img className="rounded-full" src="/wow.jpg" width={35} height={35} alt="ユーザーネーム" />
+          <img className="rounded-full" src={result?.image} width={35} height={35} alt="ユーザーネーム" />
           <UserName>{result?.name}</UserName>
         </UserInfo>
         <Label isOutline="slate" isGhost="slate">
@@ -32,7 +32,7 @@ export const HeeList: VFC<Props> = (props) => {
         return (
           <HeeListContainer key={item.id}>
             <UserInfo>
-              <img className="rounded-full" src="/wow.jpg" width={35} height={35} alt="ユーザーネーム" />
+              <img className="rounded-full" src={item.image} width={35} height={35} alt="ユーザーネーム" />
               <UserName>{item.name}</UserName>
             </UserInfo>
 
