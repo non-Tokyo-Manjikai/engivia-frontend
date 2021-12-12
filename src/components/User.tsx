@@ -22,11 +22,9 @@ export const User = () => {
   const router = useRouter();
   // Cookieを読み込む
   const cookies = parseCookies();
-
   // Cookieに保存されているトークンを使ってユーザー情報を取得する。
-  // 本番では userInfo.id === "user2"(recoilがデフォルト値である場合) を !userInfoにした方がいいかも(atomのデフォ値もnullにしたい)
+  // 本番では userInfo.id === "user2" を !userInfoにした方がいいかも(atomのデフォ値もnullにしたい)
   const { data, error } = useGetSWR<FetchUserInfo>({ url: "/user", shouldFetch: userInfo.id === "user2" });
-
   if (data && !error && userInfo.id === "user2") {
     // recoilにユーザー情報とトークンを保存する。
     setUserInfo({ ...data, token: cookies.token });
@@ -46,7 +44,7 @@ export const User = () => {
       toast.error(`error: ${statusCode}`, { id: toastId });
       setButtonDisabledState(false);
     } else {
-      toast.success("削除成功しました", { id: toastId });
+      toast.success("退会しました", { id: toastId });
       destroyCookie(null, "token", { path: "/" });
       // トーストを表示した2秒後にページ遷移する
       setTimeout(() => router.push("/signin"), 2000);
@@ -62,7 +60,7 @@ export const User = () => {
       </PopoverTrigger>
       <PopoverContent sideOffset={5}>
         <Main>
-          <UserInfo user={userInfo} />
+          <UserInfo />
         </Main>
         <Footer>
           <Button color="smallerSecondary" disabled={buttonDisabledState} onClick={handleSignout}>
