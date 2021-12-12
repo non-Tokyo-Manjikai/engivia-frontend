@@ -45,6 +45,7 @@ const BroadcastEditPage: NextPage = () => {
 
     const NewDate = new Date(dateValue);
     const NewScheduledStartTime = NewDate.toISOString();
+
     const PutBody = {
       scheduledStartTime: NewScheduledStartTime,
       title: titleValue,

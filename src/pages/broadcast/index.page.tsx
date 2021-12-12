@@ -10,18 +10,6 @@ import { useGetSWR } from "src/hooks/useGetSWR";
 import type { Broadcast } from "src/types";
 import { styled } from "src/utils";
 
-export type LiveStatus = "upcoming" | "live" | "ended";
-
-export type BroadcastListType = {
-  id: number;
-  title: string;
-  scheduledStartTime: string;
-  status: LiveStatus;
-  _count: {
-    Trivia: number;
-  };
-};
-
 const BroadcastPage: NextPage = () => {
   const userInfo = useRecoilValue(userInfoState);
   const { data, isError, isLoading } = useGetSWR<Broadcast[]>("/broadcast");

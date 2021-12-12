@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "src/components/atoms";
-import { InputFile } from "src/components/inputFile";
+import { InputFile } from "src/components/InputFile";
 import { Button, Input, PageRoot, Title } from "src/components/styled";
 import { requestFetcher } from "src/functions/requestFetcher";
 import { styled } from "src/utils";
@@ -61,16 +61,18 @@ const ProfileEditPage = () => {
       return;
     }
 
-    const body = {
+    const PutBody = {
       name: text,
       base64Image: xhr.replace(/data:image\/png;base64,|data:image\/jpeg;base64,/, ""),
     };
-    const codeState = await requestFetcher("/user", body, "PUT", userInfo.token);
-    if (codeState >= 400) {
+    const { statusCode } = await requestFetcher("/user", PutBody, "PUT", userInfo.token);
+
+    if (statusCode >= 400) {
       toast.error("保存できませんでした");
       setButtonDisabledState(false);
       return;
     }
+
     setUserInfo({
       ...userInfo,
       name: text,

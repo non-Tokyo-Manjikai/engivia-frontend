@@ -4,17 +4,10 @@ import { useRouter } from "next/router";
 import { setCookie } from "nookies";
 import { PageRoot } from "src/components/styled";
 import { API_URL } from "src/constants/API_URL";
+import type { User } from "src/types";
 import { styled } from "src/utils";
 import useSWR from "swr";
 import fetch from "unfetch";
-
-type User = {
-  id: string;
-  name: string;
-  isAdmin: boolean;
-  image: string;
-  token: string;
-};
 
 const fetcher = async (url: string) => {
   const res = await fetch(url);

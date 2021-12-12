@@ -1,9 +1,4 @@
-type ConnectUser = {
-  id: string;
-  name: string;
-  image: string;
-  heeCount: number;
-};
+import type { ConnectUser } from "src/types";
 
 export const totalCount = (connectUserList: ConnectUser[]) => {
   const totalCount = connectUserList.reduce((total, current) => total + current.heeCount, 0);
