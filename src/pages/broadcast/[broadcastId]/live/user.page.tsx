@@ -7,8 +7,8 @@ import { io } from "socket.io-client";
 import { BroadcastHeader, EngiviaCard, HeeButtonKit, HeeList } from "src/components";
 import { userInfoState } from "src/components/atoms";
 import {
-  Button,
-  PageRoot,
+  // Button,
+  PageRoot
 } from "src/components/styled";
 import { API_URL } from "src/constants/API_URL";
 import { HEE_SOUND } from "src/constants/HEE_SOUND";
@@ -46,10 +46,12 @@ const LiveUserPage: NextPage = () => {
   const totalHeeCount = totalCount(connectUserList);
 
   // 開発用
+  /*
   const [selectUser, setSelectUser] = useState(0);
   const handleChange = (value: number) => {
     setSelectUser(value);
   };
+  */
 
   // 通信開始
   const handleLiveConnect = () => {
@@ -61,17 +63,15 @@ const LiveUserPage: NextPage = () => {
       // reconnection: false,
       query: {
         // 開発用
-        id: sampleUserInfo[selectUser].id,
-        name: sampleUserInfo[selectUser].name,
-        image: sampleUserInfo[selectUser].image,
-        isAdmin: "false",
+        // id: sampleUserInfo[selectUser].id,
+        // name: sampleUserInfo[selectUser].name,
+        // image: sampleUserInfo[selectUser].image,
+        // isAdmin: "false",
         // 本番用
-        /*
         id: userInfo.id,
         name: userInfo.name,
         image: userInfo.image,
         isAdmin: "false",
-        */
       },
     });
     // console.info("通信情報取得", socket);
@@ -114,6 +114,7 @@ const LiveUserPage: NextPage = () => {
       router.push("/broadcast");
     });
 
+    // --------------- socket通信の確認のため --------------- //
     socket.on("connect", () => {
       console.info(`connected socket. id: ${socket.id}`);
     });
@@ -130,11 +131,12 @@ const LiveUserPage: NextPage = () => {
     socket.on("disconnect", (reason) => {
       console.error(`disconnected socket. reason: ${reason}`);
     });
+    // -------------------------------------------------------- //
   };
 
   useEffect(() => {
     // 本番用
-    // handleLiveConnect();
+    handleLiveConnect();
     setHeeSound(new Audio(`data:audio/wav;base64, ${HEE_SOUND}`));
   }, []);
 
@@ -172,13 +174,13 @@ const LiveUserPage: NextPage = () => {
         <HeeList currentUserId={userInfo.id} data={connectUserList} />
       </ListWrapper>
 
-      <select onChange={(e: any) => handleChange(e.target.value)}>
+      {/* <select onChange={(e: any) => handleChange(e.target.value)}>
         <option value={0}>0</option>
         <option value={1}>1</option>
         <option value={2}>2</option>
-      </select>
+      </select> */}
 
-      {!socket ? (
+      { /* !socket ? (
         <Button color="primary" onClick={handleLiveConnect}>
           通信を始める
         </Button>
@@ -186,7 +188,7 @@ const LiveUserPage: NextPage = () => {
         <Button color="secondary" onClick={handleLiveDisconnect}>
           通信終了
         </Button>
-      )}
+      ) */}
 
       <BroadcastHeader status="live" title={data.title} />
       <EngiviaCard {...viewEngivia} heeCount={totalHeeCount} isResult />
@@ -213,6 +215,7 @@ const ListWrapper = styled("aside", {
 });
 
 // 開発用
+/*
 const sampleUserInfo = [
   {
     id: "ABCDE456",
@@ -239,3 +242,4 @@ const sampleUserInfo = [
     content: "HTMLにはポータルという要素がある",
   },
 ];
+*/
