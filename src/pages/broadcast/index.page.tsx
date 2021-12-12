@@ -29,8 +29,6 @@ const BroadcastPage: NextPage = () => {
 
   return (
     <PageRoot>
-      {data && <FetcherExample />}
-
       <Title>放送一覧</Title>
       <Toaster />
 
