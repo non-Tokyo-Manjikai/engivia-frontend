@@ -1,23 +1,14 @@
 import { violet } from "@radix-ui/colors";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback } from "react";
 import { useRecoilValue } from "recoil";
 import { userInfoState } from "src/components/atoms";
 import { Button } from "src/components/styled";
 import { styled } from "src/utils";
 
-type Props = {
-  user: any;
-};
-
-export const UserInfo = (props: Props) => {
+export const UserInfo = () => {
   const userInfo = useRecoilValue(userInfoState);
-  const [name, setName] = useState("");
   const router = useRouter();
-
-  useEffect(() => {
-    setName(userInfo.name);
-  }, [userInfo.name]);
 
   const handleToggleEdit = useCallback(() => {
     router.push("/profileEdit");
@@ -32,9 +23,9 @@ export const UserInfo = (props: Props) => {
       </EditArea>
 
       <Person>
-        <Image className="rounded-full" src={props.user.image} alt="userIcon" />
+        <Image className="rounded-full" src={userInfo.image} alt="userIcon" />
         <NameArea>
-          <Nombre>{name}</Nombre>
+          <Nombre>{userInfo.name}</Nombre>
         </NameArea>
       </Person>
     </>

@@ -22,7 +22,7 @@ export const EngiviaCard: VFC<Props> = (props) => {
           <EngiviaContent>{props.content}</EngiviaContent>
           <Content>
             <UserInfoWrap>
-              <Icon>{props.image ? <Image src={props.image} alt="superhero" /> : null}</Icon>
+              <Icon>{props.image ? <Image src={props.image} alt="userIcon" /> : null}</Icon>
               <UserName>{props.name}</UserName>
             </UserInfoWrap>
             {props.isResult ? (

@@ -22,11 +22,9 @@ export const User = () => {
   const router = useRouter();
   // Cookieを読み込む
   const cookies = parseCookies();
-
   // Cookieに保存されているトークンを使ってユーザー情報を取得する。
-  // 本番では userInfo.id === "user2"(recoilがデフォルト値である場合) を !userInfoにした方がいいかも(atomのデフォ値もnullにしたい)
+  // 本番では userInfo.id === "user2" を !userInfoにした方がいいかも(atomのデフォ値もnullにしたい)
   const { data, error } = useGetSWR<FetchUserInfo>({ url: "/user", shouldFetch: userInfo.id === "user2" });
-
   if (data && !error && userInfo.id === "user2") {
     // recoilにユーザー情報とトークンを保存する。
     setUserInfo({ ...data, token: cookies.token });
@@ -46,36 +44,83 @@ export const User = () => {
       toast.error(`error: ${statusCode}`, { id: toastId });
       setButtonDisabledState(false);
     } else {
-      toast.success("削除成功しました", { id: toastId });
+      toast.success("退会しました", { id: toastId });
       destroyCookie(null, "token", { path: "/" });
       // トーストを表示した2秒後にページ遷移する
       setTimeout(() => router.push("/signin"), 2000);
     }
   };
 
+  const handleToggleLeaveOpen = () => {
+    setIsLeave(!isleave);
+  };
+
+  const [isleave, setIsLeave] = useState(false);
   return (
     <Popover>
       <PopoverTrigger asChild>
         <IconButton aria-label="Update dimensions">
-          <Image className="rounded-full" src={userInfo?.image} width={80} height={80} alt="userIcon" />
+          <Image className="rounded-full" src={userInfo.image} alt="userIcon" />
         </IconButton>
       </PopoverTrigger>
       <PopoverContent sideOffset={5}>
-        <Main>
-          <UserInfo user={userInfo} />
-        </Main>
-        <Footer>
-          <Button color="smallerSecondary" disabled={buttonDisabledState} onClick={handleSignout}>
-            ログアウト
-          </Button>
-          <Button color="smallerPrimary" disabled={buttonDisabledState} onClick={handleDeleteUser}>
-            退会
-          </Button>
-        </Footer>
+        {isleave ? (
+          <>
+            <Leave>
+              <div>
+                <Announce1>本当に退会しますか？</Announce1>
+                <br />
+                <Announce2>全てのユーザー情報、投稿したエンジビアの内容が削除されます。</Announce2>
+              </div>
+              <Footer>
+                <Button color="secondary" onClick={handleDeleteUser}>
+                  退会
+                </Button>
+                <Button color="primary" onClick={handleToggleLeaveOpen}>
+                  戻る
+                </Button>
+              </Footer>
+            </Leave>
+          </>
+        ) : (
+          <>
+            <Main>
+              <UserInfo />
+            </Main>
+            <Footer>
+              <Button color="smallerPrimary" disabled={buttonDisabledState} onClick={handleSignout}>
+                ログアウト
+              </Button>
+              <Button color="smallerSecondary" disabled={buttonDisabledState} onClick={handleToggleLeaveOpen}>
+                退会
+              </Button>
+            </Footer>
+          </>
+        )}
       </PopoverContent>
     </Popover>
   );
 };
+
+const Leave = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  gap: "1.25rem",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100%",
+  textAlign: "center",
+});
+
+const Announce1 = styled("p", {
+  paddingY: "1.25rem",
+  fontSize: "1.25rem",
+  lineHeight: "1.75rem",
+});
+const Announce2 = styled("p", {
+  paddingX: "2.5rem",
+});
+
 const Main = styled("div", {
   height: "75%",
   textAlign: "center",
@@ -85,6 +130,8 @@ const Main = styled("div", {
 
 const Image = styled("img", {
   borderRadius: "9999px",
+  height: "100%",
+  width: "100%",
 });
 
 const slideUpAndFade = keyframes({
