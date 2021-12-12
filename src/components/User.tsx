@@ -55,7 +55,7 @@ export const User = () => {
     <Popover>
       <PopoverTrigger asChild>
         <IconButton aria-label="Update dimensions">
-          <Image className="rounded-full" src={userInfo?.image} width={80} height={80} alt="userIcon" />
+          <Image className="rounded-full" src={userInfo.image} alt="userIcon" />
         </IconButton>
       </PopoverTrigger>
       <PopoverContent sideOffset={5}>
@@ -83,6 +83,8 @@ const Main = styled("div", {
 
 const Image = styled("img", {
   borderRadius: "9999px",
+  height: "100%",
+  width:"100%"
 });
 
 const slideUpAndFade = keyframes({
