@@ -73,6 +73,23 @@ const LiveAdminPage: NextPage = () => {
         prev.map((user: any) => (user.id === data.heeUser.id ? { ...user, heeCount: data.heeUser.count } : user)),
       );
     });
+
+    socket.on("connect", () => {
+      console.info(`connected socket. id: ${socket.id}`);
+    });
+
+    socket.on("connect_error", () => {
+      console.error("connect_error socket.");
+      /*
+      setTimeout(() => {
+        socket.connect();
+      }, 1000);
+      */
+    });
+
+    socket.on("disconnect", (reason) => {
+      console.error(`disconnected socket. reason: ${reason}`);
+    });
   };
 
   // タイトルコール送信
