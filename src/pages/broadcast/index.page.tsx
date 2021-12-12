@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable indent */
 import type { NextPage } from "next";
-import toast, { Toaster } from "react-hot-toast";
+import { Toaster } from "react-hot-toast";
 import { useRecoilValue } from "recoil";
 import { BroadcastItem, NextLink } from "src/components";
 import { userInfoState } from "src/components/atoms";
@@ -8,6 +9,18 @@ import { Button, PageRoot, Title } from "src/components/styled";
 import { useGetSWR } from "src/hooks/useGetSWR";
 import type { Broadcast } from "src/types";
 import { styled } from "src/utils";
+
+export type LiveStatus = "upcoming" | "live" | "ended";
+
+export type BroadcastListType = {
+  id: number;
+  title: string;
+  scheduledStartTime: string;
+  status: LiveStatus;
+  _count: {
+    Trivia: number;
+  };
+};
 
 const BroadcastPage: NextPage = () => {
   const userInfo = useRecoilValue(userInfoState);

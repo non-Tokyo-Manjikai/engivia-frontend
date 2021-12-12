@@ -9,6 +9,7 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useRecoilState } from "recoil";
 import { userInfoState } from "src/components/atoms";
+import { Button } from "src/components/styled";
 import { UserInfo } from "src/components/UserInfo";
 import { deleteUser } from "src/hooks/deleteUser";
 import { useGetSWR } from "src/hooks/get.swr";
@@ -43,39 +44,106 @@ export const User = () => {
       toast.error(`error: ${statusCode}`, { id: toastId });
       setButtonDisabledState(false);
     } else {
-      toast.success("削除成功しました", { id: toastId });
+      toast.success("退会しました", { id: toastId });
       destroyCookie(null, "token", { path: "/" });
       // トーストを表示した2秒後にページ遷移する
       setTimeout(() => router.push("/signin"), 2000);
     }
   };
 
+  const handleChange = (value: string) => {
+    setUserInfo(sampleUserInfo[Number(value)]);
+  };
+
+  const handleToggleLeaveOpen = () => {
+    setIsLeave(!isleave);
+  };
+
+  const [isleave, setIsLeave] = useState(false);
+
   return (
     <Popover>
       <PopoverTrigger asChild>
         <IconButton aria-label="Update dimensions">
-          <img className="rounded-full" src={userInfo?.image} width={80} height={80} />
+          <Image className="rounded-full" src={userInfo.image} alt="userIcon" />
         </IconButton>
       </PopoverTrigger>
 
       <PopoverContent sideOffset={5}>
-        <UserInfo />
-        <Footer>
-          <PopoverClose aria-label="Close">
-            <LogOut disabled={buttonDisabledState} onClick={handleSignout}>
-              Log Out
-            </LogOut>
-          </PopoverClose>
-          <DivSave>
-            <Leave disabled={buttonDisabledState} onClick={handleDeleteUser}>
-              Leave
+        {isleave ? (
+          <>
+            <Leave>
+              <div>
+                <Announce1>本当に退会しますか？</Announce1>
+                <br />
+                <Announce2>全てのユーザー情報、投稿したエンジビアの内容が削除されます。</Announce2>
+              </div>
+              <Footer>
+                <Button color="secondary" onClick={handleDeleteUser}>
+                  退会
+                </Button>
+                <Button color="primary" onClick={handleToggleLeaveOpen}>
+                  戻る
+                </Button>
+              </Footer>
             </Leave>
-          </DivSave>
-        </Footer>
+          </>
+        ) : (
+          <>
+            <Main>
+              <UserInfo />
+              <select onChange={(e) => handleChange(e.target.value)}>
+                <option value={0}>0</option>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+              </select>
+            </Main>
+            <Footer>
+              <Button color="smallerPrimary" disabled={buttonDisabledState} onClick={handleSignout}>
+                ログアウト
+              </Button>
+              <Button color="smallerSecondary" disabled={buttonDisabledState} onClick={handleToggleLeaveOpen}>
+                退会
+              </Button>
+            </Footer>
+          </>
+        )}
       </PopoverContent>
     </Popover>
   );
 };
+
+const Leave = styled("div", {
+  display: "flex",
+  flexDirection: "column",
+  gap: "1.25rem",
+  justifyContent: "center",
+  alignItems: "center",
+  height: "100%",
+  textAlign: "center",
+});
+
+const Announce1 = styled("p", {
+  paddingY: "1.25rem",
+  fontSize: "1.25rem",
+  lineHeight: "1.75rem",
+});
+const Announce2 = styled("p", {
+  paddingX: "2.5rem",
+});
+
+const Main = styled("div", {
+  height: "75%",
+  textAlign: "center",
+  padding: "10px",
+  backgroundColor: "'inherit'",
+});
+
+const Image = styled("img", {
+  borderRadius: "9999px",
+  height: "100%",
+  width: "100%",
+});
 
 const slideUpAndFade = keyframes({
   "0%": { opacity: 0, transform: "translateY(2px)" },
@@ -98,8 +166,8 @@ const slideLeftAndFade = keyframes({
 });
 
 const StyledContent = styled(PopoverPrimitive.Content, {
-  height: "360px",
-  width: "320px",
+  height: "330px",
+  width: "250px",
   borderRadius: 4,
   backgroundColor: "#ffffff",
   boxShadow: "hsl(206 22% 7% / 35%) 0px 10px 38px -10px, hsl(206 22% 7% / 20%) 0px 10px 20px -15px",
@@ -119,26 +187,6 @@ const StyledContent = styled(PopoverPrimitive.Content, {
   },
 });
 
-const StyledClose = styled(PopoverPrimitive.Close, {
-  all: "unset",
-  fontFamily: "inherit",
-  borderRadius: "100%",
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  color: violet.violet11,
-});
-
-const DivSave = styled(PopoverPrimitive.Close, {
-  all: "unset",
-  fontFamily: "inherit",
-  borderRadius: "100%",
-  display: "inline-flex",
-  alignItems: "center",
-  justifyContent: "center",
-  color: violet.violet11,
-});
-
 const StyledArrow = styled(PopoverPrimitive.Arrow, {
   fill: "white",
 });
@@ -148,10 +196,8 @@ export const Popover = PopoverPrimitive.Root;
 export const PopoverTrigger = PopoverPrimitive.Trigger;
 export const PopoverContent = StyledContent;
 export const PopoverArrow = StyledArrow;
-export const PopoverClose = StyledClose;
 
 // Your app...
-
 const IconButton = styled("button", {
   all: "unset",
   fontFamily: "inherit",
@@ -169,33 +215,35 @@ const IconButton = styled("button", {
 
 const Footer = styled("div", {
   display: "flex",
-  gap: "50px",
-  height: "30%",
+  gap: "20px",
+  height: "25%",
   justifyContent: "center",
+  alignItems: "center",
 });
 
-const Leave = styled("button", {
-  color: "white",
-  width: "80px",
-  height: "40px",
-  backgroundColor: "#5f95fa",
-  borderRadius: "20px",
-  cursor: "pointer",
-  borderBottom: "2px solid #1904b8",
-  "&:hover": {
-    backgroundColor: "#3844f2",
+const sampleUserInfo = [
+  {
+    id: "admin1",
+    name: "管理者１",
+    image:
+      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+    isAdmin: true,
+    token: "admin-token1",
   },
-});
-
-const LogOut = styled("button", {
-  width: "80px",
-  height: "40px",
-  border: "black, 1px",
-  backgroundColor: "#ebebeb",
-  borderRadius: "20px",
-  cursor: "pointer",
-  borderBottom: "2px solid",
-  "&:hover": {
-    backgroundColor: "#e3e3e3",
+  {
+    id: "user1",
+    name: "テストユーザー１",
+    image:
+      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+    isAdmin: false,
+    token: "token1",
   },
-});
+  {
+    id: "user2",
+    name: "テストユーザー２",
+    image:
+      "https://secure.gravatar.com/avatar/e57b3678017c2e646e065d9803735508.jpg?s=24&d=https%3A%2F%2Fa.slack-edge.com%2Fdf10d%2Fimg%2Favatars%2Fava_0013-24.png",
+    isAdmin: false,
+    token: "token2",
+  },
+];

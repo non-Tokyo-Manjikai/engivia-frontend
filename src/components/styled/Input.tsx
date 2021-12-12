@@ -13,6 +13,13 @@ export const Input = styled("input", {
   backgroundColor: "$slate2",
   outline: "none",
 
+  variants: {
+    width: {
+      small: {
+        width: "400px",
+      },
+    },
+  },
   "&::placeholder": { color: "$slate7" },
   "&:focus": { border: "solid 2px $primary6" },
 });
