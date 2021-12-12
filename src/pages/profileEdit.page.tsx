@@ -28,7 +28,7 @@ const ProfileEditPage = () => {
   // イメージデータを変換する
   const handleToBase64Url = (url: string, callback: any) => {
     setButtonDisabledState(true);
-    if (text === userInfo.name || image === userInfo.image) {
+    if (text === userInfo.name && image === userInfo.image) {
       toast.error("変更点がありません");
       setButtonDisabledState(false);
       return;
@@ -63,7 +63,7 @@ const ProfileEditPage = () => {
 
     const body = {
       name: text,
-      base64Image: xhr,
+      base64Image: xhr.replace(/data:image\/png;base64,|data:image\/jpeg;base64,/, ""),
     };
     const codeState = await requestFetcher("/user", body, "PUT", userInfo.token);
     if (codeState >= 400) {
